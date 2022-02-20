@@ -1,15 +1,41 @@
 package com.group6.not_my_fitness_pal.person;
 
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+
+
 @Repository("person_postgres")
 public class PersonDataAccessService implements PersonDao{
 
+    private JdbcTemplate jdbcTemplate;
+
+    public PersonDataAccessService(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
+
     @Override
     public List<Person> getAllPeople() {
-        return null;
+        String sql = """
+        SELECT id, name, age, height_in_cm, weight_in_kg, calorie_target 
+        FROM people
+                """;
+        RowMapper<Person> personRowMapper = (rs, rowNum) -> {
+            return new Person(
+                    rs.getInt("id"),
+                    rs.getString("name"),
+                    rs.getInt("age"),
+                    rs.getDouble("height_in_cm"),
+                    rs.getDouble("weight_in_kg"),
+                    rs.getInt("calorie_target")
+
+                    );
+        };
+        List<Person> people = jdbcTemplate.query(sql, personRowMapper);
+        return people;
     }
 
     @Override

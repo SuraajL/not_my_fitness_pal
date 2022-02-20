@@ -14,11 +14,13 @@ public class PersonController {
         }
 
 
-//        // NOTE new springboot - has @ResponseBody embedded in @GetMapping annotation!
-//        @GetMapping(path = "cars")
-//        public List<Car> getCars() {
-//            return carService.getCars();
-//        }
+
+
+
+        @GetMapping(path = "people")
+        public List<Person> getPeople() {
+            return personService.getAllPeople();
+        }
 
 
 

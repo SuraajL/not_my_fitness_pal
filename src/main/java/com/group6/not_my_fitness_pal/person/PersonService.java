@@ -18,6 +18,9 @@ public class PersonService {
         this.personDao = personDao;
     }
 
+    public List<Person> getAllPeople (){
+        return personDao.getAllPeople();
+    }
 
     public Person getPersonById(Integer id){
         // It will return that person ELSE Exception in
