@@ -1,8 +1,12 @@
 package com.group6.not_my_fitness_pal.food;
 
+import org.springframework.stereotype.Repository;
+
 import java.util.List;
 
+@Repository("postgres")
 public class FoodDataAccessService implements FoodDao{
+
     @Override
     public int addFood(Food food) {
         return 0;
@@ -24,6 +28,11 @@ public class FoodDataAccessService implements FoodDao{
     }
 
     @Override
+    public List<Food> getAllFood() {
+        return null;
+    }
+
+    @Override
     public List<Food> getFoodEntriesByPersonId(Integer person_id) {
         return null;
     }
@@ -38,4 +47,8 @@ public class FoodDataAccessService implements FoodDao{
         return null;
     }
 
+    @Override
+    public List<Food> getFoodEntriesByMealType(MealType mealType) {
+        return null;
+    }
 }
