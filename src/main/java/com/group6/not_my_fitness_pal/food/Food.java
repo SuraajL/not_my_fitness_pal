@@ -8,7 +8,7 @@ public class Food {
     private Integer id;
     private Integer person_id;
     private String name;
-    private MealType mealType;
+    private MealType meal_type;
     private String notes;
     private Integer calories;
     private Integer week;
@@ -21,7 +21,7 @@ public class Food {
         this.id = id;
         this.person_id = person_id;
         this.name = name;
-        this.mealType = mealType;
+        this.meal_type = mealType;
         this.notes = notes;
         this.calories = calories;
         this.week = week;
@@ -53,11 +53,11 @@ public class Food {
     }
 
     public MealType getMealType() {
-        return mealType;
+        return meal_type;
     }
 
     public void setMealType(MealType mealType) {
-        this.mealType = mealType;
+        this.meal_type = mealType;
     }
 
     public String getNotes() {
@@ -98,7 +98,7 @@ public class Food {
                 "id=" + id +
                 ", person_id=" + person_id +
                 ", name='" + name + '\'' +
-                ", mealType=" + mealType +
+                ", mealType=" + meal_type +
                 ", notes='" + notes + '\'' +
                 ", calories=" + calories +
                 ", week=" + week +
@@ -111,12 +111,12 @@ public class Food {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Food food = (Food) o;
-        return Objects.equals(id, food.id) && Objects.equals(person_id, food.person_id) && Objects.equals(name, food.name) && mealType == food.mealType && Objects.equals(notes, food.notes) && Objects.equals(calories, food.calories) && Objects.equals(week, food.week) && day == food.day;
+        return Objects.equals(id, food.id) && Objects.equals(person_id, food.person_id) && Objects.equals(name, food.name) && meal_type == food.meal_type && Objects.equals(notes, food.notes) && Objects.equals(calories, food.calories) && Objects.equals(week, food.week) && day == food.day;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, person_id, name, mealType, notes, calories, week, day);
+        return Objects.hash(id, person_id, name, meal_type, notes, calories, week, day);
     }
 
 }
