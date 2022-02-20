@@ -19,6 +19,7 @@ public class FoodService {
 
     public List<Food> getFoodEntriesByPersonId (Integer person_id){
 //        personService.getPerson
+        return null;
     }
 
 
