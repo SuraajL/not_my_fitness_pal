@@ -1,4 +1,4 @@
-# Safari Task Query Solutions
+# not_my_fitness_pal Creation of database commands
 
 ## MVP
 
