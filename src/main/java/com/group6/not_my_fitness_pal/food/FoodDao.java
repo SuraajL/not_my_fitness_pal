@@ -2,6 +2,7 @@ package com.group6.not_my_fitness_pal.food;
 
 import java.util.List;
 
+
 public interface FoodDao {
     int addFood(Food food);
     int deleteFoodById(Integer id);

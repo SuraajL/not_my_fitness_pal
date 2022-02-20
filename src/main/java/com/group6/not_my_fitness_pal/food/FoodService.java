@@ -12,7 +12,7 @@ public class FoodService {
     private FoodDao foodDao;
     private PersonService personService;
 
-    public FoodService(@Qualifier("postgres") FoodDao foodDao, PersonService personService){
+    public FoodService(@Qualifier("food_postgres") FoodDao foodDao, PersonService personService){
         this.foodDao = foodDao;
         this.personService = personService;
     }

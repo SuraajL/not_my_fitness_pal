@@ -4,7 +4,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Repository("postgres")
+@Repository("food_postgres")
 public class FoodDataAccessService implements FoodDao{
 
     @Override

@@ -13,7 +13,7 @@ public class PersonService {
     // This is a property
     private PersonDao personDao;
 
-    public PersonService(@Qualifier("postgres") PersonDao personDao){
+    public PersonService(@Qualifier("person_postgres") PersonDao personDao){
         // Setting property of PersonService
         this.personDao = personDao;
     }

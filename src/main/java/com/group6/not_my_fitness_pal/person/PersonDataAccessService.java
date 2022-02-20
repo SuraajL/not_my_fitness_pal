@@ -4,7 +4,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Repository("postgres")
+@Repository("person_postgres")
 public class PersonDataAccessService implements PersonDao{
 
     @Override
