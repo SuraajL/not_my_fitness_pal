@@ -64,6 +64,17 @@ INSERT INTO food_entries (person_id, name, meal_type, notes, calories, week, day
 VALUES (3, 'fish and chips', 'DINNER', 'Cod fish and fat chips', 600, 1, 'MONDAY');
 INSERT INTO food_entries (person_id, name, meal_type, notes, calories, week, day)
 VALUES (3, 'Spaghetti bolognese', 'DINNER', 'Minced meat, tomato sauce', 650, 1, 'TUESDAY');
- 
 
+INSERT INTO food_entries (person_id, name, meal_type, notes, calories, week, day)
+VALUES (5, 'cereal and milk', 'BREAKFAST', 'frosties', 250, 1, 'MONDAY'); 
+INSERT INTO food_entries (person_id, name, meal_type, notes, calories, week, day)
+VALUES (5, 'cheese toastie', 'LUNCH', 'cheddar', 500, 1, 'MONDAY');
+INSERT INTO food_entries (person_id, name, meal_type, notes, calories, week, day)
+VALUES (5, 'roast pork noodle soup', 'DINNER', 'takeaway', 650, 1, 'MONDAY');
+INSERT INTO food_entries (person_id, name, meal_type, notes, calories, week, day)
+VALUES (5, 'avocado on toast', 'BREAKFAST', 'sliced avocado on brown bread', 200, 1, 'TUESDAY');
+INSERT INTO food_entries (person_id, name, meal_type, notes, calories, week, day)
+VALUES (5, 'chilli con carne', 'DINNER', 'minced beef and rice', 700, 1, 'TUESDAY');
+INSERT INTO food_entries (person_id, name, meal_type, notes, calories, week, day)
+VALUES (5, 'ice cream', 'SNACK', 'vanilla flavour', 200, 1, 'TUESDAY');
 ```
