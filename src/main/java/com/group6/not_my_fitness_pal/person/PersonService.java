@@ -42,9 +42,7 @@ public class PersonService {
         if(person == null){
             throw new IllegalStateException("Person with id "+ id +" doesn't exists");
         }
-
         return person;
     }
-
 
 }
