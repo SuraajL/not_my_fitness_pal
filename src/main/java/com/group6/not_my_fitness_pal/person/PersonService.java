@@ -29,6 +29,7 @@ public class PersonService {
 
 
     // REUSEABLE FOR ALL OTHERS!! - This is checking person (Private - other public methods use it ONLY)
+    //TODO: 2) Create Tests for this and getPersonById
     private Person getPersonOrThrowNull(Integer id){
         Person person = personDao.getPersonById(id);
 
