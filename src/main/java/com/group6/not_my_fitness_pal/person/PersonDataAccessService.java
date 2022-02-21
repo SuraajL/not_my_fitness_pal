@@ -42,7 +42,31 @@ public class PersonDataAccessService implements PersonDao{
     @Override
     public Person getPersonById(Integer id) {
         //TODO: DO THIS FIRST - This is needed for FoodService
-        return null;
+        String sql = """
+                SELECT id, name, age, height_in_cm, weight_in_kg, calorie_target 
+                FROM people WHERE id = ?
+                """;
+
+        RowMapper<Person> personRowMapper = (rs, rowNum) -> {
+            return new Person(
+                    rs.getInt("id"),
+                    rs.getString("name"),
+                    rs.getInt("age"),
+                    rs.getDouble("height_in_cm"),
+                    rs.getDouble("weight_in_kg"),
+                    rs.getInt("calorie_target")
+            );
+        };
+
+        List<Person> people = jdbcTemplate.query(sql, personRowMapper, id);
+
+
+        if (people.isEmpty()){
+            return null;
+        } else {
+            return people.get(0);
+        }
+
     }
 
     @Override
