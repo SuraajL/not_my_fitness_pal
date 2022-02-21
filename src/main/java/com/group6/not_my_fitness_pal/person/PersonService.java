@@ -31,6 +31,12 @@ public class PersonService {
     // REUSEABLE FOR ALL OTHERS!! - This is checking person (Private - other public methods use it ONLY)
     //TODO: 2) Create Tests for this and getPersonById
     private Person getPersonOrThrowNull(Integer id){
+
+        if (id == null || id < 0){
+            throw new IllegalStateException("id is invalid");
+        }
+
+
         Person person = personDao.getPersonById(id);
 
         if(person == null){
