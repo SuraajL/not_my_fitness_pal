@@ -47,8 +47,23 @@ INSERT INTO food_entries (person_id, name, meal_type, notes, calories, week, day
 VALUES (1, 'toast', 'BREAKFAST', 'Kingsmill 50/50 bread with butter', 60, 1, 'MONDAY');
 INSERT INTO food_entries (person_id, name, meal_type, notes, calories, week, day)
 VALUES (1, 'cereal', 'BREAKFAST', 'Curiously Cinnamon', 400, 1, 'TUESDAY');
+
 INSERT INTO food_entries (person_id, name, meal_type, notes, calories, week, day)
 VALUES (3, 'toast', 'BREAKFAST', 'Kingsmill 50/50 bread with nutella', 60, 1, 'MONDAY');
 INSERT INTO food_entries (person_id, name, meal_type, notes, calories, week, day)
 VALUES (3, 'cereal', 'BREAKFAST', 'Curiously Cinnamon', 400, 1, 'TUESDAY');
+
+===========================
+Adding more entries
+INSERT INTO food_entries (person_id, name, meal_type, notes, calories, week, day)
+VALUES (3, 'tuna & sweetcorn sandwich', 'LUNCH', 'Kingsmill 50/50 bread with tuna, mayo and sweetcorn ', 200, 1, 'MONDAY');
+INSERT INTO food_entries (person_id, name, meal_type, notes, calories, week, day)
+VALUES (3, 'greek yoghurt with grapes', 'LUNCH', 'greek honey yoghurt with black grapes', 150, 1, 'TUESDAY');
+
+INSERT INTO food_entries (person_id, name, meal_type, notes, calories, week, day)
+VALUES (3, 'fish and chips', 'DINNER', 'Cod fish and fat chips', 600, 1, 'MONDAY');
+INSERT INTO food_entries (person_id, name, meal_type, notes, calories, week, day)
+VALUES (3, 'Spaghetti bolognese', 'DINNER', 'Minced meat, tomato sauce', 650, 1, 'TUESDAY');
+ 
+
 ```
