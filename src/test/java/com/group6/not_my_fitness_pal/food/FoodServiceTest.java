@@ -110,6 +110,7 @@ class FoodServiceTest {
         Food food = new Food(1, null, "toast", MealType.BREAKFAST, "random", 50, 1, Day.MONDAY);
         // we pass in person Id using food.getPerson_id (getter for Food Class - as personId is a property of it)"
         // DO WE NEED THESE SINCE WE DON'T ACTUALLY USE THEM?? SEE VERIFY AT BOTTOM
+        Person personInDb = new Person(1, "marcy", 23, 157.0, 47.0, 2000);
         given(personDao.getPersonById(food.getPerson_id())).willReturn(null);
         given(foodDao.addFood(food)).willReturn(0); //Since we should never call it - doesn't matter what we return
 
@@ -131,7 +132,8 @@ class FoodServiceTest {
         Food food = new Food(1, 1, null, MealType.BREAKFAST, "random", 50, 1, Day.MONDAY);
         // we pass in person Id using food.getPerson_id (getter for Food Class - as personId is a property of it)"
         // DO WE NEED THESE SINCE WE DON'T ACTUALLY USE THEM?? SEE VERIFY AT BOTTOM
-        given(personDao.getPersonById(food.getPerson_id())).willReturn(null);
+        Person personInDb = new Person(1, "marcy", 23, 157.0, 47.0, 2000);
+        given(personDao.getPersonById(food.getPerson_id())).willReturn(personInDb);
         given(foodDao.addFood(food)).willReturn(0); //Since we should never call it - doesn't matter what we return
 
         //When
@@ -144,6 +146,47 @@ class FoodServiceTest {
         verify(foodDao, never()).addFood(any());
     }
 
+    @Test
+    void shouldNotAddWhenCaloriesIsNull() {
+        //Given
+        // NOTE: calories is null inside Food property
+        Food food = new Food(1, 1, "mark", MealType.BREAKFAST, "random", null, 1, Day.MONDAY);
+        // we pass in person Id using food.getPerson_id (getter for Food Class - as personId is a property of it)"
+        // DO WE NEED THESE SINCE WE DON'T ACTUALLY USE THEM?? SEE VERIFY AT BOTTOM
+        Person personInDb = new Person(1, "marcy", 23, 157.0, 47.0, 2000);
+        given(personDao.getPersonById(food.getPerson_id())).willReturn(personInDb);
+        given(foodDao.addFood(food)).willReturn(0); //Since we should never call it - doesn't matter what we return
+
+        //When
+        assertThatThrownBy(() -> underTest.addFoodEntry(food))
+                .isInstanceOf(IllegalStateException.class)
+                .hasMessageContaining("calories cannot be null");
+
+        //Then
+        // Verify that none of these methods are called
+        verify(foodDao, never()).addFood(any());
+    }
+
+    @Test
+    void shouldNotAddWhenCaloriesIsNegative() {
+        //Given
+        // NOTE: calories is null inside Food property
+        Food food = new Food(1, 1, "mark", MealType.BREAKFAST, "random", -1, 1, Day.MONDAY);
+        // we pass in person Id using food.getPerson_id (getter for Food Class - as personId is a property of it)"
+        // DO WE NEED THESE SINCE WE DON'T ACTUALLY USE THEM?? SEE VERIFY AT BOTTOM
+        Person personInDb = new Person(1, "marcy", 23, 157.0, 47.0, 2000);
+        given(personDao.getPersonById(food.getPerson_id())).willReturn(personInDb);
+        given(foodDao.addFood(food)).willReturn(0); //Since we should never call it - doesn't matter what we return
+
+        //When
+        assertThatThrownBy(() -> underTest.addFoodEntry(food))
+                .isInstanceOf(IllegalStateException.class)
+                .hasMessageContaining("calories cannot be negative");
+
+        //Then
+        // Verify that none of these methods are called
+        verify(foodDao, never()).addFood(any());
+    }
 
     @Test
     void getFoodEntriesByPersonId() {
