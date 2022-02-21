@@ -188,6 +188,69 @@ class FoodServiceTest {
         verify(foodDao, never()).addFood(any());
     }
 
+
+    @Test
+    void shouldNotAddWhenWeekIsNull() {
+        //Given
+        // NOTE: calories is null inside Food property
+        Food food = new Food(1, 1, "mark", MealType.BREAKFAST, "random", 100, null, Day.MONDAY);
+        // we pass in person Id using food.getPerson_id (getter for Food Class - as personId is a property of it)"
+        // DO WE NEED THESE SINCE WE DON'T ACTUALLY USE THEM?? SEE VERIFY AT BOTTOM
+        Person personInDb = new Person(1, "marcy", 23, 157.0, 47.0, 2000);
+        given(personDao.getPersonById(food.getPerson_id())).willReturn(personInDb);
+        given(foodDao.addFood(food)).willReturn(0); //Since we should never call it - doesn't matter what we return
+
+        //When
+        assertThatThrownBy(() -> underTest.addFoodEntry(food))
+                .isInstanceOf(IllegalStateException.class)
+                .hasMessageContaining("week cannot be null");
+
+        //Then
+        // Verify that none of these methods are called
+        verify(foodDao, never()).addFood(any());
+    }
+
+    @Test
+    void shouldNotAddWhenWeekIsNegative() {
+        //Given
+        // NOTE: calories is null inside Food property
+        Food food = new Food(1, 1, "mark", MealType.BREAKFAST, "random", 100, -1, Day.MONDAY);
+        // we pass in person Id using food.getPerson_id (getter for Food Class - as personId is a property of it)"
+        // DO WE NEED THESE SINCE WE DON'T ACTUALLY USE THEM?? SEE VERIFY AT BOTTOM
+        Person personInDb = new Person(1, "marcy", 23, 157.0, 47.0, 2000);
+        given(personDao.getPersonById(food.getPerson_id())).willReturn(personInDb);
+        given(foodDao.addFood(food)).willReturn(0); //Since we should never call it - doesn't matter what we return
+
+        //When
+        assertThatThrownBy(() -> underTest.addFoodEntry(food))
+                .isInstanceOf(IllegalStateException.class)
+                .hasMessageContaining("invalid week");
+
+        //Then
+        // Verify that none of these methods are called
+        verify(foodDao, never()).addFood(any());
+    }
+
+    @Test
+    void shouldNotAddWhenWeekIsZero() {
+        //Given
+        // NOTE: calories is null inside Food property
+        Food food = new Food(1, 1, "mark", MealType.BREAKFAST, "random", 100, 0, Day.MONDAY);
+        // we pass in person Id using food.getPerson_id (getter for Food Class - as personId is a property of it)"
+        // DO WE NEED THESE SINCE WE DON'T ACTUALLY USE THEM?? SEE VERIFY AT BOTTOM
+        Person personInDb = new Person(1, "marcy", 23, 157.0, 47.0, 2000);
+        given(personDao.getPersonById(food.getPerson_id())).willReturn(personInDb);
+        given(foodDao.addFood(food)).willReturn(0); //Since we should never call it - doesn't matter what we return
+
+        //When
+        assertThatThrownBy(() -> underTest.addFoodEntry(food))
+                .isInstanceOf(IllegalStateException.class)
+                .hasMessageContaining("invalid week");
+
+        //Then
+        // Verify that none of these methods are called
+        verify(foodDao, never()).addFood(any());
+    }
     @Test
     void getFoodEntriesByPersonId() {
 
