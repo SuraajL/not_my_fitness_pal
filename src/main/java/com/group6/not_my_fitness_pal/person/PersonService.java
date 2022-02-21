@@ -37,7 +37,7 @@ public class PersonService {
         }
 
 
-        Person person = personDao.getPersonById(id);
+        Person person = personDao.getPersonById(id); //mocking this line
 
         if(person == null){
             throw new IllegalStateException("Person with id "+ id +" doesn't exists");
