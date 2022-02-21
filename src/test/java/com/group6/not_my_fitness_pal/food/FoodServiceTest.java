@@ -45,9 +45,10 @@ class FoodServiceTest {
         //When
         Integer actual = underTest.addFoodEntry(food);
 
-        // Assert the integer is 1
+
 
         //Then
+        // Assert the integer is 1
         Integer expected = 1;
         assertThat(actual).isEqualTo(expected);
 
@@ -67,7 +68,6 @@ class FoodServiceTest {
         // No need to store integer - Only testing food being saved
         underTest.addFoodEntry(food);
 
-        // Assert the integer is 1
 
         //Then
         // This is to make sure the food being added is the one we passed in first
@@ -92,8 +92,6 @@ class FoodServiceTest {
         //When
         // No need to store integer - Only testing if person_id from Food property is being used by getPersonById
         underTest.addFoodEntry(food);
-
-        // Assert the integer is 1
 
         //Then
         // This is checking that the id passed into personDao.getPersonById is the same as the food.getPerson_id
