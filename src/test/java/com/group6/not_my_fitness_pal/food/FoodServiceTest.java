@@ -125,6 +125,27 @@ class FoodServiceTest {
     }
 
     @Test
+    void shouldNotAddWhenNameIsNull() {
+        //Given
+        // NOTE: name is null inside Food property
+        Food food = new Food(1, 1, null, MealType.BREAKFAST, "random", 50, 1, Day.MONDAY);
+        // we pass in person Id using food.getPerson_id (getter for Food Class - as personId is a property of it)"
+        // DO WE NEED THESE SINCE WE DON'T ACTUALLY USE THEM?? SEE VERIFY AT BOTTOM
+        given(personDao.getPersonById(food.getPerson_id())).willReturn(null);
+        given(foodDao.addFood(food)).willReturn(0); //Since we should never call it - doesn't matter what we return
+
+        //When
+        assertThatThrownBy(() -> underTest.addFoodEntry(food))
+                .isInstanceOf(IllegalStateException.class)
+                .hasMessageContaining("name cannot be null");
+
+        //Then
+        // Verify that none of these methods are called
+        verify(foodDao, never()).addFood(any());
+    }
+
+
+    @Test
     void getFoodEntriesByPersonId() {
 
     }
