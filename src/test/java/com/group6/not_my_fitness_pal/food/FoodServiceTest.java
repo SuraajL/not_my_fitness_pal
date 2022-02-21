@@ -2,6 +2,7 @@ package com.group6.not_my_fitness_pal.food;
 
 import com.group6.not_my_fitness_pal.person.Person;
 import com.group6.not_my_fitness_pal.person.PersonDao;
+import com.group6.not_my_fitness_pal.person.PersonNotFoundException;
 import com.group6.not_my_fitness_pal.person.PersonService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -116,7 +117,7 @@ class FoodServiceTest {
 
         //When
         assertThatThrownBy(() -> underTest.addFoodEntry(food))
-                .isInstanceOf(IllegalStateException.class)
+                .isInstanceOf(PersonNotFoundException.class)
                 .hasMessageContaining("id is invalid");
 
         //Then

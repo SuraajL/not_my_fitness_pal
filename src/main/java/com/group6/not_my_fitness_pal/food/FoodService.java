@@ -25,6 +25,9 @@ public class FoodService {
     //TODO:3) Create Psuedo code for add food
     public int addFoodEntry(Food food) {
         // Check all fields are valid (enums don't have to be checked here):
+//        if(food.getPerson_id() == null){
+//            throw new IllegalStateException()
+//        }
         //    person_id - use person service, if null then throw exception - using PersonDao. (Mock)
         //    name - can't be null
         //    calories - can't be null or < 0 - 0 is accepted

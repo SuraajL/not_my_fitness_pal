@@ -33,7 +33,7 @@ public class PersonService {
     private Person getPersonOrThrowNull(Integer id){
 
         if (id == null || id < 0){
-            throw new IllegalStateException("id is invalid");
+            throw new PersonNotFoundException("id is invalid");
         }
 
         // This is the scenario where argument capture would help - makes sure id persists throughout
@@ -41,7 +41,7 @@ public class PersonService {
         Person person = personDao.getPersonById(id); //mocking this line
 
         if(person == null){
-            throw new IllegalStateException("Person with id " + id + " doesn't exist");
+            throw new PersonNotFoundException("Person with id " + id + " doesn't exist");
         }
         return person;
     }

@@ -47,7 +47,7 @@ class PersonServiceTest {
         //above line is in case getPersonById is called after the exception (but it shouldnt be)
         //When
         assertThatThrownBy(() -> underTest.getPersonById(id))
-                .isInstanceOf(IllegalStateException.class)
+                .isInstanceOf(PersonNotFoundException.class)
                 .hasMessageContaining("id is invalid");
         //Then
         verify(personDao, never()).getPersonById(anyInt());
@@ -61,7 +61,7 @@ class PersonServiceTest {
         //above line is in case getPersonById is called after the exception (but it shouldnt be)
         //When
         assertThatThrownBy(() -> underTest.getPersonById(id))
-                .isInstanceOf(IllegalStateException.class)
+                .isInstanceOf(PersonNotFoundException.class)
                 .hasMessageContaining("id is invalid");
         //Then
         verify(personDao, never()).getPersonById(anyInt());
@@ -75,7 +75,7 @@ class PersonServiceTest {
         //above line is in case getPersonById is called after the exception (but it shouldnt be)
         //When
         assertThatThrownBy(() -> underTest.getPersonById(id))
-                .isInstanceOf(IllegalStateException.class)
+                .isInstanceOf(PersonNotFoundException.class)
                 .hasMessageContaining("Person with id " + id + " doesn't exist");
         //Then
         //Question for colin/nelson, do we need argument capture to check if the same id is being used throughout
