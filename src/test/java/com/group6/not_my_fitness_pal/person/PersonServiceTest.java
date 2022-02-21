@@ -76,14 +76,42 @@ class PersonServiceTest {
         //When
         assertThatThrownBy(() -> underTest.getPersonById(id))
                 .isInstanceOf(IllegalStateException.class)
-                .hasMessageContaining("Person with id "+ id +" doesn't exists");
+                .hasMessageContaining("Person with id " + id + " doesn't exist");
         //Then
         //Question for colin/nelson, do we need argument capture to check if the same id is being used throughout
+        // This will check if the id being passed
         ArgumentCaptor<Integer> integerArgumentCaptor = ArgumentCaptor.forClass(Integer.class);
         verify(personDao).getPersonById(integerArgumentCaptor.capture());
         Integer actual = integerArgumentCaptor.getValue();
         assertThat(actual).isEqualTo(id);
     }
+
+    @Test
+    void IdShouldPersistWhenUsingGetPersonById() {
+        // THIS IS NEEDED IF EXCEPTION "Person with id " + id + " doesn't exist" - DOESN'T USE id inside - atm it is redundant
+        // It would be required if for e.g "Person with id doesn't exist" - where it doesn't use the id variable
+
+        // This test will run all the way through
+        // It is juts checking if Id persists throughout the whole function i.e correct person (with matching id) is returned
+        //Given
+        Integer expected_id = 1; // Make sure this persists to the end
+        given(personDao.getPersonById(expected_id)).willReturn(new Person(1, "marcy", 23, 157.0, 47.0, 2000));
+
+        //When
+        Person person = underTest.getPersonById(expected_id);
+        //Then
+
+        // This will check if the id being passed into the personDao.getPersonByID is the same one at the start
+        ArgumentCaptor<Integer> integerArgumentCaptor = ArgumentCaptor.forClass(Integer.class);
+        verify(personDao).getPersonById(integerArgumentCaptor.capture());
+        Integer actual = integerArgumentCaptor.getValue();
+        assertThat(actual).isEqualTo(expected_id);
+    }
+
+
+
+
+
 
 
 

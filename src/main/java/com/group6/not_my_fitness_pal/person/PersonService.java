@@ -36,11 +36,12 @@ public class PersonService {
             throw new IllegalStateException("id is invalid");
         }
 
-
+        // This is the scenario where argument capture would help - makes sure id persists throughout
+//         id = 25;
         Person person = personDao.getPersonById(id); //mocking this line
 
         if(person == null){
-            throw new IllegalStateException("Person with id "+ id +" doesn't exists");
+            throw new IllegalStateException("Person with id " + id + " doesn't exist");
         }
         return person;
     }
