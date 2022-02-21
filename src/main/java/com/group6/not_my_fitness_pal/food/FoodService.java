@@ -30,6 +30,7 @@ public class FoodService {
         //    calories - can't be null or < 0 - 0 is accepted
         //    week - can't be null or <= 0
         // Add food entry to sql db - using FoodDao.
+        // foodDao.addFood(someRandom)
         // If result != 1, then throw exception to say it failed
 
         return 1;
