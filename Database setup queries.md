@@ -62,7 +62,7 @@ VALUES (3, 'greek yoghurt with grapes', 'LUNCH', 'greek honey yoghurt with black
 INSERT INTO food_entries (person_id, name, meal_type, notes, calories, week, day)
 VALUES (3, 'fish and chips', 'DINNER', 'Cod fish and fat chips', 600, 1, 'MONDAY');
 INSERT INTO food_entries (person_id, name, meal_type, notes, calories, week, day)
-VALUES (3, 'Spaghetti bolognese', 'DINNER', 'Minced meat, tomato sauce', 650, 1, 'TUESDAY');
+VALUES (3, 'spaghetti bolognese', 'DINNER', 'Minced meat, tomato sauce', 650, 1, 'TUESDAY');
 
 INSERT INTO food_entries (person_id, name, meal_type, notes, calories, week, day)
 VALUES (4, 'cereal', 'BREAKFAST', 'bowl of cornflakes', 350, 1, 'MONDAY');
@@ -93,4 +93,17 @@ INSERT INTO food_entries (person_id, name, meal_type, notes, calories, week, day
 VALUES (5, 'chilli con carne', 'DINNER', 'minced beef and rice', 700, 1, 'TUESDAY');
 INSERT INTO food_entries (person_id, name, meal_type, notes, calories, week, day)
 VALUES (5, 'ice cream', 'SNACK', 'vanilla flavour', 200, 1, 'TUESDAY');
+
+INSERT INTO food_entries (person_id, name, meal_type, notes, calories, week, day)
+VALUES (2, 'pan au chocolat', 'BREAKFAST', 'Lidl fresh bakery's finest, 150, 1, 'MONDAY'); 
+INSERT INTO food_entries (person_id, name, meal_type, notes, calories, week, day)
+VALUES (2, 'lasagna', 'LUNCH', 'Lidl lasagna', 350, 1, 'MONDAY');
+INSERT INTO food_entries (person_id, name, meal_type, notes, calories, week, day)
+VALUES (2, 'lamb biryani', 'DINNER', 'homemade', 600, 1, 'MONDAY');
+INSERT INTO food_entries (person_id, name, meal_type, notes, calories, week, day)
+VALUES (2, 'weetabix', 'BREAKFAST', '2-3 pieces with heated milk', 200, 1, 'TUESDAY');
+INSERT INTO food_entries (person_id, name, meal_type, notes, calories, week, day)
+VALUES (2, 'bao buns and dumplings', 'LUNCH', 'bao buns and dumplings', 300, 1, 'TUESDAY');
+INSERT INTO food_entries (person_id, name, meal_type, notes, calories, week, day)
+VALUES (2, 'spaghetti bolognese', 'DINNER', 'homemade', 200, 1, 'TUESDAY');
 ```
