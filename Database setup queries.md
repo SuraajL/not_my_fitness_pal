@@ -59,11 +59,26 @@ INSERT INTO food_entries (person_id, name, meal_type, notes, calories, week, day
 VALUES (3, 'tuna & sweetcorn sandwich', 'LUNCH', 'Kingsmill 50/50 bread with tuna, mayo and sweetcorn ', 200, 1, 'MONDAY');
 INSERT INTO food_entries (person_id, name, meal_type, notes, calories, week, day)
 VALUES (3, 'greek yoghurt with grapes', 'LUNCH', 'greek honey yoghurt with black grapes', 150, 1, 'TUESDAY');
-
 INSERT INTO food_entries (person_id, name, meal_type, notes, calories, week, day)
 VALUES (3, 'fish and chips', 'DINNER', 'Cod fish and fat chips', 600, 1, 'MONDAY');
 INSERT INTO food_entries (person_id, name, meal_type, notes, calories, week, day)
 VALUES (3, 'Spaghetti bolognese', 'DINNER', 'Minced meat, tomato sauce', 650, 1, 'TUESDAY');
- 
+
+INSERT INTO food_entries (person_id, name, meal_type, notes, calories, week, day)
+VALUES (4, 'cereal', 'BREAKFAST', 'bowl of cornflakes', 350, 1, 'MONDAY');
+INSERT INTO food_entries (person_id, name, meal_type, notes, calories, week, day)
+VALUES (4, 'cereal', 'BREAKFAST', 'bowl of cornflakes', 350, 1, 'TUESDAY');
+INSERT INTO food_entries (person_id, name, meal_type, notes, calories, week, day)
+VALUES (4, 'sandwich', 'LUNCH', 'cheese and cucumber sandwich with white bread', 400, 1, 'MONDAY');
+INSERT INTO food_entries (person_id, name, meal_type, notes, calories, week, day)
+VALUES (4, 'sandwich', 'LUNCH', 'chicken sandwich with white bread', 500, 1, 'TUESDAY');
+INSERT INTO food_entries (person_id, name, meal_type, notes, calories, week, day)
+VALUES (4, 'burger and chips', 'DINNER', 'quarter pounder chicken burger with chips', 700, 1, 'MONDAY');
+INSERT INTO food_entries (person_id, name, meal_type, notes, calories, week, day)
+VALUES (4, 'fish and chips', 'DINNER', 'Cod fish and fat chips', 600, 1, 'TUESDAY');
+INSERT INTO food_entries (person_id, name, meal_type, notes, calories, week, day)
+VALUES (4, 'packet of crisps', 'SNACK', 'thai sweet chilli sensations', 100, 1, 'MONDAY');
+INSERT INTO food_entries (person_id, name, meal_type, notes, calories, week, day)
+VALUES (4, 'fridge raiders', 'SNACK', 'chicken fridge raiders', 100, 1, 'TUESDAY');
 
 ```
