@@ -95,7 +95,7 @@ INSERT INTO food_entries (person_id, name, meal_type, notes, calories, week, day
 VALUES (5, 'ice cream', 'SNACK', 'vanilla flavour', 200, 1, 'TUESDAY');
 
 INSERT INTO food_entries (person_id, name, meal_type, notes, calories, week, day)
-VALUES (2, 'pan au chocolat', 'BREAKFAST', 'Lidl fresh bakery's finest, 150, 1, 'MONDAY'); 
+VALUES (2, 'pan au chocolat', 'BREAKFAST', 'Lidl fresh bakery, 150, 1, 'MONDAY'); 
 INSERT INTO food_entries (person_id, name, meal_type, notes, calories, week, day)
 VALUES (2, 'lasagna', 'LUNCH', 'Lidl lasagna', 350, 1, 'MONDAY');
 INSERT INTO food_entries (person_id, name, meal_type, notes, calories, week, day)
