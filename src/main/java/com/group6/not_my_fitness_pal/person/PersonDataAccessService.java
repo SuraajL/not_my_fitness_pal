@@ -41,7 +41,6 @@ public class PersonDataAccessService implements PersonDao{
 
     @Override
     public Person getPersonById(Integer id) {
-        //TODO: DO THIS FIRST - This is needed for FoodService
         String sql = """
                 SELECT id, name, age, height_in_cm, weight_in_kg, calorie_target 
                 FROM people WHERE id = ?
@@ -71,7 +70,17 @@ public class PersonDataAccessService implements PersonDao{
 
     @Override
     public int addPerson(Person person) {
-        return 0;
+        String sql = """
+                INSERT INTO people(name, age, height_in_cm, weight_in_kg, calorie_target) 
+                VALUES(?,?,?,?,?)
+                """;
+        int rowsAffected = jdbcTemplate.update(sql,
+                person.getName(),
+                person.getAge(),
+                person.getHeight_in_cm(),
+                person.getWeight_in_kg(),
+                person.getCalorie_target());
+        return rowsAffected;
     }
 
     @Override
