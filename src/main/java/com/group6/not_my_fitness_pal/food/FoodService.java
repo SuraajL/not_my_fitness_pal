@@ -37,11 +37,29 @@ public class FoodService {
             throw new InvalidRequestException("name cannot be null");
         }
         //    calories - can't be null or < 0 - 0 is accepted
-
+        if (food.getCalories()==null){
+            throw new InvalidRequestException("calories cannot be null");
+        }
+        if (food.getCalories() < 0){
+            throw new InvalidRequestException("calories cannot be negative");
+        }
         //    week - can't be null or <= 0
+        if (food.getWeek() == null){
+            throw new InvalidRequestException("week cannot be null");
+        }
+
+        if (food.getWeek() <= 0){
+            throw new InvalidRequestException("invalid week");
+        }
+
         // Add food entry to sql db - using FoodDao.  (Mock)
         // foodDao.addFood(someRandom)
+        int rowsAffected = foodDao.addFood(food);
+
         // If result != 1, then throw exception to say it failed
+        if (rowsAffected != 1){
+            throw new IllegalStateException("Could not add food...");
+        }
 
         return 1;
     }

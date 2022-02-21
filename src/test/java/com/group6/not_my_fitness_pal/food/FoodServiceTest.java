@@ -57,6 +57,28 @@ class FoodServiceTest {
     }
 
     @Test
+    void shouldThrowExceptionIfAddFoodEntryFails() {
+        //Given
+        Food food = new Food(1, 1, "toast", MealType.BREAKFAST, "random", 50, 1, Day.MONDAY);
+        Person personInDb = new Person(1, "marcy", 23, 157.0, 47.0, 2000);
+        // we pass in person Id using food.getPerson_id (getter for Food Class - as personId is a property of it)
+        given(personDao.getPersonById(food.getPerson_id())).willReturn(personInDb);
+        // Return 0 to imitate failed entry
+        given(foodDao.addFood(food)).willReturn(0);
+
+        //When
+        //Then
+        assertThatThrownBy(() -> underTest.addFoodEntry(food))
+                .isInstanceOf(IllegalStateException.class)
+                .hasMessageContaining("Could not add food...");
+
+
+
+    }
+
+
+
+    @Test
     void foodShouldPersistWhenAddingFoodEntry() {
         // The whole purpose of this is to tell developer if food correctly Persists throughout
         //Given
