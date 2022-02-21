@@ -1,5 +1,8 @@
 package com.group6.not_my_fitness_pal.food;
 
+import com.group6.not_my_fitness_pal.InvalidRequestException;
+import com.group6.not_my_fitness_pal.person.Person;
+import com.group6.not_my_fitness_pal.person.PersonNotFoundException;
 import com.group6.not_my_fitness_pal.person.PersonService;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -25,12 +28,16 @@ public class FoodService {
     //TODO:3) Create Psuedo code for add food
     public int addFoodEntry(Food food) {
         // Check all fields are valid (enums don't have to be checked here):
-//        if(food.getPerson_id() == null){
-//            throw new IllegalStateException()
-//        }
-        //    person_id - use person service, if null then throw exception - using PersonDao. (Mock)
+        // person_id - use person service, if null then throw exception - using PersonDao. (Mock)
+        // getPersonById checks if person_id is null and also if person in DB exists
+        Person person = personService.getPersonById(food.getPerson_id());
+
         //    name - can't be null
+        if(food.getName() == null){
+            throw new InvalidRequestException("name cannot be null");
+        }
         //    calories - can't be null or < 0 - 0 is accepted
+
         //    week - can't be null or <= 0
         // Add food entry to sql db - using FoodDao.  (Mock)
         // foodDao.addFood(someRandom)

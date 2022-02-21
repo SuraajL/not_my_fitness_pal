@@ -1,5 +1,6 @@
 package com.group6.not_my_fitness_pal.food;
 
+import com.group6.not_my_fitness_pal.InvalidRequestException;
 import com.group6.not_my_fitness_pal.person.Person;
 import com.group6.not_my_fitness_pal.person.PersonDao;
 import com.group6.not_my_fitness_pal.person.PersonNotFoundException;
@@ -139,7 +140,7 @@ class FoodServiceTest {
 
         //When
         assertThatThrownBy(() -> underTest.addFoodEntry(food))
-                .isInstanceOf(IllegalStateException.class)
+                .isInstanceOf(InvalidRequestException.class)
                 .hasMessageContaining("name cannot be null");
 
         //Then
@@ -160,7 +161,7 @@ class FoodServiceTest {
 
         //When
         assertThatThrownBy(() -> underTest.addFoodEntry(food))
-                .isInstanceOf(IllegalStateException.class)
+                .isInstanceOf(InvalidRequestException.class)
                 .hasMessageContaining("calories cannot be null");
 
         //Then
@@ -181,7 +182,7 @@ class FoodServiceTest {
 
         //When
         assertThatThrownBy(() -> underTest.addFoodEntry(food))
-                .isInstanceOf(IllegalStateException.class)
+                .isInstanceOf(InvalidRequestException.class)
                 .hasMessageContaining("calories cannot be negative");
 
         //Then
@@ -203,7 +204,7 @@ class FoodServiceTest {
 
         //When
         assertThatThrownBy(() -> underTest.addFoodEntry(food))
-                .isInstanceOf(IllegalStateException.class)
+                .isInstanceOf(InvalidRequestException.class)
                 .hasMessageContaining("week cannot be null");
 
         //Then
@@ -224,7 +225,7 @@ class FoodServiceTest {
 
         //When
         assertThatThrownBy(() -> underTest.addFoodEntry(food))
-                .isInstanceOf(IllegalStateException.class)
+                .isInstanceOf(InvalidRequestException.class)
                 .hasMessageContaining("invalid week");
 
         //Then
@@ -245,7 +246,7 @@ class FoodServiceTest {
 
         //When
         assertThatThrownBy(() -> underTest.addFoodEntry(food))
-                .isInstanceOf(IllegalStateException.class)
+                .isInstanceOf(InvalidRequestException.class)
                 .hasMessageContaining("invalid week");
 
         //Then
