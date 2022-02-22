@@ -1,5 +1,6 @@
 package com.group6.not_my_fitness_pal.person;
 
+import com.group6.not_my_fitness_pal.InvalidRequestException;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +26,39 @@ public class PersonService {
     public Person getPersonById(Integer id){
         // It will return that person ELSE Exception in
         return getPersonOrThrowNull(id);
+    }
+
+    public int addPerson(Person person){
+        if(person.getName() == null) {
+            throw new InvalidRequestException("name cannot be null");
+        }
+
+        if(person.getAge() == null) {
+            throw new InvalidRequestException("age cannot be null");
+        }
+
+        if(person.getAge() <= 0) {
+            throw new InvalidRequestException("age cannot be less than or equal to 0");
+        }
+
+        if(person.getHeight_in_cm() <= 0) {
+            throw new InvalidRequestException("height cannot be less than or equal to 0");
+        }
+
+        if(person.getWeight_in_kg() <= 0) {
+            throw new InvalidRequestException("weight cannot be less than or equal to 0");
+        }
+
+        if(person.getCalorie_target() <= 0) {
+            throw new InvalidRequestException("calorie target cannot be less than or equal to 0");
+        }
+
+        Integer rowsAffected = personDao.addPerson(person); // addPerson will return the number of rows affected as
+        // it is a sql implemented method. We created a variable for readability of this happening.
+        if (rowsAffected != 1) {
+            throw new IllegalStateException("Could not add person...");
+        }
+        return rowsAffected;
     }
 
 
