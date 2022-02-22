@@ -65,13 +65,21 @@ public class FoodService {
 
 
     public List<Food> getAllFoodEntries (){
-        return foodDao.getAllFood();
+        List<Food> foodList = foodDao.getAllFood();
+        if (foodList==null){
+            throw new InvalidRequestException("no food entries found");
+        }
+        return foodList;
     }
 
 
     public List<Food> getFoodEntriesByPersonId (Integer person_id){
-//        personService.getPerson
-        return null;
+        Person personInDb = personService.getPersonById(person_id);
+        List<Food> foodList = foodDao.getFoodEntriesByPersonId(personInDb.getId());
+        if (foodList==null){
+            throw new InvalidRequestException("no food entries found for person");
+        }
+        return foodList;
     }
 
 
