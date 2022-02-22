@@ -104,7 +104,7 @@ class FoodServiceTest {
 
 
 
-    // TESTS FOR checkFoodInputProperties!!! - seperate it from the other one!!
+    // TESTS FOR checkFoodInputProperties!!! - separate it from the other one!!
 
     @Test
     void shouldNotAddWhenPersonIdIsNull() {
