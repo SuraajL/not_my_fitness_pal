@@ -46,6 +46,7 @@ public class FoodService {
         return rowsAffected;
     }
 
+
     public int deleteFood(Integer foodId){
         Food foodInDb = getFoodOrThrowNull(foodId);
 
