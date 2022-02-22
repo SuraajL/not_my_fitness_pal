@@ -52,14 +52,36 @@ class FoodServiceTest {
         //When
         Integer actual = underTest.addFoodEntry(food);
 
-
-
         //Then
         // Assert the integer is 1
         Integer expected = 1;
         assertThat(actual).isEqualTo(expected);
 
     }
+
+    @Test
+    void foodShouldPersistWhenAddingFoodEntry() {
+        // The whole purpose of this is to tell developer if food correctly Persists throughout
+        //Given
+        Food food = new Food(1, 1, "toast", MealType.BREAKFAST, "random", 50, 1, Day.MONDAY);
+        Person personInDb = new Person(1, "marcy", 23, 157.0, 47.0, 2000);
+        // we pass in person Id using food.getPerson_id (getter for Food Class - as personId is a property of it)
+        given(personDao.getPersonById(food.getPerson_id())).willReturn(personInDb);
+        given(foodDao.addFood(food)).willReturn(1);
+        // The number returned - doesn't give us any idea of what food is being saved
+
+        //When
+        // No need to store integer - Only testing food being saved
+        underTest.addFoodEntry(food);
+
+        //Then
+        // This is to make sure the food being added is the one we passed in first
+        ArgumentCaptor<Food> foodArgumentCaptor = ArgumentCaptor.forClass(Food.class);
+        verify(foodDao).addFood(foodArgumentCaptor.capture());
+        Food actualFoodSaved = foodArgumentCaptor.getValue();
+        assertThat(actualFoodSaved).isEqualTo(food);
+    }
+
 
     @Test
     void shouldThrowExceptionIfAddFoodEntryFails() {
@@ -78,58 +100,12 @@ class FoodServiceTest {
                 .hasMessageContaining("Could not add food...");
 
 
-
     }
 
 
 
-    @Test
-    void foodShouldPersistWhenAddingFoodEntry() {
-        // The whole purpose of this is to tell developer if food correctly Persists throughout
-        //Given
-        Food food = new Food(1, 1, "toast", MealType.BREAKFAST, "random", 50, 1, Day.MONDAY);
-        Person personInDb = new Person(1, "marcy", 23, 157.0, 47.0, 2000);
-        // we pass in person Id using food.getPerson_id (getter for Food Class - as personId is a property of it)
-        given(personDao.getPersonById(food.getPerson_id())).willReturn(personInDb);
-        given(foodDao.addFood(food)).willReturn(1);
-        // The number returned - doesn't give us any idea of what food is being saved
+    // TESTS FOR checkFoodInputProperties!!! - seperate it from the other one!!
 
-        //When
-        // No need to store integer - Only testing food being saved
-        underTest.addFoodEntry(food);
-
-
-        //Then
-        // This is to make sure the food being added is the one we passed in first
-        ArgumentCaptor<Food> foodArgumentCaptor = ArgumentCaptor.forClass(Food.class);
-        verify(foodDao).addFood(foodArgumentCaptor.capture());
-        Food actualFoodSaved = foodArgumentCaptor.getValue();
-        assertThat(actualFoodSaved).isEqualTo(food);
-        //assertThat(food.getPerson_id()).isEqualTo(personInDb.getId());  // Is this necessary?
-
-    }
-
-    @Test
-    void foodPersonIdShouldPersistWhenAddingFoodEntry() {
-        // The whole purpose of this is to tell developer if person_id (property of Food) correctly Persists throughout
-        //Given
-        Food food = new Food(1, 1, "toast", MealType.BREAKFAST, "random", 50, 1, Day.MONDAY);
-        Person personInDb = new Person(1, "marcy", 23, 157.0, 47.0, 2000);
-        // we pass in person Id using food.getPerson_id (getter for Food Class - as personId is a property of it)
-        given(personDao.getPersonById(food.getPerson_id())).willReturn(personInDb);
-        given(foodDao.addFood(food)).willReturn(1);
-
-        //When
-        // No need to store integer - Only testing if person_id from Food property is being used by getPersonById
-        underTest.addFoodEntry(food);
-
-        //Then
-        // This is checking that the id passed into personDao.getPersonById is the same as the food.getPerson_id
-        ArgumentCaptor<Integer> integerArgumentCaptor = ArgumentCaptor.forClass(Integer.class);
-        verify(personDao).getPersonById(integerArgumentCaptor.capture());
-        Integer actualIdPassedIntoPersonDao = integerArgumentCaptor.getValue();
-        assertThat(actualIdPassedIntoPersonDao).isEqualTo(food.getPerson_id());
-    }
 
 
     @Test

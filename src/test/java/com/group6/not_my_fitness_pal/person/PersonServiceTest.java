@@ -37,7 +37,6 @@ class PersonServiceTest {
         Person actual = underTest.getPersonById(id);
 
         //Then
-        //do we need argument capture here as well?
         assertThat(actual).isEqualTo(expected);
     }
 
@@ -45,8 +44,7 @@ class PersonServiceTest {
     void shouldNotGetPersonByIdWhenIdIsNull() {
         //Given
         Integer id = null;
-        // TEST should only have one way of passing - don't
-        //above line is in case getPersonById is called after the exception (but it shouldnt be)
+
         //When
         assertThatThrownBy(() -> underTest.getPersonById(id))
                 .isInstanceOf(PersonNotFoundException.class)
