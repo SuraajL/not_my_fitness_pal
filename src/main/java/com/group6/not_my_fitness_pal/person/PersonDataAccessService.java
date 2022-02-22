@@ -11,7 +11,7 @@ import java.util.List;
 @Repository("person_postgres")
 public class PersonDataAccessService implements PersonDao{
 
-    private JdbcTemplate jdbcTemplate;
+    private JdbcTemplate jdbcTemplate;  // Make JDBC template a property so that we can use its methods
 
     public PersonDataAccessService(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
@@ -23,7 +23,7 @@ public class PersonDataAccessService implements PersonDao{
         SELECT id, name, age, height_in_cm, weight_in_kg, calorie_target 
         FROM people
                 """;
-        RowMapper<Person> personRowMapper = (rs, rowNum) -> {
+        RowMapper<Person> personRowMapper = (rs, rowNum) -> {   // Mapping each sql row to Java code
             return new Person(
                     rs.getInt("id"),
                     rs.getString("name"),
@@ -63,7 +63,8 @@ public class PersonDataAccessService implements PersonDao{
         if (people.isEmpty()){
             return null;
         } else {
-            return people.get(0);
+            return people.get(0);   // Returns first element from people list we've just made (contains sql mappings)
+            // - this first element is the person we've found by their id
         }
 
     }
