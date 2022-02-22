@@ -9,5 +9,4 @@ public interface PersonDao {
     int deletePersonById(Integer id);
     int updatePersonById(Integer id, Person updatePerson);
 
-
 }
