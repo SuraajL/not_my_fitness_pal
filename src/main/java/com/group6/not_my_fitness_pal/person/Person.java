@@ -19,8 +19,8 @@ public class Person {
         this.id = id;
         this.name = name;
         this.age = age;
-        this.height_in_cm = height_in_cm;
-        this.weight_in_kg = weight_in_kg;
+        this.height_in_cm = height_in_cm;   // Optional field - we will allow a null value when applying logic
+        this.weight_in_kg = weight_in_kg;   // Optional field - we will allow a null value when applying logic
         this.calorie_target = calorie_target;
     }
 
