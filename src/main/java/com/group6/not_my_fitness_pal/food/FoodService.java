@@ -26,6 +26,11 @@ public class FoodService {
         this.personService = personService;
     }
 
+    public Food getFoodById(Integer id){
+        // It will return that person ELSE Exception in
+        return getFoodOrThrowNull(id);
+    }
+
     public List<Food> getFoodEntriesByPersonId (Integer person_id){
 //        personService.getPerson
         return null;
@@ -70,6 +75,19 @@ public class FoodService {
         return 1;
     }
 
+    private Food getFoodOrThrowNull(Integer id){
 
+        if (id == null || id < 0){
+            throw new PersonNotFoundException("id is invalid");
+        }
 
+        // This is the scenario where argument capture would help - makes sure id persists throughout
+//         id = 25;
+        Food food = foodDao.getFoodById(id); //mocking this line
+
+        if(food == null){
+            throw new PersonNotFoundException("Food with id " + id + " doesn't exist");
+        }
+        return food;
+    }
 }
