@@ -1,9 +1,6 @@
 package com.group6.not_my_fitness_pal.food;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -25,5 +22,14 @@ public class FoodController {
     public List<Food> foodList(){
         return foodService.getAllFoodEntries();
     }
+    @DeleteMapping(path = "food/{id}")
+    public void deleteFoodById(@PathVariable("id")Integer foodId){
+        foodService.deleteFood(foodId);
+    }
+    @PutMapping(path = "food/{id}")
+    public void updateFoodById(@PathVariable("id") Integer foodId, @RequestBody Food update){
+        foodService.updateFood(foodId, update);
+    }
+
 
 }

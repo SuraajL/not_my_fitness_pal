@@ -13,10 +13,6 @@ public class PersonController {
             this.personService = personService;
         }
 
-
-
-
-
         @GetMapping(path = "people")
         public List<Person> getPeople() {
             return personService.getAllPeople();
