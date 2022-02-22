@@ -33,6 +33,20 @@ public class FoodController {
         foodService.updateFood(foodId, update);
     }
 
+    @GetMapping(path = "food/{id}")
+    public Food getFoodById(@PathVariable("id") Integer foodId){
+       return foodService.getFoodById(foodId);
+    }
+
+    @GetMapping(path = "food/person/{id}")
+    public List<Food> getFoodEntriesByPersonId(@PathVariable("id") Integer personId){
+        return foodService.getFoodEntriesByPersonId(personId);
+    }
+
+    @GetMapping(path = "food/person/{id}/week/{week}")
+    public List<Food> getFoodEntriesByPersonId(@PathVariable("id") Integer personId,@PathVariable("week") Integer week){
+        return foodService.getFoodEntriesByPersonIdByWeek(personId, week);
+    }
 
 
 

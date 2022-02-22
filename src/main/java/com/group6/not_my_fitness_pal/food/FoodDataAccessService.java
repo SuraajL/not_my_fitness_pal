@@ -79,7 +79,7 @@ public class FoodDataAccessService implements FoodDao{
     public Food getFoodById(Integer id) {
         String sql = """
             SELECT id, person_id, name, meal_type, notes, calories, week, day
-            FROM food WHERE id = ?
+            FROM food_entries WHERE id = ?
             """;
 
         RowMapper<Food> foodRowMapper = (rs, rowNum) -> {
