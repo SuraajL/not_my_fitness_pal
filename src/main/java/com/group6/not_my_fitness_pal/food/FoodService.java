@@ -90,6 +90,14 @@ public class FoodService {
 
     public List<Food> getFoodEntriesByPersonIdByWeek (Integer person_id, Integer week){
         Person personInDb = personService.getPersonById(person_id);
+
+        if (week == null){
+            throw new InvalidRequestException("week cannot be null");
+        }
+        if (week <= 0){
+            throw new InvalidRequestException("invalid week");
+        }
+
         List<Food> foodList = foodDao.getFoodEntriesByPersonIdByWeek(personInDb.getId(), week);
         if (foodList==null){
             throw new InvalidRequestException("no food entries found for person for that week");
@@ -98,6 +106,14 @@ public class FoodService {
     }
     public List<Food> getFoodEntriesByPersonIdByWeekByDay (Integer person_id, Integer week, Day day){
         Person personInDb = personService.getPersonById(person_id);
+
+        if (week == null){
+            throw new InvalidRequestException("week cannot be null");
+        }
+        if (week <= 0){
+            throw new InvalidRequestException("invalid week");
+        }
+
         List<Food> foodList = foodDao.getFoodEntriesByPersonIdByWeekByDay(personInDb.getId(), week, day);
         if (foodList==null){
             throw new InvalidRequestException("no food entries found for person for that week and day");

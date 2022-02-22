@@ -468,13 +468,107 @@ class FoodServiceTest {
         given(foodDao.getFoodEntriesByPersonId(person_id)).willReturn(null);
 
         //When
-
-        //Then
         assertThatThrownBy(() -> underTest.getFoodEntriesByPersonId(person_id))
+                //Then
                 .isInstanceOf(InvalidRequestException.class)
                 .hasMessageContaining("no food entries found for person");
     }
 
+    @Test
+    void shouldGetFoodEntriesByPersonIdByWeek(){
+        //Given
+        Integer person_id = 1;
+        Person person = new Person(1, "mark", 23, 157.0, 47.0, 2000);
+        Integer week = 1;
+        Food food1 = new Food(1, person_id, "cereal", MealType.BREAKFAST, "random", 100, week, Day.MONDAY);
+        Food food2 = new Food(2, person_id, "pancakes", MealType.BREAKFAST, "random", 100, week, Day.MONDAY);
+        List<Food> expectedFoodList = new ArrayList<>();
+        expectedFoodList.add(food1);
+        expectedFoodList.add(food2);
 
+        given(personDao.getPersonById(person_id)).willReturn(person);
+        given(foodDao.getFoodEntriesByPersonIdByWeek(person_id, week)).willReturn(expectedFoodList);
 
+        //When
+        List<Food> actualFoodList = underTest.getFoodEntriesByPersonIdByWeek(person_id, week);
+
+        //Then
+        assertThat(actualFoodList).isEqualTo(expectedFoodList);
+    }
+
+    @Test
+    void shouldNotGetFoodEntriesByPersonIdByWeekIfWeekIsNull(){
+        //Given
+        Integer person_id = 1;
+        Person person = new Person(1, "mark", 23, 157.0, 47.0, 2000);
+        Integer week = null;
+        given(personDao.getPersonById(person_id)).willReturn(person);
+
+        ///when
+        assertThatThrownBy(() -> underTest.getFoodEntriesByPersonIdByWeek(person_id, week))
+                .isInstanceOf(InvalidRequestException.class)
+                .hasMessageContaining("week cannot be null");
+        //then
+        verify(foodDao, never()).getFoodEntriesByPersonIdByWeek(anyInt(), anyInt());
+    }
+
+    @Test
+    void shouldNotGetFoodEntriesByPersonIdByWeekIfWeekIsNegative(){
+        //Given
+        Integer person_id = 1;
+        Person person = new Person(1, "mark", 23, 157.0, 47.0, 2000);
+        Integer week = -1;
+        given(personDao.getPersonById(person_id)).willReturn(person);
+
+        ///when
+        assertThatThrownBy(() -> underTest.getFoodEntriesByPersonIdByWeek(person_id, week))
+                .isInstanceOf(InvalidRequestException.class)
+                .hasMessageContaining("invalid week");
+        //then
+        verify(foodDao, never()).getFoodEntriesByPersonIdByWeek(anyInt(), anyInt());
+    }
+
+    @Test
+    void shouldNotGetFoodEntriesByPersonIdByWeekIfWeekIsZero(){
+        //Given
+        Integer person_id = 1;
+        Person person = new Person(1, "mark", 23, 157.0, 47.0, 2000);
+        Integer week = 0;
+        given(personDao.getPersonById(person_id)).willReturn(person);
+
+        ///when
+        assertThatThrownBy(() -> underTest.getFoodEntriesByPersonIdByWeek(person_id, week))
+                .isInstanceOf(InvalidRequestException.class)
+                .hasMessageContaining("invalid week");
+        //then
+        verify(foodDao, never()).getFoodEntriesByPersonIdByWeek(anyInt(), anyInt());
+    }
+
+    @Test
+    void shouldThrowIfGetFoodEntriesByPersonIdByWeekReturnsNull(){
+        //Given
+        Integer person_id = 1;
+        Person person = new Person(1, "mark", 23, 157.0, 47.0, 2000);
+        Integer week = 1;
+
+        given(personDao.getPersonById(person_id)).willReturn(person);
+        given(foodDao.getFoodEntriesByPersonIdByWeek(person_id, week)).willReturn(null);
+
+        //When
+        assertThatThrownBy(() -> underTest.getFoodEntriesByPersonIdByWeek(person_id, week))
+                //Then
+                .isInstanceOf(InvalidRequestException.class)
+                .hasMessageContaining("no food entries found for person for that week");
+    }
+
+    @Test
+    void shouldGetFoodEntriesByPersonIdByWeekByDay(){
+
+    }
+
+    @Test
+    @Disabled
+    void shouldThrowIfGetFoodEntriesByPersonIdByWeekReturnsNull_(){
+
+    }
 }
