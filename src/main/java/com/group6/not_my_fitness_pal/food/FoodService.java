@@ -46,6 +46,16 @@ public class FoodService {
         return rowsAffected;
     }
 
+    public int deleteFood(Integer foodId){
+        Food foodInDb = getFoodOrThrowNull(foodId);
+
+        int rowsAffected = foodDao.deleteFoodById(foodId);
+        if (rowsAffected!=1){
+            throw new IllegalStateException("Food could not be deleted");
+        }
+        return rowsAffected;
+    }
+
     public int updateFood(Integer foodId, Food updateFood){
         Food foodInDb = getFoodOrThrowNull(foodId);
         checkFoodInputProperties(updateFood); //checks completed
