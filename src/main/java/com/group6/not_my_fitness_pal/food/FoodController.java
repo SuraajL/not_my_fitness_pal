@@ -53,6 +53,10 @@ public class FoodController {
         return foodService.getFoodEntriesByPersonIdByWeekByDay(personId, week, Day.valueOf(day));
     }
 
+    @GetMapping(path = "food/person/mealtype/{mealtype}")
+    public List<Food> getFoodEntriesByMealType(@PathVariable("mealtype") String mealType){//should day be string
+        return foodService.getFoodEntriesByMealType(MealType.valueOf(mealType));
+    }
 
 
 

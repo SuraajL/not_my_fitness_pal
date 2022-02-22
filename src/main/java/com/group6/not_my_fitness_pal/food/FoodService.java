@@ -109,6 +109,17 @@ public class FoodService {
         return foodList;
     }
 
+    public List<Food> getFoodEntriesByMealType (MealType mealType){
+
+        List<Food> foodList = foodDao.getFoodEntriesByMealType(mealType);
+        if (foodList==null){
+            throw new InvalidRequestException("no food entries found for that meal type");
+        }
+        return foodList;
+    }
+
+
+
 
     private void checkFoodInputProperties(Food food) {
         //    name - can't be null
