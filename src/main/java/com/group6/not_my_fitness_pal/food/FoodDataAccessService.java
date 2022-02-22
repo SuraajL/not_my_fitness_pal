@@ -197,7 +197,7 @@ public class FoodDataAccessService implements FoodDao{
     public List<Food> getFoodEntriesByPersonIdByWeekByDay(Integer person_id, Integer week, Day day) {
         String sql = """
                 SELECT id, person_id, name, meal_type, notes, calories, week, day 
-                FROM food_entries WHERE person_id = ? AND week = ? AND day = ?
+                FROM food_entries WHERE person_id = ? AND week = ? AND day = '?'
                 """;
         RowMapper<Food> foodRowMapper =  (rs, rowNum) -> {  //rowmapper to go through each row, gives you result set, which we then turn into ints, strings etc to make a new car object
             Food food = new Food(
