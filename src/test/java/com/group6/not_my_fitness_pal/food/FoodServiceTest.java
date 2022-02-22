@@ -10,8 +10,12 @@ import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.InstanceOfAssertFactories.LIST;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
@@ -276,8 +280,24 @@ class FoodServiceTest {
         verify(foodDao, never()).addFood(any());
     }
     @Test
-    void getFoodEntriesByPersonId() {
+    void shouldGetAllFood() {
+        //given
+        Food food1 = new Food(1, 1, "mark", MealType.BREAKFAST, "random", 100, 0, Day.MONDAY);
+        Food food2 = new Food(2, 1, "hi", MealType.BREAKFAST, "random", 100, 0, Day.MONDAY);
+        List<Food> expectedFoodList = new ArrayList<>();
+        expectedFoodList.add(food1);
+        expectedFoodList.add(food2);
+
+        given(foodDao.getAllFood()).willReturn(expectedFoodList);
+
+        //when
+        List<Food> actualFoodList = underTest.getAllFoodEntries();
+
+        //then
+        assertThat(expectedFoodList).isEqualTo(actualFoodList);
 
     }
+
+
 
 }
