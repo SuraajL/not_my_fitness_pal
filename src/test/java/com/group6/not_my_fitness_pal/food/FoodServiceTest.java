@@ -309,7 +309,7 @@ class FoodServiceTest {
     void shouldThrowWhenFoodNotDeleted(){
         //given
         Integer id = 1;
-        given (foodDao.getFoodById(id)).willReturn(new Food(1, 1, "mark", MealType.BREAKFAST, "random", 100, 0, Day.MONDAY));
+        given (foodDao.getFoodById(id)).willReturn(new Food(1, 1, "pizza", MealType.BREAKFAST, "random", 100, 0, Day.MONDAY));
         given(foodDao.deleteFoodById(id)).willReturn(0);
         //when
         assertThatThrownBy(() -> underTest.deleteFood(id))
@@ -327,8 +327,8 @@ class FoodServiceTest {
 
         //when
         assertThatThrownBy(() -> underTest.deleteFood(id))
-                .isInstanceOf(IllegalStateException.class)
-                .hasMessageContaining("id is invalid");
+                .isInstanceOf(InvalidRequestException.class)
+                .hasMessageContaining("Food id is invalid");
         //then
         verify(foodDao, never()).getFoodById(anyInt());
         verify(foodDao, never()).deleteFoodById(anyInt());
@@ -337,6 +337,57 @@ class FoodServiceTest {
     @Test
     void shouldNotDeleteWhenIdIsNegative(){
 //same as above, is this redundant?
+    }
+
+    @Test
+    void shouldGetFoodById(){
+        //Given
+        Integer id = 1;
+        Food expected = new Food(1, 1, "chips", MealType.DINNER, "random", 100, 0, Day.MONDAY);
+        given(foodDao.getFoodById(id)).willReturn(expected);
+        //When
+        Food actual = underTest.getFoodById(id);
+
+        //Then
+        assertThat(actual).isEqualTo(expected);
+    }
+
+    @Test
+    void shouldNotGetFoodWhenIdIsNull(){
+        //given
+        Integer id = null;
+
+        //when
+        assertThatThrownBy(() -> underTest.getFoodById(id))
+                .isInstanceOf(InvalidRequestException.class)
+                .hasMessageContaining("Food id is invalid");
+        //then
+        verify(foodDao, never()).getFoodById(anyInt());
+    }
+    @Test
+    void shouldNotGetFoodWhenIdIsNegative(){
+        //given
+        Integer id = -1;
+
+        //when
+        assertThatThrownBy(() -> underTest.getFoodById(id))
+                .isInstanceOf(InvalidRequestException.class)
+                .hasMessageContaining("Food id is invalid");
+        //then
+        verify(foodDao, never()).getFoodById(anyInt());
+    }
+
+    @Test
+    void shouldNotGetFoodWhenFoodIsNotInDb(){
+        //given
+        Integer id = 100;
+        given(foodDao.getFoodById(id)).willReturn(null);
+
+        //when
+        //then
+        assertThatThrownBy(() -> underTest.getFoodById(id))
+                .isInstanceOf(FoodNotFoundException.class)
+                .hasMessageContaining("Food with id " + id + " doesn't exist");
     }
 
 

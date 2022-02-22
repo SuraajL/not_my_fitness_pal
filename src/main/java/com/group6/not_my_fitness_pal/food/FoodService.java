@@ -135,7 +135,7 @@ public class FoodService {
 
     private Food getFoodOrThrowNull(Integer id){
         if (id == null || id < 0){
-            throw new FoodNotFoundException("id is invalid");
+            throw new InvalidRequestException("Food id is invalid");
         }
 
         // This is the scenario where argument capture would help - makes sure id persists throughout
