@@ -195,8 +195,32 @@ public class FoodDataAccessService implements FoodDao{
 
     @Override
     public List<Food> getFoodEntriesByPersonIdByWeekByDay(Integer person_id, Integer week, Day day) {
-        return null;
+        String sql = """
+                SELECT id, person_id, name, meal_type, notes, calories, week, day 
+                FROM food_entries WHERE person_id = ? AND week = ? AND day = ?
+                """;
+        RowMapper<Food> foodRowMapper =  (rs, rowNum) -> {  //rowmapper to go through each row, gives you result set, which we then turn into ints, strings etc to make a new car object
+            Food food = new Food(
+                    rs.getInt("id"),
+                    rs.getInt("person_id"),
+                    rs.getString("name"),
+                    MealType.valueOf(rs.getString("meal_type")),
+                    rs.getString("notes"),
+                    rs.getInt("calories"),
+                    rs.getInt("week"),
+                    Day.valueOf(rs.getString("day"))
+
+            );
+            return food; //so its not lost in the heap
+        };
+        List<Food> foodList = jdbcTemplate.query(sql, foodRowMapper, person_id, week, day);
+        if (foodList.isEmpty()){
+            return null;
+        } else {
+            return foodList;
+        }
     }
+
 
     @Override
     public List<Food> getFoodEntriesByMealType(MealType mealType) {
