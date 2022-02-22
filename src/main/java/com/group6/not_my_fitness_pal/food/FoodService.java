@@ -26,38 +26,56 @@ public class FoodService {
         this.personService = personService;
     }
 
-    public Food getFoodById(Integer id){
-        // It will return that person ELSE Exception in
-        return getFoodOrThrowNull(id);
-    }
-
-    public List<Food> getAllFoodEntries (){
-        return foodDao.getAllFood();
-    }
-
-    public int updateFood(Integer foodId, Food updateFood){
-        if (foodDao.getFoodById(foodId) == null){
-            throw new FoodNotFoundException("Food with id " + foodId + " not found");
-        }
-        int updateSuccessful = foodDao.updateFoodById(foodId, updateFood);
-        if (updateSuccessful!=1){
-            throw new IllegalStateException("Food could not be updated");
-        }
-        return 1;
-    }
-
-    public List<Food> getFoodEntriesByPersonId (Integer person_id){
-//        personService.getPerson
-        return null;
-    }
-
-    //TODO:3) Create Psuedo code for add food
     public int addFoodEntry(Food food) {
         // Check all fields are valid (enums don't have to be checked here):
         // person_id - use person service, if null then throw exception - using PersonDao. (Mock)
         // getPersonById checks if person_id is null and also if person in DB exists
         Person person = personService.getPersonById(food.getPerson_id());
 
+        checkFoodInputProperties(food);
+
+        // Add food entry to sql db - using FoodDao.  (Mock)
+        // foodDao.addFood(someRandom)
+        int rowsAffected = foodDao.addFood(food);
+
+        // If result != 1, then throw exception to say it failed
+        if (rowsAffected != 1){
+            throw new IllegalStateException("Could not add food...");
+        }
+
+        return rowsAffected;
+    }
+
+    public int updateFood(Integer foodId, Food updateFood){
+        Food foodInDb = getFoodOrThrowNull(foodId);
+        checkFoodInputProperties(updateFood); //checks completed
+
+        int rowsAffected = foodDao.updateFoodById(foodId, updateFood);
+        if (rowsAffected!=1){
+            throw new IllegalStateException("Food could not be updated");
+        }
+        return rowsAffected;
+    }
+
+
+    public Food getFoodById(Integer id){
+        // It will return that person ELSE Exception in
+        return getFoodOrThrowNull(id);
+    }
+
+
+    public List<Food> getAllFoodEntries (){
+        return foodDao.getAllFood();
+    }
+
+
+    public List<Food> getFoodEntriesByPersonId (Integer person_id){
+//        personService.getPerson
+        return null;
+    }
+
+
+    private void checkFoodInputProperties(Food food) {
         //    name - can't be null
         if(food.getName() == null){
             throw new InvalidRequestException("name cannot be null");
@@ -77,17 +95,6 @@ public class FoodService {
         if (food.getWeek() <= 0){
             throw new InvalidRequestException("invalid week");
         }
-
-        // Add food entry to sql db - using FoodDao.  (Mock)
-        // foodDao.addFood(someRandom)
-        int rowsAffected = foodDao.addFood(food);
-
-        // If result != 1, then throw exception to say it failed
-        if (rowsAffected != 1){
-            throw new IllegalStateException("Could not add food...");
-        }
-
-        return 1;
     }
 
     private Food getFoodOrThrowNull(Integer id){
