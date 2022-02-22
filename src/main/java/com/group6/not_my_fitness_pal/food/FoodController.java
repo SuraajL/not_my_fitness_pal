@@ -48,9 +48,9 @@ public class FoodController {
         return foodService.getFoodEntriesByPersonIdByWeek(personId, week);
     }
 
-    @GetMapping(path = "food/person/{id}/week/{week}/{day}")
-    public List<Food> getFoodEntriesByPersonIdByWeekByDay(@PathVariable("id") Integer personId,@PathVariable("week") Integer week, @PathVariable("day") String day){//should day be string
-        return foodService.getFoodEntriesByPersonIdByWeekByDay(personId, week, Day.valueOf(day));
+    @GetMapping(path = "food/person/{id}/week/{week}/day/{day}")
+    public List<Food> getFoodEntriesByPersonIdByWeekByDay(@PathVariable("id") Integer personId,@PathVariable("week") Integer week, @PathVariable("day") Day day){//should day be string
+        return foodService.getFoodEntriesByPersonIdByWeekByDay(personId, week, day);
     }
 
     @GetMapping(path = "food/person/mealtype/{mealtype}")

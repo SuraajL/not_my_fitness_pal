@@ -197,8 +197,8 @@ public class FoodDataAccessService implements FoodDao{
     public List<Food> getFoodEntriesByPersonIdByWeekByDay(Integer person_id, Integer week, Day day) {
         String sql = """
                 SELECT id, person_id, name, meal_type, notes, calories, week, day 
-                FROM food_entries WHERE person_id = ? AND week = ? AND day = '?'
-                """;
+                FROM food_entries WHERE person_id = ? AND week = ? AND day = ?
+                """;                                                        //should we put quotations around ?
         RowMapper<Food> foodRowMapper =  (rs, rowNum) -> {  //rowmapper to go through each row, gives you result set, which we then turn into ints, strings etc to make a new car object
             Food food = new Food(
                     rs.getInt("id"),
@@ -213,7 +213,7 @@ public class FoodDataAccessService implements FoodDao{
             );
             return food; //so its not lost in the heap
         };
-        List<Food> foodList = jdbcTemplate.query(sql, foodRowMapper, person_id, week, day);
+        List<Food> foodList = jdbcTemplate.query(sql, foodRowMapper, person_id, week, day.name()); //convert enum to string when passing sql query
         if (foodList.isEmpty()){
             return null;
         } else {
