@@ -104,7 +104,7 @@ class FoodServiceTest {
 
 
 
-    // TESTS FOR checkFoodInputProperties!!! - seperate it from the other one!!
+    // TESTS FOR checkFoodInputProperties!!! - separate it from the other one!!
 
     @Test
     void shouldNotAddWhenPersonIdIsNull() {
@@ -286,6 +286,23 @@ class FoodServiceTest {
                 .hasMessageContaining("no food entries found");
 
 
+    }
+
+    @Test
+    void shouldDeleteFoodById(){
+        //given
+        Integer id = 1;
+        given (foodDao.getFoodById(id)).willReturn(new Food(1, 1, "mark", MealType.BREAKFAST, "random", 100, 0, Day.MONDAY));
+        given(foodDao.deleteFoodById(id)).willReturn(1);
+
+        //when
+
+        Integer actual = underTest.deleteFood(id);
+
+        //then
+        Integer expected = 1;
+
+        assertThat(actual).isEqualTo(expected);
     }
 
 
