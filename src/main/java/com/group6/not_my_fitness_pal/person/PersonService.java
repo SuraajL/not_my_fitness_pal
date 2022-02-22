@@ -63,7 +63,6 @@ public class PersonService {
 
 
     // REUSABLE FOR ALL OTHERS!! - This is checking person (Private - other public methods use it ONLY)
-    //TODO: 2) Create Tests for this and getPersonById
     private Person getPersonOrThrowNull(Integer id){
 
         if (id == null || id < 0){
