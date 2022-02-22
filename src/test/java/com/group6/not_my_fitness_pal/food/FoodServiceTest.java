@@ -6,6 +6,7 @@ import com.group6.not_my_fitness_pal.person.PersonDao;
 import com.group6.not_my_fitness_pal.person.PersonNotFoundException;
 import com.group6.not_my_fitness_pal.person.PersonService;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
@@ -320,7 +321,8 @@ class FoodServiceTest {
     }
 
     @Test
-    void shouldNotDeleteWhenIdIsNull(){ //does testing getfoodById in isolation mean this is redundant
+    @Disabled
+    void shouldNotDeleteWhenIdIsNull(){ //TODO does testing getfoodById in isolation mean this is redundant
         //if it is redundant how do we verify that we never interact with deletefood
         //given
         Integer id = null;
@@ -335,6 +337,7 @@ class FoodServiceTest {
     }
 
     @Test
+    @Disabled
     void shouldNotDeleteWhenIdIsNegative(){
 //same as above, is this redundant?
     }
