@@ -26,7 +26,10 @@ public class FoodController {
     public void deleteFoodById(@PathVariable("id")Integer foodId){
         foodService.deleteFood(foodId);
     }
-
+    @PutMapping(path = "food/{id}")
+    public void updateFoodById(@PathVariable("id") Integer foodId, @RequestBody Food update){
+        foodService.updateFood(foodId, update);
+    }
 
 
 }
