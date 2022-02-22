@@ -71,8 +71,6 @@ public class FoodService {
     }
 
     public List<Food> getAllFoodEntries (){
-        //need to check that we have got all the food in db eg we have 28 food entries, how do we check that number
-        //how do we check an entire list of food items, is it worth it?
         return foodDao.getAllFood();
     }
 
