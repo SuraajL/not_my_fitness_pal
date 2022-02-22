@@ -1,6 +1,8 @@
 package com.group6.not_my_fitness_pal.food;
 
+import com.group6.not_my_fitness_pal.person.Person;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -55,7 +57,32 @@ public class FoodDataAccessService implements FoodDao{
 
     @Override
     public Food getFoodById(Integer id) {
-        return null;
+        String sql = """
+            SELECT id, person_id, name, meal_type, notes, calories, week, day
+            FROM food WHERE id = ?
+            """;
+
+        RowMapper<Food> foodRowMapper = (rs, rowNum) -> {
+            return new Food(
+                    rs.getInt("id"),
+                    rs.getInt("person_id"),
+                    rs.getString("name"),
+                    MealType.valueOf(rs.getString("meal_type")),
+                    rs.getString("notes"),
+                    rs.getInt("calories"),
+                    rs.getInt("week"),
+                    Day.valueOf(rs.getString("day"))
+            );
+        };
+
+        List<Food> foodList = jdbcTemplate.query(sql, foodRowMapper, id);
+
+
+        if (foodList.isEmpty()){
+            return null;
+        } else {
+            return foodList.get(0);
+        }
     }
 
     @Override
