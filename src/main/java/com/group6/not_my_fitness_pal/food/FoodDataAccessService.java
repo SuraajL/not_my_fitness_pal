@@ -46,7 +46,10 @@ public class FoodDataAccessService implements FoodDao{
 
     @Override
     public int deleteFoodById(Integer id) {
-        return 0;
+        String sql = "DELETE FROM food_entries WHERE id = ?";
+        int result = jdbcTemplate.update(sql, id);
+        return result;
+
     }
 
     @Override
