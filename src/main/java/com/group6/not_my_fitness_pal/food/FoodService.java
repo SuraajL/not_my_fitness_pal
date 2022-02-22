@@ -100,6 +100,14 @@ public class FoodService {
         }
         return foodList;
     }
+    public List<Food> getFoodEntriesByPersonIdByWeekByDay (Integer person_id, Integer week, Day day){
+        Person personInDb = personService.getPersonById(person_id);
+        List<Food> foodList = foodDao.getFoodEntriesByPersonIdByWeekByDay(personInDb.getId(), week, day);
+        if (foodList==null){
+            throw new InvalidRequestException("no food entries found for person for that week and day");
+        }
+        return foodList;
+    }
 
 
     private void checkFoodInputProperties(Food food) {
