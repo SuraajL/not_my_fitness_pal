@@ -393,6 +393,52 @@ class FoodServiceTest {
                 .hasMessageContaining("Food with id " + id + " doesn't exist");
     }
 
+    @Test
+    void shouldUpdateFoodById(){
+        //Given
+        Integer id = 1;
+        Food foodInDb = new Food(1, 1, "chips", MealType.DINNER, "random", 100, 1, Day.MONDAY);
+        given(foodDao.getFoodById(id)).willReturn(foodInDb);
+        Food updateFood = new Food(1, 1, "pizza", MealType.DINNER, "random", 100, 1, Day.MONDAY);
+        given(foodDao.updateFoodById(id, updateFood)).willReturn(1);
+
+        //When
+        Integer actual = underTest.updateFood(id, updateFood);
+
+        //Then
+        Integer expected = 1;
+        assertThat(actual).isEqualTo(expected);
+    }
+
+    @Test
+    @Disabled
+    void shouldNotUpdateFoodByIdWhenIdIsNull(){ //TODO redundant?
+    }
+
+    @Test
+    @Disabled
+    void shouldNotUpdateFoodByIdWhenIdIsNegative(){ //TODO redundant?
+    }
+
+    @Test
+    void shouldThrowWhenFoodIsNotUpdatedById(){
+        //Given
+        Integer id = 1;
+        Food foodInDb = new Food(1, 1, "chips", MealType.DINNER, "random", 100, 1, Day.MONDAY);
+        given(foodDao.getFoodById(id)).willReturn(foodInDb);
+        Food updateFood = new Food(1, 1, "pizza", MealType.DINNER, "random", 100, 1, Day.MONDAY);
+        given(foodDao.updateFoodById(id, updateFood)).willReturn(0);
+
+        //When
+
+        //Then
+        assertThatThrownBy(() -> underTest.updateFood(id, updateFood))
+                .isInstanceOf(IllegalStateException.class)
+                .hasMessageContaining("Food could not be updated");
+    }
+
+
+
 
 
 }
