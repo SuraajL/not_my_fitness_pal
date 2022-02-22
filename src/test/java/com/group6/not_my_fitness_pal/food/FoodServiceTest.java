@@ -153,7 +153,7 @@ class FoodServiceTest {
     void shouldNotAddWhenCaloriesIsNull() {
         //Given
         // NOTE: calories is null inside Food property
-        Food food = new Food(1, 1, "mark", MealType.BREAKFAST, "random", null, 1, Day.MONDAY);
+        Food food = new Food(1, 1, "cereal", MealType.BREAKFAST, "random", null, 1, Day.MONDAY);
         // we pass in person Id using food.getPerson_id (getter for Food Class - as personId is a property of it)"
         // DO WE NEED THESE SINCE WE DON'T ACTUALLY USE THEM?? SEE VERIFY AT BOTTOM
         Person personInDb = new Person(1, "marcy", 23, 157.0, 47.0, 2000);
@@ -173,7 +173,7 @@ class FoodServiceTest {
     void shouldNotAddWhenCaloriesIsNegative() {
         //Given
         // NOTE: calories is null inside Food property
-        Food food = new Food(1, 1, "mark", MealType.BREAKFAST, "random", -1, 1, Day.MONDAY);
+        Food food = new Food(1, 1, "cereal", MealType.BREAKFAST, "random", -1, 1, Day.MONDAY);
         // we pass in person Id using food.getPerson_id (getter for Food Class - as personId is a property of it)"
         // DO WE NEED THESE SINCE WE DON'T ACTUALLY USE THEM?? SEE VERIFY AT BOTTOM
         Person personInDb = new Person(1, "marcy", 23, 157.0, 47.0, 2000);
@@ -194,7 +194,7 @@ class FoodServiceTest {
     void shouldNotAddWhenWeekIsNull() {
         //Given
         // NOTE: calories is null inside Food property
-        Food food = new Food(1, 1, "mark", MealType.BREAKFAST, "random", 100, null, Day.MONDAY);
+        Food food = new Food(1, 1, "cereal", MealType.BREAKFAST, "random", 100, null, Day.MONDAY);
         // we pass in person Id using food.getPerson_id (getter for Food Class - as personId is a property of it)"
         // DO WE NEED THESE SINCE WE DON'T ACTUALLY USE THEM?? SEE VERIFY AT BOTTOM
         Person personInDb = new Person(1, "marcy", 23, 157.0, 47.0, 2000);
@@ -214,7 +214,7 @@ class FoodServiceTest {
     void shouldNotAddWhenWeekIsNegative() {
         //Given
         // NOTE: calories is null inside Food property
-        Food food = new Food(1, 1, "mark", MealType.BREAKFAST, "random", 100, -1, Day.MONDAY);
+        Food food = new Food(1, 1, "cereal", MealType.BREAKFAST, "random", 100, -1, Day.MONDAY);
         // we pass in person Id using food.getPerson_id (getter for Food Class - as personId is a property of it)"
         // DO WE NEED THESE SINCE WE DON'T ACTUALLY USE THEM?? SEE VERIFY AT BOTTOM
         Person personInDb = new Person(1, "marcy", 23, 157.0, 47.0, 2000);
@@ -234,7 +234,7 @@ class FoodServiceTest {
     void shouldNotAddWhenWeekIsZero() {
         //Given
         // NOTE: calories is null inside Food property
-        Food food = new Food(1, 1, "mark", MealType.BREAKFAST, "random", 100, 0, Day.MONDAY);
+        Food food = new Food(1, 1, "cereal", MealType.BREAKFAST, "random", 100, 0, Day.MONDAY);
         // we pass in person Id using food.getPerson_id (getter for Food Class - as personId is a property of it)"
         // DO WE NEED THESE SINCE WE DON'T ACTUALLY USE THEM?? SEE VERIFY AT BOTTOM
         Person personInDb = new Person(1, "marcy", 23, 157.0, 47.0, 2000);
@@ -259,8 +259,8 @@ class FoodServiceTest {
     @Test
     void shouldGetAllFood() {
         //given
-        Food food1 = new Food(1, 1, "mark", MealType.BREAKFAST, "random", 100, 0, Day.MONDAY);
-        Food food2 = new Food(2, 1, "hi", MealType.BREAKFAST, "random", 100, 0, Day.MONDAY);
+        Food food1 = new Food(1, 1, "cereal", MealType.BREAKFAST, "random", 100, 0, Day.MONDAY);
+        Food food2 = new Food(2, 1, "pancakes", MealType.BREAKFAST, "random", 100, 0, Day.MONDAY);
         List<Food> expectedFoodList = new ArrayList<>();
         expectedFoodList.add(food1);
         expectedFoodList.add(food2);
@@ -293,7 +293,7 @@ class FoodServiceTest {
     void shouldDeleteFoodById(){
         //given
         Integer id = 1;
-        given (foodDao.getFoodById(id)).willReturn(new Food(1, 1, "mark", MealType.BREAKFAST, "random", 100, 0, Day.MONDAY));
+        given (foodDao.getFoodById(id)).willReturn(new Food(1, 1, "cereal", MealType.BREAKFAST, "random", 100, 0, Day.MONDAY));
         given(foodDao.deleteFoodById(id)).willReturn(1);
 
         //when
@@ -437,7 +437,43 @@ class FoodServiceTest {
                 .hasMessageContaining("Food could not be updated");
     }
 
+    @Test
+    void shouldGetFoodEntriesByPersonId(){
+        //Given
+        Integer person_id = 1;
+        Person person = new Person(1, "mark", 23, 157.0, 47.0, 2000);
+        Food food1 = new Food(1, person_id, "cereal", MealType.BREAKFAST, "random", 100, 0, Day.MONDAY);
+        Food food2 = new Food(2, person_id, "pancakes", MealType.BREAKFAST, "random", 100, 0, Day.MONDAY);
+        List<Food> expectedFoodList = new ArrayList<>();
+        expectedFoodList.add(food1);
+        expectedFoodList.add(food2);
 
+        given(personDao.getPersonById(person_id)).willReturn(person);
+        given(foodDao.getFoodEntriesByPersonId(person_id)).willReturn(expectedFoodList);
+
+        //When
+        List<Food> actualFoodList = underTest.getFoodEntriesByPersonId(person_id);
+
+        //Then
+        assertThat(actualFoodList).isEqualTo(expectedFoodList);
+    }
+
+    @Test
+    void shouldThrowIfGetFoodEntriesByPersonIdReturnsNull(){
+        //Given
+        Integer person_id = 1;
+        Person person = new Person(1, "mark", 23, 157.0, 47.0, 2000);
+
+        given(personDao.getPersonById(person_id)).willReturn(person);
+        given(foodDao.getFoodEntriesByPersonId(person_id)).willReturn(null);
+
+        //When
+
+        //Then
+        assertThatThrownBy(() -> underTest.getFoodEntriesByPersonId(person_id))
+                .isInstanceOf(InvalidRequestException.class)
+                .hasMessageContaining("no food entries found for person");
+    }
 
 
 
