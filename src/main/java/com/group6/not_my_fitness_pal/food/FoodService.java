@@ -78,7 +78,7 @@ public class FoodService {
     private Food getFoodOrThrowNull(Integer id){
 
         if (id == null || id < 0){
-            throw new PersonNotFoundException("id is invalid");
+            throw new FoodNotFoundException("id is invalid");
         }
 
         // This is the scenario where argument capture would help - makes sure id persists throughout
@@ -86,7 +86,7 @@ public class FoodService {
         Food food = foodDao.getFoodById(id); //mocking this line
 
         if(food == null){
-            throw new PersonNotFoundException("Food with id " + id + " doesn't exist");
+            throw new FoodNotFoundException("Food with id " + id + " doesn't exist");
         }
         return food;
     }
