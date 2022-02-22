@@ -31,6 +31,10 @@ public class FoodService {
         return getFoodOrThrowNull(id);
     }
 
+    public List<Food> getAllFoodEntries (){
+        return foodDao.getAllFood();
+    }
+
     public int updateFood(Integer foodId, Food updateFood){
         if (foodDao.getFoodById(foodId) == null){
             throw new FoodNotFoundException("Food with id " + foodId + " not found");
@@ -101,4 +105,5 @@ public class FoodService {
         }
         return food;
     }
+
 }
