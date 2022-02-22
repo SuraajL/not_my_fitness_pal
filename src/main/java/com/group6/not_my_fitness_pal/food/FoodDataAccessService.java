@@ -7,14 +7,10 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-// Some general Qs to ask
-
-
-
 @Repository("food_postgres")
-public class FoodDataAccessService implements FoodDao{
+public class FoodDataAccessService implements FoodDao {
 
-    private JdbcTemplate jdbcTemplate;
+    private JdbcTemplate jdbcTemplate; // Make JDBC template a property so that we can use its methods
 
     public FoodDataAccessService(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
@@ -22,7 +18,6 @@ public class FoodDataAccessService implements FoodDao{
 
     @Override
     public int addFood(Food food) {
-        // THIS IS THE SQL IMPLEMENTATION
         // Note the sql command doesn't need the id as it is a SERIAL and is generated automatically
         String sql = """
                 INSERT INTO food_entries (person_id, name, meal_type, notes, calories, week, day)
@@ -78,9 +73,9 @@ public class FoodDataAccessService implements FoodDao{
     @Override
     public Food getFoodById(Integer id) {
         String sql = """
-            SELECT id, person_id, name, meal_type, notes, calories, week, day
-            FROM food_entries WHERE id = ?
-            """;
+                SELECT id, person_id, name, meal_type, notes, calories, week, day
+                FROM food_entries WHERE id = ?
+                """;
 
         RowMapper<Food> foodRowMapper = (rs, rowNum) -> {
             return new Food(
@@ -98,10 +93,11 @@ public class FoodDataAccessService implements FoodDao{
         List<Food> foodList = jdbcTemplate.query(sql, foodRowMapper, id);
 
 
-        if (foodList.isEmpty()){
+        if (foodList.isEmpty()) {
             return null;
         } else {
-            return foodList.get(0);
+            return foodList.get(0);  // Returns first element from food list we've just made (contains sql mappings)
+            // - this first element is the food entry we've found by their id
         }
     }
 
@@ -113,28 +109,27 @@ public class FoodDataAccessService implements FoodDao{
                 SELECT id, person_id, name, meal_type, notes, calories, week, day 
                 FROM food_entries
                 """;
-        RowMapper<Food> foodRowMapper =  (rs, rowNum) -> {  //rowmapper to go through each row, gives you result set, which we then turn into ints, strings etc to make a new car object
+        RowMapper<Food> foodRowMapper = (rs, rowNum) -> {  //rowmapper to go through each row, gives you result set, which we then turn into ints, strings etc to make a new car object
             Food food = new Food(
                     rs.getInt("id"),
                     rs.getInt("person_id"),
                     rs.getString("name"),
-                    MealType.valueOf(rs.getString("meal_type")),
+                    MealType.valueOf(rs.getString("meal_type")), //converts meal_type input to an enum
                     rs.getString("notes"),
                     rs.getInt("calories"),
                     rs.getInt("week"),
-                    Day.valueOf(rs.getString("day"))
+                    Day.valueOf(rs.getString("day"))  //converts day input to a Day
 
             );
             return food; //so its not lost in the heap
         };
         List<Food> foodList = jdbcTemplate.query(sql, foodRowMapper);
-        if (foodList.isEmpty()){
+        if (foodList.isEmpty()) {
             return null;
         } else {
             return foodList;
         }
     }
-
 
 
     @Override
@@ -143,7 +138,7 @@ public class FoodDataAccessService implements FoodDao{
                 SELECT id, person_id, name, meal_type, notes, calories, week, day 
                 FROM food_entries WHERE person_id = ?
                 """;
-        RowMapper<Food> foodRowMapper =  (rs, rowNum) -> {  //rowmapper to go through each row, gives you result set, which we then turn into ints, strings etc to make a new car object
+        RowMapper<Food> foodRowMapper = (rs, rowNum) -> {  //rowmapper to go through each row, gives you result set, which we then turn into ints, strings etc to make a new car object
             Food food = new Food(
                     rs.getInt("id"),
                     rs.getInt("person_id"),
@@ -155,10 +150,10 @@ public class FoodDataAccessService implements FoodDao{
                     Day.valueOf(rs.getString("day"))
 
             );
-            return food; //so its not lost in the heap
+            return food;
         };
         List<Food> foodList = jdbcTemplate.query(sql, foodRowMapper, person_id);
-        if (foodList.isEmpty()){
+        if (foodList.isEmpty()) {
             return null;
         } else {
             return foodList;
@@ -171,7 +166,7 @@ public class FoodDataAccessService implements FoodDao{
                 SELECT id, person_id, name, meal_type, notes, calories, week, day 
                 FROM food_entries WHERE person_id = ? AND week = ?
                 """;
-        RowMapper<Food> foodRowMapper =  (rs, rowNum) -> {  //rowmapper to go through each row, gives you result set, which we then turn into ints, strings etc to make a new car object
+        RowMapper<Food> foodRowMapper = (rs, rowNum) -> {  //rowmapper to go through each row, gives you result set, which we then turn into ints, strings etc to make a new car object
             Food food = new Food(
                     rs.getInt("id"),
                     rs.getInt("person_id"),
@@ -183,10 +178,10 @@ public class FoodDataAccessService implements FoodDao{
                     Day.valueOf(rs.getString("day"))
 
             );
-            return food; //so its not lost in the heap
+            return food;
         };
         List<Food> foodList = jdbcTemplate.query(sql, foodRowMapper, person_id, week);
-        if (foodList.isEmpty()){
+        if (foodList.isEmpty()) {
             return null;
         } else {
             return foodList;
@@ -199,7 +194,7 @@ public class FoodDataAccessService implements FoodDao{
                 SELECT id, person_id, name, meal_type, notes, calories, week, day 
                 FROM food_entries WHERE person_id = ? AND week = ? AND day = ?
                 """;                                                        //should we put quotations around ?
-        RowMapper<Food> foodRowMapper =  (rs, rowNum) -> {  //rowmapper to go through each row, gives you result set, which we then turn into ints, strings etc to make a new car object
+        RowMapper<Food> foodRowMapper = (rs, rowNum) -> {  //rowmapper to go through each row, gives you result set, which we then turn into ints, strings etc to make a new car object
             Food food = new Food(
                     rs.getInt("id"),
                     rs.getInt("person_id"),
@@ -211,10 +206,10 @@ public class FoodDataAccessService implements FoodDao{
                     Day.valueOf(rs.getString("day"))
 
             );
-            return food; //so its not lost in the heap
+            return food;
         };
         List<Food> foodList = jdbcTemplate.query(sql, foodRowMapper, person_id, week, day.name()); //convert enum to string when passing sql query
-        if (foodList.isEmpty()){
+        if (foodList.isEmpty()) {
             return null;
         } else {
             return foodList;
@@ -228,7 +223,7 @@ public class FoodDataAccessService implements FoodDao{
                 SELECT id, person_id, name, meal_type, notes, calories, week, day 
                 FROM food_entries WHERE meal_type = ?
                 """;
-        RowMapper<Food> foodRowMapper =  (rs, rowNum) -> {  //rowmapper to go through each row, gives you result set, which we then turn into ints, strings etc to make a new car object
+        RowMapper<Food> foodRowMapper = (rs, rowNum) -> {  //rowmapper to go through each row, gives you result set, which we then turn into ints, strings etc to make a new car object
             Food food = new Food(
                     rs.getInt("id"),
                     rs.getInt("person_id"),
@@ -240,15 +235,14 @@ public class FoodDataAccessService implements FoodDao{
                     Day.valueOf(rs.getString("day"))
 
             );
-            return food; //so its not lost in the heap
+            return food;
         };
         List<Food> foodList = jdbcTemplate.query(sql, foodRowMapper, mealType.name());
-        if (foodList.isEmpty()){
+        if (foodList.isEmpty()) {
             return null;
         } else {
             return foodList;
         }
     }
-
-    }
+}
 

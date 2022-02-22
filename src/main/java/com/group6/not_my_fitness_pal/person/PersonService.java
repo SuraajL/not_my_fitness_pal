@@ -8,13 +8,14 @@ import java.util.List;
 
 @Service
 public class PersonService {
-    // This will perform business logic for
+    // This will perform business logic for the PersonDao interface
 
 
-    // This is a property
+    // This is a property made so that we can use personDao interface
     private PersonDao personDao;
 
-    public PersonService(@Qualifier("person_postgres") PersonDao personDao){
+    public PersonService(@Qualifier("person_postgres") PersonDao personDao){    // Qualifier used to indicate the
+        // implementation we want to use
         // Setting property of PersonService
         this.personDao = personDao;
     }
@@ -24,7 +25,6 @@ public class PersonService {
     }
 
     public Person getPersonById(Integer id){
-        // It will return that person ELSE Exception in
         return getPersonOrThrowNull(id);
     }
 
@@ -40,7 +40,7 @@ public class PersonService {
     }
 
     public int deletePersonById(Integer id) {
-        Person personInDb = getPersonById(id);
+        Person personInDb = getPersonOrThrowNull(id);
         Integer rowsAffected = personDao.deletePersonById(personInDb.getId());
 
         if (rowsAffected != 1) {
@@ -71,7 +71,7 @@ public class PersonService {
         }
 
         // This is the scenario where argument capture would help - makes sure id persists throughout
-        // id = 25;
+        // id = 25; // Ignore - we were testing this for scenario mentioned on the line above
         Person person = personDao.getPersonById(id); //mocking this line
 
         if(person == null){
@@ -84,23 +84,18 @@ public class PersonService {
         if(person.getName() == null) {
             throw new InvalidRequestException("name cannot be null");
         }
-
         if(person.getAge() == null) {
             throw new InvalidRequestException("age cannot be null");
         }
-
         if(person.getAge() <= 0) {
             throw new InvalidRequestException("age cannot be less than or equal to 0");
         }
-
         if(person.getHeight_in_cm() <= 0) {
             throw new InvalidRequestException("height cannot be less than or equal to 0");
         }
-
         if(person.getWeight_in_kg() <= 0) {
             throw new InvalidRequestException("weight cannot be less than or equal to 0");
         }
-
         if(person.getCalorie_target() <= 0) {
             throw new InvalidRequestException("calorie target cannot be less than or equal to 0");
         }
