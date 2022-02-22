@@ -92,6 +92,15 @@ public class FoodService {
         return foodList;
     }
 
+    public List<Food> getFoodEntriesByPersonIdByWeek (Integer person_id, Integer week){
+        Person personInDb = personService.getPersonById(person_id);
+        List<Food> foodList = foodDao.getFoodEntriesByPersonIdByWeek(personInDb.getId(), week);
+        if (foodList==null){
+            throw new InvalidRequestException("no food entries found for person for that week");
+        }
+        return foodList;
+    }
+
 
     private void checkFoodInputProperties(Food food) {
         //    name - can't be null
