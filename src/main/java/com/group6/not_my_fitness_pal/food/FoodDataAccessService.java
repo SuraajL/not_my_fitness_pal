@@ -51,8 +51,25 @@ public class FoodDataAccessService implements FoodDao{
     }
 
     @Override
-    public int updateFoodById(Integer id, Food update) {
-        return 0;
+    public int updateFoodById(Integer id, Food updateFood) {
+        String sql = """
+                UPDATE people SET (person_id, name, meal_type, notes, calories, week, day) = (?, ?, ?, ?, ?)
+                WHERE id = ?
+                """;
+
+        int rowsAffected = jdbcTemplate.update(
+                sql,
+                updateFood.getPerson_id(),
+                updateFood.getName(),
+                updateFood.getMealType(),
+                updateFood.getNotes(),
+                updateFood.getCalories(),
+                updateFood.getWeek(),
+                updateFood.getDay(),
+                id
+        );
+
+        return rowsAffected;
     }
 
     @Override

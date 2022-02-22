@@ -82,7 +82,7 @@ public class FoodService {
         }
 
         // This is the scenario where argument capture would help - makes sure id persists throughout
-//         id = 25;
+        // id = 25;
         Food food = foodDao.getFoodById(id); //mocking this line
 
         if(food == null){
