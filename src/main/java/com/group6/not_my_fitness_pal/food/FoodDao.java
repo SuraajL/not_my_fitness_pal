@@ -7,7 +7,7 @@ public interface FoodDao {
     int addFood(Food food); // MVP
     int deleteFoodById(Integer id); // MVP
     int updateFoodById(Integer id, Food update); // MVP
-    Food getFoodById(Integer id); // MVP
+    Food getFoodById(Integer id); // --- DO THIS FIRST MVP
     List<Food> getAllFood(); // MVP
     List<Food> getFoodEntriesByPersonId(Integer person_id); // Priority stretch
     List<Food> getFoodEntriesByPersonIdByWeek(Integer person_id, Integer week); //Leave this for later

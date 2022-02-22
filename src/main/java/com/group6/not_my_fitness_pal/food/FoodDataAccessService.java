@@ -5,6 +5,10 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+// Some general Qs to ask
+
+
+
 @Repository("food_postgres")
 public class FoodDataAccessService implements FoodDao{
 
@@ -37,6 +41,7 @@ public class FoodDataAccessService implements FoodDao{
         // Should return 1 as only 1 row is added - anything else it should throw error in the service!!
         return rowsAffected;
     }
+
 
     @Override
     public int deleteFoodById(Integer id) {

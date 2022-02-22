@@ -9,6 +9,12 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+// General framework for service methods
+// First validate all inputs - e.g name not null, id not null - Note: GetPersonById checks not needed (see add food)
+// Then make a call to the foodDao.Method
+// Then validate if return FROM SQL is not as expected (!= 1 or == null Throw exception)
+
+
 @Service
 public class FoodService {
 
