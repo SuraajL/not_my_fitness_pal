@@ -6,8 +6,6 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-
-
 @Repository("person_postgres")
 public class PersonDataAccessService implements PersonDao{
 
@@ -66,7 +64,6 @@ public class PersonDataAccessService implements PersonDao{
             return people.get(0);   // Returns first element from people list we've just made (contains sql mappings)
             // - this first element is the person we've found by their id
         }
-
     }
 
     @Override
@@ -107,7 +104,6 @@ public class PersonDataAccessService implements PersonDao{
                 updatePerson.getCalorie_target(),
                 id
         );
-
         return rowsAffected;
     }
 }

@@ -17,32 +17,28 @@ import java.util.List;
 
 @Service
 public class FoodService {
+    // This will perform business logic for the FoodDao interface
 
     private FoodDao foodDao;
     private PersonService personService;
+    //Properties created so that we can use the FoodDao interface and PersonService
 
     public FoodService(@Qualifier("food_postgres") FoodDao foodDao, PersonService personService){
+        // Qualifier used to indicate the implementation we want to use
         this.foodDao = foodDao;
         this.personService = personService;
     }
 
     public int addFoodEntry(Food food) {
-        // Check all fields are valid (enums don't have to be checked here):
-        // person_id - use person service, if null then throw exception - using PersonDao. (Mock)
         // getPersonById checks if person_id is null and also if person in DB exists
         Person person = personService.getPersonById(food.getPerson_id());
 
         checkFoodInputProperties(food);
-
         // Add food entry to sql db - using FoodDao.  (Mock)
-        // foodDao.addFood(someRandom)
         int rowsAffected = foodDao.addFood(food);
-
-        // If result != 1, then throw exception to say it failed
         if (rowsAffected != 1){
             throw new IllegalStateException("Could not add food...");
         }
-
         return rowsAffected;
     }
 
@@ -69,7 +65,6 @@ public class FoodService {
 
 
     public Food getFoodById(Integer id){
-        // It will return that person ELSE Exception in
         return getFoodOrThrowNull(id);
     }
 
@@ -119,38 +114,31 @@ public class FoodService {
     }
 
 
-
-
     private void checkFoodInputProperties(Food food) {
-        //    name - can't be null
         if(food.getName() == null){
             throw new InvalidRequestException("name cannot be null");
         }
-        //    calories - can't be null or < 0 - 0 is accepted
         if (food.getCalories()==null){
             throw new InvalidRequestException("calories cannot be null");
         }
         if (food.getCalories() < 0){
             throw new InvalidRequestException("calories cannot be negative");
         }
-        //    week - can't be null or <= 0
         if (food.getWeek() == null){
             throw new InvalidRequestException("week cannot be null");
         }
-
         if (food.getWeek() <= 0){
             throw new InvalidRequestException("invalid week");
         }
     }
 
     private Food getFoodOrThrowNull(Integer id){
-
         if (id == null || id < 0){
             throw new FoodNotFoundException("id is invalid");
         }
 
         // This is the scenario where argument capture would help - makes sure id persists throughout
-        // id = 25;
+        //id = 25;  // Ignore - we were testing this for scenario mentioned on the line above
         Food food = foodDao.getFoodById(id); //mocking this line
 
         if(food == null){
@@ -158,5 +146,4 @@ public class FoodService {
         }
         return food;
     }
-
 }
