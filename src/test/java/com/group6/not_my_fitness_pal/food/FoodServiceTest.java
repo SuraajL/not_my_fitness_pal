@@ -39,7 +39,7 @@ class FoodServiceTest {
         // which uses the mocked foodDao interface and personService (because we use getPersonById for foodService
         // methods)
     }
-
+    // ================================= TESTS FOR addFood =====================================
     @Test
     void addFoodEntry() {
         //Given
@@ -255,7 +255,7 @@ class FoodServiceTest {
 
 
 
-    // TESTS FOR getAllFood ===================
+    // ================================= TESTS FOR getAllFood =====================================
     @Test
     void shouldGetAllFood() {
         //given
@@ -288,7 +288,7 @@ class FoodServiceTest {
 
 
     }
-
+    // ================================= TESTS FOR deleteFoodById =====================================
     @Test
     void shouldDeleteFoodById(){
         //given
@@ -342,6 +342,7 @@ class FoodServiceTest {
 //same as above, is this redundant?
     }
 
+    // ================================= TESTS FOR getFoodById =====================================
     @Test
     void shouldGetFoodById(){
         //Given
@@ -393,6 +394,7 @@ class FoodServiceTest {
                 .hasMessageContaining("Food with id " + id + " doesn't exist");
     }
 
+    // ================================= TESTS FOR updateFood =====================================
     @Test
     void shouldUpdateFoodById(){
         //Given
@@ -437,6 +439,7 @@ class FoodServiceTest {
                 .hasMessageContaining("Food could not be updated");
     }
 
+    // ================================= TESTS FOR getFoodEntriesByPersonId=====================================
     @Test
     void shouldGetFoodEntriesByPersonId(){
         //Given
@@ -473,7 +476,7 @@ class FoodServiceTest {
                 .isInstanceOf(InvalidRequestException.class)
                 .hasMessageContaining("no food entries found for person");
     }
-
+    // ================================= TESTS FOR getFoodEntriesByPersonIdByWeek =====================================
     @Test
     void shouldGetFoodEntriesByPersonIdByWeek(){
         //Given
@@ -561,14 +564,132 @@ class FoodServiceTest {
                 .hasMessageContaining("no food entries found for person for that week");
     }
 
+    // ================================= TESTS FOR getFoodEntriesByPersonIdByWeekByDay =====================================
     @Test
     void shouldGetFoodEntriesByPersonIdByWeekByDay(){
+        //Given
+        Integer person_id = 1;
+        Person person = new Person(1, "mark", 23, 157.0, 47.0, 2000);
+        Integer week = 1;
+        Day day = Day.MONDAY;
+        Food food1 = new Food(1, person_id, "cereal", MealType.BREAKFAST, "random", 100, week, day);
+        Food food2 = new Food(2, person_id, "pancakes", MealType.BREAKFAST, "random", 100, week, day);
+        List<Food> expectedFoodList = new ArrayList<>();
+        expectedFoodList.add(food1);
+        expectedFoodList.add(food2);
+
+        given(personDao.getPersonById(person_id)).willReturn(person);
+        given(foodDao.getFoodEntriesByPersonIdByWeekByDay(person_id, week, day)).willReturn(expectedFoodList);
+
+        //When
+        List<Food> actualFoodList = underTest.getFoodEntriesByPersonIdByWeekByDay(person_id, week, day);
+
+        //Then
+        assertThat(actualFoodList).isEqualTo(expectedFoodList);
 
     }
 
     @Test
-    @Disabled
-    void shouldThrowIfGetFoodEntriesByPersonIdByWeekReturnsNull_(){
+    void shouldThrowIfGetFoodEntriesByPersonIdByWeekByDayWhenWeekIsNull(){
+        //Given
+        Integer person_id = 1;
+        Person person = new Person(1, "mark", 23, 157.0, 47.0, 2000);
+        Integer week = null;
+        Day day = Day.MONDAY;
+        given(personDao.getPersonById(person_id)).willReturn(person);
 
+        ///when
+        assertThatThrownBy(() -> underTest.getFoodEntriesByPersonIdByWeekByDay(person_id, week, day))
+                .isInstanceOf(InvalidRequestException.class)
+                .hasMessageContaining("week cannot be null");
+        //then
+        verify(foodDao, never()).getFoodEntriesByPersonIdByWeekByDay(anyInt(), anyInt(), any());
+    }
+
+
+    @Test
+    void shouldThrowIfGetFoodEntriesByPersonIdByWeekByDayWhenWeekIsNegative(){
+        //Given
+        Integer person_id = 1;
+        Person person = new Person(1, "mark", 23, 157.0, 47.0, 2000);
+        Integer week = -1;
+        Day day = Day.MONDAY;
+        given(personDao.getPersonById(person_id)).willReturn(person);
+
+        ///when
+        assertThatThrownBy(() -> underTest.getFoodEntriesByPersonIdByWeekByDay(person_id, week, day))
+                .isInstanceOf(InvalidRequestException.class)
+                .hasMessageContaining("invalid week");
+        //then
+        verify(foodDao, never()).getFoodEntriesByPersonIdByWeekByDay(anyInt(), anyInt(), any());
+    }
+
+    @Test
+    void shouldThrowIfGetFoodEntriesByPersonIdByWeekByDayWhenWeekIsZero(){
+        //Given
+        Integer person_id = 1;
+        Person person = new Person(1, "mark", 23, 157.0, 47.0, 2000);
+        Integer week = 0;
+        Day day = Day.MONDAY;
+        given(personDao.getPersonById(person_id)).willReturn(person);
+
+        ///when
+        assertThatThrownBy(() -> underTest.getFoodEntriesByPersonIdByWeekByDay(person_id, week, day))
+                .isInstanceOf(InvalidRequestException.class)
+                .hasMessageContaining("invalid week");
+        //then
+        verify(foodDao, never()).getFoodEntriesByPersonIdByWeekByDay(anyInt(), anyInt(), any());
+    }
+
+    @Test
+    void shouldThrowIfGetFoodEntriesByPersonIdByWeekByDayReturnsNull(){
+        //Given
+        Integer person_id = 1;
+        Person person = new Person(1, "mark", 23, 157.0, 47.0, 2000);
+        Integer week = 1;
+        Day day = Day.MONDAY;
+
+        given(personDao.getPersonById(person_id)).willReturn(person);
+        given(foodDao.getFoodEntriesByPersonIdByWeekByDay(person_id, week, day)).willReturn(null);
+
+        //When
+        assertThatThrownBy(() -> underTest.getFoodEntriesByPersonIdByWeekByDay(person_id, week, day))
+                //Then
+                .isInstanceOf(InvalidRequestException.class)
+                .hasMessageContaining("no food entries found for person for that week and day");
+    }
+
+    // ================================= TESTS FOR getFoodEntriesByMealType =====================================
+    @Test
+    void shouldReturnFoodEntriesByMealType(){
+        //Given
+        MealType mealType = MealType.BREAKFAST;
+        Food food1 = new Food(1, 1, "cereal", mealType, "random", 100, 0, Day.MONDAY);
+        Food food2 = new Food(2, 1, "pancakes", mealType, "random", 100, 0, Day.MONDAY);
+        List<Food> expectedFoodList = new ArrayList<>();
+        expectedFoodList.add(food1);
+        expectedFoodList.add(food2);
+
+        given(foodDao.getFoodEntriesByMealType(mealType)).willReturn(expectedFoodList);
+
+        //When
+        List<Food> actualFoodList = underTest.getFoodEntriesByMealType(mealType);
+
+        //Then
+        assertThat(actualFoodList).isEqualTo(expectedFoodList);
+    }
+
+    @Test
+    void shouldThrowWhenFoodEntriesByMealTypeReturnsNull(){
+        //Given
+        MealType mealType = MealType.BREAKFAST;
+
+        given(foodDao.getFoodEntriesByMealType(mealType)).willReturn(null);
+
+        //When
+        assertThatThrownBy(() -> underTest.getFoodEntriesByMealType(mealType))
+                //Then
+                .isInstanceOf(InvalidRequestException.class)
+                .hasMessageContaining("no food entries found for that meal type");
     }
 }
