@@ -305,6 +305,40 @@ class FoodServiceTest {
         assertThat(actual).isEqualTo(expected);
     }
 
+    @Test
+    void shouldThrowWhenFoodNotDeleted(){
+        //given
+        Integer id = 1;
+        given (foodDao.getFoodById(id)).willReturn(new Food(1, 1, "mark", MealType.BREAKFAST, "random", 100, 0, Day.MONDAY));
+        given(foodDao.deleteFoodById(id)).willReturn(0);
+        //when
+        assertThatThrownBy(() -> underTest.deleteFood(id))
+                .isInstanceOf(IllegalStateException.class)
+                .hasMessageContaining("Food could not be deleted");
+        //then
+
+    }
+
+    @Test
+    void shouldNotDeleteWhenIdIsNull(){ //does testing getfoodById in isolation mean this is redundant
+        //if it is redundant how do we verify that we never interact with deletefood
+        //given
+        Integer id = null;
+
+        //when
+        assertThatThrownBy(() -> underTest.deleteFood(id))
+                .isInstanceOf(IllegalStateException.class)
+                .hasMessageContaining("id is invalid");
+        //then
+        verify(foodDao, never()).getFoodById(anyInt());
+        verify(foodDao, never()).deleteFoodById(anyInt());
+    }
+
+    @Test
+    void shouldNotDeleteWhenIdIsNegative(){
+//same as above, is this redundant?
+    }
+
 
 
 }
