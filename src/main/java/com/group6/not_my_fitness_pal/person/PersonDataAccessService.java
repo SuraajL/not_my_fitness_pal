@@ -86,7 +86,8 @@ public class PersonDataAccessService implements PersonDao{
     @Override
     public int deletePersonById(Integer id) {
         String sql = "DELETE FROM people WHERE id = ?";
-        return jdbcTemplate.update(sql, id);
+        int rowsAffected = jdbcTemplate.update(sql, id);
+        return rowsAffected;
     }
 
     @Override
