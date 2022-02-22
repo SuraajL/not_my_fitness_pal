@@ -2,7 +2,7 @@
 
 Counting your Calories without judgement.
 
-Back-end API project by Aaron, Marcy, Nasir, Sarin and Suraaj.
+Back-end API project by Aaron, Marcy, Nasir, Sarina and Suraaj.
 
 
 
