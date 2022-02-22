@@ -31,6 +31,17 @@ public class FoodService {
         return getFoodOrThrowNull(id);
     }
 
+    public int updateFood(Integer foodId, Food updateFood){
+        if (foodDao.getFoodById(foodId) == null){
+            throw new FoodNotFoundException("Food with id " + foodId + " not found");
+        }
+        int updateSuccessful = foodDao.updateFoodById(foodId, updateFood);
+        if (updateSuccessful!=1){
+            throw new IllegalStateException("Food could not be updated");
+        }
+        return 1;
+    }
+
     public List<Food> getFoodEntriesByPersonId (Integer person_id){
 //        personService.getPerson
         return null;
