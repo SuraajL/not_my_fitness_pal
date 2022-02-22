@@ -65,6 +65,7 @@ public class PersonService {
     // REUSABLE FOR ALL OTHERS!! - This is checking person (Private - other public methods use it ONLY)
     private Person getPersonOrThrowNull(Integer id){
 
+        // May not need it - could enforce the caller - @Validate
         if (id == null || id < 0){
             throw new PersonNotFoundException("id is invalid");
         }
