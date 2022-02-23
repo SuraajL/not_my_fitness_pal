@@ -328,7 +328,7 @@ class PersonServiceTest {
     void shouldNotAddWhenCalorie_targetIsZero() {
         //Given
         // NOTE: name is null inside Person property
-        Person person = new Person(1, "Mike", 23, 180.0, 0.0, 0);
+        Person person = new Person(1, "Mike", 23, 180.0, 67.0, 0);
 
         //When
         assertThatThrownBy(() -> underTest.addPerson(person))
