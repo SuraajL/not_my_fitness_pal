@@ -21,7 +21,11 @@ public class PersonService {
     }
 
     public List<Person> getAllPeople (){
-        return personDao.getAllPeople();
+        List<Person> peopleList = personDao.getAllPeople();
+        if (peopleList==null){
+            throw new IllegalStateException("Could not get list of people...");
+        }
+        return peopleList;
     }
 
     public Person getPersonById(Integer id){
