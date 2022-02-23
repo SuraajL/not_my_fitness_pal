@@ -158,6 +158,8 @@ class PersonServiceTest {
 
 
     // ================================= TESTS FOR updatePersonById =====================================
+    // When referring to personId, it is to do with a person in the database!
+    // We are not interested in the updatePerson's Id as we do not use it anywhere (SQL takes care of it)
 
     @Test
     void shouldUpdatePersonById(){
@@ -183,7 +185,7 @@ class PersonServiceTest {
         Integer id = 1;
         Person personInDb = new Person(id, "marcy", 23, 157.0, 47.0, 2000);
         given(personDao.getPersonById(id)).willReturn(personInDb);
-        Person updatePerson = new Person(id, "marcy", 24, 197.0, 97.0, 3000);
+        Person updatePerson = new Person(null, "marcy", 24, 197.0, 97.0, 3000);
         given(personDao.updatePersonById(id, updatePerson)).willReturn(0);
 
         //When
@@ -194,44 +196,29 @@ class PersonServiceTest {
 
     }
 
+
     @Test
-    void shouldThrowWhenIdIsNullWhenUpdatingPersonById(){
+    void shouldNotUpdateByPersonIdWhenPersonIdIsNegative(){
         //Given
-        Integer id = null;
-        Person personInDb = new Person(1, "marcy", 23, 157.0, 47.0, 2000);
-        Person updatePerson = new Person(id, "marcy", 24, 197.0, 97.0, 3000);
+        Integer personId = -1;
+        Person updatePerson = new Person(null, "marcy", 24, 197.0, 97.0, 3000);
 
         //When
 
         //Then
-        assertThatThrownBy(() -> underTest.updatePersonById(id, updatePerson))
+        assertThatThrownBy(() -> underTest.updatePersonById(personId, updatePerson))
                 .isInstanceOf(PersonNotFoundException.class)
                 .hasMessageContaining("person id is invalid");
+
+        verify(personDao, never()).getPersonById(anyInt());
         verify(personDao, never()).updatePersonById(anyInt(), any());
     }
 
     @Test
-    void shouldThrowWhenIdIsNegativeWhenUpdatingPersonById(){
-        //Given
-        Integer PersonId = -1;
-        Person personInDb = new Person(1, "marcy", 23, 157.0, 47.0, 2000);
-        Person updatePerson = new Person(PersonId, "marcy", 24, 197.0, 97.0, 3000);
-
-        //When
-
-        //Then
-        assertThatThrownBy(() -> underTest.updatePersonById(PersonId, updatePerson))
-                .isInstanceOf(PersonNotFoundException.class)
-                .hasMessageContaining("person id is invalid");
-        verify(personDao, never()).updatePersonById(anyInt(), any());
-    }
-
-    @Test
-    void shouldThrowWhenIdIsZeroWhenUpdatingPersonById(){
+    void shouldNotUpdateWhenPersonIdIsZeroWhenUpdatingPersonById(){
         //Given
         Integer PersonId = 0;
-        Person personInDb = new Person(1, "marcy", 23, 157.0, 47.0, 2000);
-        Person updatePerson = new Person(PersonId, "marcy", 24, 197.0, 97.0, 3000);
+        Person updatePerson = new Person(null, "marcy", 24, 197.0, 97.0, 3000);
 
         //When
 
@@ -239,16 +226,19 @@ class PersonServiceTest {
         assertThatThrownBy(() -> underTest.updatePersonById(PersonId, updatePerson))
                 .isInstanceOf(PersonNotFoundException.class)
                 .hasMessageContaining("person id is invalid");
+
+        verify(personDao, never()).getPersonById(anyInt());
         verify(personDao, never()).updatePersonById(anyInt(), any());
     }
 
     @Test
-    void shouldThrowWhenPersonInDbDoesNotExistWhenUpdatingPersonById(){
+    void shouldNotUpdateByPersonIdWhenPersonInIDbDoesNotExist(){
         //Given
         Integer personInDbId = 1000;
         Person personInDb = null;
         given(personDao.getPersonById(personInDbId)).willReturn(personInDb);
-        Person updatePerson = new Person(1, "marcy", 24, 197.0, 97.0, 3000);
+        Person updatePerson = new Person(null, "marcy", 24, 197.0, 97.0, 3000);
+        //We dont need updatePerson's id because sql will update the details for the id that we want
 
         //When
 
@@ -260,61 +250,7 @@ class PersonServiceTest {
     }
 
     @Test
-    void shouldThrowWhenUpdatePersonHasNullIdWhenUpdatingPersonById(){
-        //Given
-        Integer personId = 1;
-        Integer updatePersonId = null;
-        Person personInDb = new Person(personId, "marcy", 23, 157.0, 47.0, 2000);
-        given(personDao.getPersonById(personId)).willReturn(personInDb);
-        Person updatePerson = new Person(updatePersonId, "marcy", 24, 197.0, 97.0, 3000);
-
-        //When
-
-        //Then
-        assertThatThrownBy(() -> underTest.updatePersonById(personId, updatePerson))
-                .isInstanceOf(InvalidRequestException.class)
-                .hasMessageContaining("person id cannot be null");
-        verify(personDao, never()).updatePersonById(anyInt(), any());
-    }
-
-    @Test
-    void shouldThrowWhenUpdatePersonHasNegativeIdWhenUpdatingPersonById(){
-        //Given
-        Integer personId = 1;
-        Integer updatePersonId = -1;
-        Person personInDb = new Person(personId, "marcy", 23, 157.0, 47.0, 2000);
-        given(personDao.getPersonById(personId)).willReturn(personInDb);
-        Person updatePerson = new Person(updatePersonId, "marcy", 24, 197.0, 97.0, 3000);
-
-        //When
-
-        //Then
-        assertThatThrownBy(() -> underTest.updatePersonById(personId, updatePerson))
-                .isInstanceOf(InvalidRequestException.class)
-                .hasMessageContaining("person id must be a positive integer");
-        verify(personDao, never()).updatePersonById(anyInt(), any());
-    }
-
-    @Test
-    void shouldThrowWhenUpdatePersonHasZeroIdWhenUpdatingPersonById(){
-        //Given
-        Integer personId = 1;
-        Integer updatePersonId = 0;
-        Person personInDb = new Person(personId, "marcy", 23, 157.0, 47.0, 2000);
-        given(personDao.getPersonById(personId)).willReturn(personInDb);
-        Person updatePerson = new Person(updatePersonId, "marcy", 24, 197.0, 97.0, 3000);
-
-        //When
-
-        //Then
-        assertThatThrownBy(() -> underTest.updatePersonById(personId, updatePerson))
-                .isInstanceOf(InvalidRequestException.class)
-                .hasMessageContaining("person id must be a positive integer");
-        verify(personDao, never()).updatePersonById(anyInt(), any());
-    }
-
-    @Test
-    void shouldThrowWhenUpdatePersonHasNullNameWhenUpdatingPersonById(){
+    void shouldNotUpdatePersonByIdWhenPersonHasNullName(){
         //Given
         Integer personId = 1;
         String updateName = null;
@@ -332,7 +268,7 @@ class PersonServiceTest {
     }
 
     @Test
-    void shouldThrowWhenUpdatePersonHasNullAgeWhenUpdatingPersonById(){
+    void shouldNotUpdateByPersonIdWhenPersonHasNullAge(){
         //Given
         Integer personId = 1;
         Integer updateAge = null;
@@ -350,7 +286,7 @@ class PersonServiceTest {
     }
 
     @Test
-    void shouldThrowWhenUpdatePersonHasNegativeAgeWhenUpdatingPersonById(){
+    void shouldNotUpdateByPersonIdWhenPersonHasNegativeAge(){
         //Given
         Integer personId = 1;
         Integer updateAge = -1;
@@ -368,7 +304,25 @@ class PersonServiceTest {
     }
 
     @Test
-    void shouldThrowWhenUpdatePersonHasNegativeHeightWhenUpdatingPersonById(){
+    void shouldNotUpdateByPersonIdWhenPersonHasZeroAge(){
+        //Given
+        Integer personId = 1;
+        Integer updateAge = 0;
+        Person personInDb = new Person(personId, "marcy", 23, 157.0, 47.0, 2000);
+        given(personDao.getPersonById(personId)).willReturn(personInDb);
+        Person updatePerson = new Person(personId, "marcy", updateAge, 197.0, 97.0, 3000);
+
+        //When
+
+        //Then
+        assertThatThrownBy(() -> underTest.updatePersonById(personId, updatePerson))
+                .isInstanceOf(InvalidRequestException.class)
+                .hasMessageContaining("age cannot be less than or equal to 0");
+        verify(personDao, never()).updatePersonById(anyInt(), any());
+    }
+
+    @Test
+    void shouldNotUpdateByPersonIdWhenPersonHasNegativeHeight(){
         //Given
         Integer personId = 1;
         Double updateHeight = -1.0;
@@ -386,7 +340,25 @@ class PersonServiceTest {
     }
 
     @Test
-    void shouldThrowWhenUpdatePersonHasNegativeWeightWhenUpdatingPersonById(){
+    void shouldNotUpdatePersonByIdWhenUpdatePersonHasZeroHeight(){
+        //Given
+        Integer personId = 1;
+        Double updateHeight = 0.0;
+        Person personInDb = new Person(personId, "marcy", 23, 157.0, 47.0, 2000);
+        given(personDao.getPersonById(personId)).willReturn(personInDb);
+        Person updatePerson = new Person(personId, "marcy", 23, updateHeight, 97.0, 3000);
+
+        //When
+
+        //Then
+        assertThatThrownBy(() -> underTest.updatePersonById(personId, updatePerson))
+                .isInstanceOf(InvalidRequestException.class)
+                .hasMessageContaining("height cannot be less than or equal to 0");
+        verify(personDao, never()).updatePersonById(anyInt(), any());
+    }
+
+    @Test
+    void shouldNotUpdatePersonByIdWhenUpdatePersonHasNegativeWeight(){
         //Given
         Integer personId = 1;
         Double updateWeight = -1.0;
@@ -404,10 +376,46 @@ class PersonServiceTest {
     }
 
     @Test
-    void shouldThrowWhenUpdatePersonHasNegativeCalorieTargetWhenUpdatingPersonById(){
+    void shouldNotUpdatePersonByIdWhenUpdatePersonHasZeroWeight(){
+        //Given
+        Integer personId = 1;
+        Double updateWeight = 0.0;
+        Person personInDb = new Person(personId, "marcy", 23, 157.0, 47.0, 2000);
+        given(personDao.getPersonById(personId)).willReturn(personInDb);
+        Person updatePerson = new Person(personId, "marcy", 23, 167.0, updateWeight, 3000);
+
+        //When
+
+        //Then
+        assertThatThrownBy(() -> underTest.updatePersonById(personId, updatePerson))
+                .isInstanceOf(InvalidRequestException.class)
+                .hasMessageContaining("weight cannot be less than or equal to 0");
+        verify(personDao, never()).updatePersonById(anyInt(), any());
+    }
+
+    @Test
+    void shouldNotUpdatePersonByIdWhenPersonHasNegativeCalorieTarget(){
         //Given
         Integer personId = 1;
         Integer calorieTarget = -1000;
+        Person personInDb = new Person(personId, "marcy", 23, 157.0, 47.0, 2000);
+        given(personDao.getPersonById(personId)).willReturn(personInDb);
+        Person updatePerson = new Person(personId, "marcy", 23, 167.0, 57.0, calorieTarget);
+
+        //When
+
+        //Then
+        assertThatThrownBy(() -> underTest.updatePersonById(personId, updatePerson))
+                .isInstanceOf(InvalidRequestException.class)
+                .hasMessageContaining("calorie target cannot be less than or equal to 0");
+        verify(personDao, never()).updatePersonById(anyInt(), any());
+    }
+
+    @Test
+    void shouldNotUpdatePersonByIdWhenPersonHasZeroCalorieTarget(){
+        //Given
+        Integer personId = 1;
+        Integer calorieTarget = 0;
         Person personInDb = new Person(personId, "marcy", 23, 157.0, 47.0, 2000);
         given(personDao.getPersonById(personId)).willReturn(personInDb);
         Person updatePerson = new Person(personId, "marcy", 23, 167.0, 57.0, calorieTarget);

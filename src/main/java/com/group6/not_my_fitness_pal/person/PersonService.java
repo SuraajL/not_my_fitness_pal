@@ -85,12 +85,6 @@ public class PersonService {
     }
 
     private void checkPeopleInputProperties(Person person) {
-        if(person.getId() == null) {
-            throw new InvalidRequestException("person id cannot be null");
-        }
-        if(person.getId() <= 0) {
-            throw new InvalidRequestException("person id must be a positive integer");
-        }
         if(person.getName() == null) {
             throw new InvalidRequestException("name cannot be null");
         }
