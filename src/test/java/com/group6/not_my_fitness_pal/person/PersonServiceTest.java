@@ -227,6 +227,23 @@ class PersonServiceTest {
     }
 
     @Test
+    void shouldThrowWhenPersonInDbDoesNotExistWhenUpdatingPersonById(){
+        //Given
+        Integer personInDbId = 1000;
+        Person personInDb = null;
+        given(personDao.getPersonById(personInDbId)).willReturn(personInDb);
+        Person updatePerson = new Person(1, "marcy", 24, 197.0, 97.0, 3000);
+
+        //When
+
+        //Then
+        assertThatThrownBy(() -> underTest.updatePersonById(personInDbId, updatePerson))
+                .isInstanceOf(PersonNotFoundException.class)
+                .hasMessageContaining("Person with id " + personInDbId + " doesn't exist");
+        verify(personDao, never()).updatePersonById(anyInt(), any());
+    }
+
+    @Test
     void shouldThrowWhenUpdatePersonHasNullIdWhenUpdatingPersonById(){
         //Given
         Integer personId = 1;
