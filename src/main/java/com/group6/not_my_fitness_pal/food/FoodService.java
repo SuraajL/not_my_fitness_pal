@@ -2,11 +2,13 @@ package com.group6.not_my_fitness_pal.food;
 
 import com.group6.not_my_fitness_pal.InvalidRequestException;
 import com.group6.not_my_fitness_pal.person.Person;
+import com.group6.not_my_fitness_pal.person.PersonDailyCalorieGoal;
 import com.group6.not_my_fitness_pal.person.PersonNotFoundException;
 import com.group6.not_my_fitness_pal.person.PersonService;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 // General framework for service methods
@@ -128,6 +130,56 @@ public class FoodService {
             throw new InvalidRequestException("no food entries found for that meal type");
         }
         return foodList;
+    }
+
+    public List<PersonDailyCalorieGoal> getDailyCalorieGoalsByWeekByDay(Integer week, Day day){
+        System.out.println("The Week is week " + week);
+        System.out.println("The Day is  " + day);
+
+        if(week == null){
+            throw new InvalidRequestException("week cannot be null");
+        } else if (week <= 0){
+            throw new InvalidRequestException("invalid week");
+        }
+
+        // Call the sql implmentation here
+
+        PersonDailyCalorieGoal p1Goal = new PersonDailyCalorieGoal(1, "mark", 2000, 1, Day.MONDAY, 1800);
+        PersonDailyCalorieGoal p2Goal = new PersonDailyCalorieGoal(2, "Nasir", 2500, 1, Day.MONDAY, 2800);
+        PersonDailyCalorieGoal p3Goal = new PersonDailyCalorieGoal(2, "Nasir", 2000, 1, Day.MONDAY, 2000);
+        PersonDailyCalorieGoal p4Goal = new PersonDailyCalorieGoal(2, "Nasir", null, 1, Day.MONDAY, 2800);
+        List<PersonDailyCalorieGoal> calorieGoalsList = new ArrayList<>();
+        calorieGoalsList.add(p1Goal);
+        calorieGoalsList.add(p2Goal);
+        calorieGoalsList.add(p3Goal);
+        calorieGoalsList.add(p4Goal);
+
+        // call and store sql implementation here as List<PersonDailyCalorieGoal> calorieGoalsList
+
+        if(calorieGoalsList == null || calorieGoalsList.isEmpty()){
+            throw new InvalidRequestException("There are no food entries to produce a list for " + day +  " on Week " + week + ".");
+        }
+
+        for (PersonDailyCalorieGoal calorieGoal : calorieGoalsList) {
+            
+            if(calorieGoal.getCalorie_target() == null){
+                calorieGoal.setCalorie_goal_result(calorieGoal.getName() + " did not set a calorie target." );
+            } else{
+                Integer calorie_difference = calorieGoal.getCalorie_target() - calorieGoal.getTotal_calories_on_week_on_day();
+                calorieGoal.setCalorie_difference(calorie_difference);
+                if (calorie_difference > 0){
+                    calorieGoal.setCalorie_goal_result(calorieGoal.getName() + " is " + Math.abs(calorie_difference) + " calories below their target." );
+
+                } else if (calorie_difference < 0){
+                    calorieGoal.setCalorie_goal_result(calorieGoal.getName() + " is " + Math.abs(calorie_difference) + " calories above their target." );
+
+                } else {
+                    calorieGoal.setCalorie_goal_result(calorieGoal.getName() +  " has met their daily calorie target of " + calorieGoal.getCalorie_target() + ".");
+                }
+            }
+            
+        }
+        return calorieGoalsList;
     }
 
 

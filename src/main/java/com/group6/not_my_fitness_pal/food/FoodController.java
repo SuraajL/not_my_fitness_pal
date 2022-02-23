@@ -65,27 +65,7 @@ public class FoodController {
     // Stretch Goal - GetDailyCalorieGoalsByWeekByDay
     @GetMapping(path = "food/calorie_goals/week/{week}/day/{day}")
     public List<PersonDailyCalorieGoal> getDailyCalorieGoalsByWeekByDay(@PathVariable("week") Integer week, @PathVariable("day") Day day){
-        PersonDailyCalorieGoal p1Goal = new PersonDailyCalorieGoal(1, "mark", 2000, 1, Day.MONDAY, 1800);
-        PersonDailyCalorieGoal p2Goal = new PersonDailyCalorieGoal(2, "Nasir", 2500, 1, Day.MONDAY, 2800);
-        List<PersonDailyCalorieGoal> calorieGoals = new ArrayList<>();
-        calorieGoals.add(p1Goal);
-        calorieGoals.add(p2Goal);
-
-        for (PersonDailyCalorieGoal calorieGoal : calorieGoals) {
-            Integer calorie_difference = calorieGoal.getCalorie_target() - calorieGoal.getTotal_calories_on_week_on_day();
-            calorieGoal.setCalorie_difference(calorie_difference);
-            if (calorie_difference > 0){
-                calorieGoal.setCalorie_goal_result(calorieGoal.getName() + " is " + Math.abs(calorie_difference) + " calories below their target." );
-
-            } else if (calorie_difference < 0){
-                calorieGoal.setCalorie_goal_result(calorieGoal.getName() + " is " + Math.abs(calorie_difference) + " calories above their target." );
-
-            } else {
-                calorieGoal.setCalorie_goal_result(calorieGoal.getName() +  " has met their daily calorie target of " + calorieGoal.getCalorie_target() + ".");
-            }
-        }
-        return calorieGoals;
-//        return foodService.getDailyCalorieGoalsByWeekByDay(week, day);
+        return foodService.getDailyCalorieGoalsByWeekByDay(week, day);
     }
 
 
