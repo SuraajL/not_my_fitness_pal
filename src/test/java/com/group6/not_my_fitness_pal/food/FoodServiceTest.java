@@ -321,7 +321,6 @@ class FoodServiceTest {
     }
 
     @Test
-    @Disabled
     void shouldNotDeleteWhenIdIsNull(){ //TODO does testing getfoodById in isolation mean this is redundant
         //if it is redundant how do we verify that we never interact with deletefood
         //given
@@ -336,10 +335,56 @@ class FoodServiceTest {
         verify(foodDao, never()).deleteFoodById(anyInt());
     }
 
+
+
+
     @Test
-    @Disabled
-    void shouldNotDeleteWhenIdIsNegative(){
-//same as above, is this redundant?
+    void shouldNotDeleteFoodByIdWhenFoodIdIsNull(){
+        //Given
+        Integer id = null;
+
+        //When
+        assertThatThrownBy(() -> underTest.deleteFood(id))
+                .isInstanceOf(InvalidRequestException.class)
+                .hasMessageContaining("Food id is invalid");
+        //Then
+        verify(foodDao, never()).getFoodById(anyInt());
+        verify(foodDao, never()).deleteFoodById(anyInt());
+    }
+
+
+    @Test
+    void shouldNotDeleteFoodByIdWhenFoodIdIsNegative(){
+        //Given
+        Integer id = -1;
+        Food updateFood = new Food(1, 1, "pizza", MealType.DINNER, "random", 100, 1, Day.MONDAY);
+
+        //When
+
+        //Then
+        assertThatThrownBy(() -> underTest.updateFood(id, updateFood))
+                .isInstanceOf(InvalidRequestException.class)
+                .hasMessageContaining("Food id is invalid");
+
+        verify(foodDao, never()).getFoodById(anyInt());
+        verify(foodDao, never()).deleteFoodById(anyInt());
+
+    }
+
+    @Test
+    void shouldNotDeleteFoodWhenFoodInDbDoesNotExist(){
+        //given
+        Integer id = 100;
+
+        given(foodDao.getFoodById(id)).willReturn(null);
+
+
+        //when then
+        assertThatThrownBy(() -> underTest.deleteFood(id))
+                .isInstanceOf(FoodNotFoundException.class)
+                .hasMessageContaining("Food with id " + id + " doesn't exist");
+
+        verify(foodDao, never()).deleteFoodById(anyInt());
     }
 
     // ================================= TESTS FOR getFoodById =====================================
