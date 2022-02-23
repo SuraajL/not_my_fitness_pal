@@ -1,9 +1,14 @@
 package com.group6.not_my_fitness_pal.person;
 
+import com.group6.not_my_fitness_pal.InvalidRequestException;
+import com.group6.not_my_fitness_pal.food.Food;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -27,6 +32,30 @@ class PersonServiceTest {
 
     @Test
     void canGetAllPeople() {
+        //given
+        Person person1 = new Person(1, "mark", 31, 175.0, 65.0, 2500);
+        Person person2 = new Person(2, "sarah", 33, 165.0, 60.0, 2500);
+        List<Person> expectedPeopleList = new ArrayList<>();
+        expectedPeopleList.add(person1);
+        expectedPeopleList.add(person2);
+        given(personDao.getAllPeople()).willReturn(expectedPeopleList);
+        //when
+        List<Person> actualPeopleList = underTest.getAllPeople();
+        //then
+        assertThat(expectedPeopleList).isEqualTo(actualPeopleList);
+    }
+
+    @Test
+    void shouldThrowWhenPersonDbIsEmpty(){
+        //given
+        given(personDao.getAllPeople()).willReturn(null);
+        // when
+        //then
+        assertThatThrownBy(() -> underTest.getAllPeople())
+                .isInstanceOf(IllegalStateException.class)
+                .hasMessageContaining("Could not get list of people...");
+
+
     }
 
     // ================================= TESTS FOR getPersonById =====================================
