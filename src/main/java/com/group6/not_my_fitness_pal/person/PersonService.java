@@ -70,7 +70,7 @@ public class PersonService {
     private Person getPersonOrThrowNull(Integer id){
 
         // May not need it - could enforce the caller - @Validate
-        if (id == null || id < 0){
+        if (id == null || id <= 0){
             throw new PersonNotFoundException("person id is invalid");
         }
 

@@ -227,6 +227,22 @@ class PersonServiceTest {
     }
 
     @Test
+    void shouldThrowWhenIdIsZeroWhenUpdatingPersonById(){
+        //Given
+        Integer PersonId = 0;
+        Person personInDb = new Person(1, "marcy", 23, 157.0, 47.0, 2000);
+        Person updatePerson = new Person(PersonId, "marcy", 24, 197.0, 97.0, 3000);
+
+        //When
+
+        //Then
+        assertThatThrownBy(() -> underTest.updatePersonById(PersonId, updatePerson))
+                .isInstanceOf(PersonNotFoundException.class)
+                .hasMessageContaining("person id is invalid");
+        verify(personDao, never()).updatePersonById(anyInt(), any());
+    }
+
+    @Test
     void shouldThrowWhenPersonInDbDoesNotExistWhenUpdatingPersonById(){
         //Given
         Integer personInDbId = 1000;
@@ -266,6 +282,24 @@ class PersonServiceTest {
         //Given
         Integer personId = 1;
         Integer updatePersonId = -1;
+        Person personInDb = new Person(personId, "marcy", 23, 157.0, 47.0, 2000);
+        given(personDao.getPersonById(personId)).willReturn(personInDb);
+        Person updatePerson = new Person(updatePersonId, "marcy", 24, 197.0, 97.0, 3000);
+
+        //When
+
+        //Then
+        assertThatThrownBy(() -> underTest.updatePersonById(personId, updatePerson))
+                .isInstanceOf(InvalidRequestException.class)
+                .hasMessageContaining("person id must be a positive integer");
+        verify(personDao, never()).updatePersonById(anyInt(), any());
+    }
+
+    @Test
+    void shouldThrowWhenUpdatePersonHasZeroIdWhenUpdatingPersonById(){
+        //Given
+        Integer personId = 1;
+        Integer updatePersonId = 0;
         Person personInDb = new Person(personId, "marcy", 23, 157.0, 47.0, 2000);
         given(personDao.getPersonById(personId)).willReturn(personInDb);
         Person updatePerson = new Person(updatePersonId, "marcy", 24, 197.0, 97.0, 3000);
