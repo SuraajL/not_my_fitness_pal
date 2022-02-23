@@ -12,6 +12,7 @@ public class PersonDailyCalorieGoal {
     private Integer week;
     private Day day;
     private Integer total_calories_on_week_on_day;
+    // These two are set in FoodService - Business Logic
     private Integer calorie_difference;
     private String calorie_goal_result;
 
