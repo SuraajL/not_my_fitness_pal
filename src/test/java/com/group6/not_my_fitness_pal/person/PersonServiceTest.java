@@ -91,7 +91,20 @@ class PersonServiceTest {
     void shouldNotGetPersonByIdWhenIdIsLessThanZero() {
         //Given
         Integer id = -1;
-        //above line is in case getPersonById is called after the exception (but it shouldnt be)
+        //above line is in case getPersonById is called after the exception (but it shouldn't be)
+        //When
+        assertThatThrownBy(() -> underTest.getPersonById(id))
+                .isInstanceOf(PersonNotFoundException.class)
+                .hasMessageContaining("id is invalid");
+        //Then
+        verify(personDao, never()).getPersonById(anyInt());
+    }
+
+    @Test
+    void shouldNotGetPersonByIdWhenIdIsZero() {
+        //Given
+        Integer id = 0;
+        //above line is in case getPersonById is called after the exception (but it shouldn't be)
         //When
         assertThatThrownBy(() -> underTest.getPersonById(id))
                 .isInstanceOf(PersonNotFoundException.class)
@@ -363,7 +376,62 @@ class PersonServiceTest {
     //nb does testing getpersonById mean I dont have to do should not delete when person is negative/null
     //do we need to ensure the person object persists throughout? ie person we put in is the same object we get out
 
+    @Test
+    void shouldNotDeletePersonByIdWhenIdIsNull() {
+        //Given
+        Integer id = null;
 
+        //When
+        assertThatThrownBy(() -> underTest.deletePersonById(id))
+                .isInstanceOf(PersonNotFoundException.class)
+                .hasMessageContaining("id is invalid");
+        //Then
+        verify(personDao, never()).getPersonById(anyInt());
+        verify(personDao, never()).deletePersonById(anyInt());
+    }
+
+    @Test
+    void shouldNotDeletePersonByIdWhenIdIsLessThanZero() {
+        //Given
+        Integer id = -1;
+        //above line is in case getPersonById is called after the exception (but it shouldn't be)
+        //When
+        assertThatThrownBy(() -> underTest.deletePersonById(id))
+                .isInstanceOf(PersonNotFoundException.class)
+                .hasMessageContaining("id is invalid");
+        //Then
+        verify(personDao, never()).getPersonById(anyInt());
+        verify(personDao, never()).deletePersonById(anyInt());
+    }
+
+    @Test
+    void shouldNotDeletePersonByIdWhenIdIsZero() {
+        //Given
+        Integer id = 0;
+        //above line is in case getPersonById is called after the exception (but it shouldn't be)
+        //When
+        assertThatThrownBy(() -> underTest.getPersonById(id))
+                .isInstanceOf(PersonNotFoundException.class)
+                .hasMessageContaining("id is invalid");
+        //Then
+        verify(personDao, never()).getPersonById(anyInt());
+        verify(personDao, never()).deletePersonById(anyInt());
+    }
+
+    @Test
+    void shouldNotDeletePersonByIdWhenPersonIdDoesNotExist() {
+        //Given
+        Integer id = 100; //person with id 100 does not exist within the db
+        given(personDao.getPersonById(id)).willReturn(null);
+        //above line is to return null when calling id is 100 - kinda redundant!!
+
+        //When
+        //Then
+        assertThatThrownBy(() -> underTest.deletePersonById(id))
+                .isInstanceOf(PersonNotFoundException.class)
+                .hasMessageContaining("Person with id " + id + " doesn't exist");
+
+    }
 
     // ================================= TESTS FOR updatePersonById =====================================
 
