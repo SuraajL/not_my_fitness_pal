@@ -254,7 +254,7 @@ public class FoodDataAccessService implements FoodDao {
                 INNER JOIN people
                 ON food_entries.person_id = people.id
                 WHERE food_entries.day = ? AND food_entries.week = ?
-                GROUP BY (person_id, people.name, people.calorie_target, day);
+                GROUP BY (person_id, people.name, people.calorie_target, day)
                 """;
 
         RowMapper<PersonDailyCalorieGoal> personDailyCalorieGoalRowMapper = (rs, rowNum) -> {

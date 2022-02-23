@@ -144,15 +144,17 @@ public class FoodService {
 
         // Call the sql implmentation here
 
-        PersonDailyCalorieGoal p1Goal = new PersonDailyCalorieGoal(1, "mark", 2000, 1, Day.MONDAY, 1800);
-        PersonDailyCalorieGoal p2Goal = new PersonDailyCalorieGoal(2, "Nasir", 2500, 1, Day.MONDAY, 2800);
-        PersonDailyCalorieGoal p3Goal = new PersonDailyCalorieGoal(2, "Nasir", 2000, 1, Day.MONDAY, 2000);
-        PersonDailyCalorieGoal p4Goal = new PersonDailyCalorieGoal(2, "Nasir", null, 1, Day.MONDAY, 2800);
-        List<PersonDailyCalorieGoal> calorieGoalsList = new ArrayList<>();
-        calorieGoalsList.add(p1Goal);
-        calorieGoalsList.add(p2Goal);
-        calorieGoalsList.add(p3Goal);
-        calorieGoalsList.add(p4Goal);
+//        PersonDailyCalorieGoal p1Goal = new PersonDailyCalorieGoal(1, "mark", 2000, 1, Day.MONDAY, 1800);
+//        PersonDailyCalorieGoal p2Goal = new PersonDailyCalorieGoal(2, "Nasir", 2500, 1, Day.MONDAY, 2800);
+//        PersonDailyCalorieGoal p3Goal = new PersonDailyCalorieGoal(2, "Nasir", 2000, 1, Day.MONDAY, 2000);
+//        PersonDailyCalorieGoal p4Goal = new PersonDailyCalorieGoal(2, "Nasir", null, 1, Day.MONDAY, 2800);
+//        List<PersonDailyCalorieGoal> calorieGoalsList = new ArrayList<>();
+//        calorieGoalsList.add(p1Goal);
+//        calorieGoalsList.add(p2Goal);
+//        calorieGoalsList.add(p3Goal);
+//        calorieGoalsList.add(p4Goal);
+
+        List<PersonDailyCalorieGoal> calorieGoalsList = foodDao.getDailyCalorieGoalsByWeekByDay(week, day);
 
         // call and store sql implementation here as List<PersonDailyCalorieGoal> calorieGoalsList
 
