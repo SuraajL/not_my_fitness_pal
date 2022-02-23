@@ -48,7 +48,7 @@ class FoodServiceTest {
         // we pass in person Id using food.getPerson_id (getter for Food Class - as personId is a property of it)
         given(personDao.getPersonById(food.getPerson_id())).willReturn(personInDb);
         given(foodDao.addFood(food)).willReturn(1);
-        // we get one back - but don't know what we're getting back
+        // we get one back - but don't know what we're getting back - leads to next test
 
         //When
         Integer actual = underTest.addFoodEntry(food);
@@ -99,8 +99,6 @@ class FoodServiceTest {
         assertThatThrownBy(() -> underTest.addFoodEntry(food))
                 .isInstanceOf(IllegalStateException.class)
                 .hasMessageContaining("Could not add food...");
-
-
     }
 
 
@@ -109,7 +107,6 @@ class FoodServiceTest {
 
     @Test
     void shouldNotAddWhenPersonIdIsNull() {
-        // The whole purpose of this is to tell developer if person_id (property of Food) correctly Persists throughout
         //Given
         // NOTE: person_id is null inside Food property
         Food food = new Food(1, null, "toast", MealType.BREAKFAST, "random", 50, 1, Day.MONDAY);
