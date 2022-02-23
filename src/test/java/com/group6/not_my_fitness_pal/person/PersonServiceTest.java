@@ -1,13 +1,15 @@
 package com.group6.not_my_fitness_pal.person;
 
 import com.group6.not_my_fitness_pal.InvalidRequestException;
-import com.group6.not_my_fitness_pal.food.Day;
-import com.group6.not_my_fitness_pal.food.Food;
-import com.group6.not_my_fitness_pal.food.MealType;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
+import org.springframework.data.relational.core.sql.In;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -32,6 +34,30 @@ class PersonServiceTest {
 
     @Test
     void canGetAllPeople() {
+        //given
+        Person person1 = new Person(1, "mark", 31, 175.0, 65.0, 2500);
+        Person person2 = new Person(2, "sarah", 33, 165.0, 60.0, 2500);
+        List<Person> expectedPeopleList = new ArrayList<>();
+        expectedPeopleList.add(person1);
+        expectedPeopleList.add(person2);
+        given(personDao.getAllPeople()).willReturn(expectedPeopleList);
+        //when
+        List<Person> actualPeopleList = underTest.getAllPeople();
+        //then
+        assertThat(expectedPeopleList).isEqualTo(actualPeopleList);
+    }
+
+    @Test
+    void shouldThrowWhenPersonDbIsEmpty(){
+        //given
+        given(personDao.getAllPeople()).willReturn(null);
+        // when
+        //then
+        assertThatThrownBy(() -> underTest.getAllPeople())
+                .isInstanceOf(IllegalStateException.class)
+                .hasMessageContaining("Could not get list of people...");
+
+
     }
 
     // ================================= TESTS FOR getPersonById =====================================
@@ -302,6 +328,42 @@ class PersonServiceTest {
     }
 
     // ================================= TESTS FOR deletePersonById =====================================
+
+
+    @Test
+    void canDeletePersonById(){
+        //Given
+        Integer id = 1;
+        given(personDao.getPersonById(id)).willReturn(new Person(1, "Mark", 2, 154.1, 55.1, 2000));
+        given(personDao.deletePersonById(id)).willReturn(1);
+
+        //When
+        Integer actual = underTest.deletePersonById(id);
+
+        //Then
+        Integer expected =1;
+        assertThat(actual).isEqualTo(expected);
+    }
+
+    @Test
+    void shouldThrowWhenPersonNotDeleted(){
+        //given
+        Integer id = 1;
+        given(personDao.getPersonById(id)).willReturn(new Person(1, "Mark", 23, 154.1, 55.1, 2000));
+        given(personDao.deletePersonById(id)).willReturn(0);
+
+        //When
+        //Then
+        assertThatThrownBy(()-> underTest.deletePersonById(id))
+                .isInstanceOf(IllegalStateException.class)
+                .hasMessageContaining("Could not delete person...");
+
+
+    }
+    //nb does testing getpersonById mean I dont have to do should not delete when person is negative/null
+    //do we need to ensure the person object persists throughout? ie person we put in is the same object we get out
+
+
 
     // ================================= TESTS FOR updatePersonById =====================================
 
