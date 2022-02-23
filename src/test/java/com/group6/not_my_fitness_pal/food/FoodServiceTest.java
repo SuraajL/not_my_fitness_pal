@@ -413,14 +413,43 @@ class FoodServiceTest {
     }
 
     @Test
-    @Disabled
-    void shouldNotUpdateFoodByIdWhenIdIsNull(){ //TODO redundant?
+    void shouldNotUpdateFoodByIdWhenIdIsNull(){
+        //Given
+        Integer id = null;
+        Food foodInDb = new Food(1, 1, "chips", MealType.DINNER, "random", 100, 1, Day.MONDAY);
+        given(foodDao.getFoodById(id)).willReturn(foodInDb);
+        Food updateFood = new Food(1, 1, "pizza", MealType.DINNER, "random", 100, 1, Day.MONDAY);
+        given(foodDao.updateFoodById(id, updateFood)).willReturn(0);
+
+        //When
+
+
+        //Then
+        assertThatThrownBy(() -> underTest.updateFood(id, updateFood))
+                .isInstanceOf(InvalidRequestException.class)
+                .hasMessageContaining("Food id is invalid");
     }
 
+
     @Test
-    @Disabled
-    void shouldNotUpdateFoodByIdWhenIdIsNegative(){ //TODO redundant?
+    void shouldNotUpdateFoodByIdWhenIdIsNegative(){
+        //Given
+        Integer id = -1;
+        Food foodInDb = new Food(1, 1, "chips", MealType.DINNER, "random", 100, 1, Day.MONDAY);
+        given(foodDao.getFoodById(id)).willReturn(foodInDb);
+        Food updateFood = new Food(1, 1, "pizza", MealType.DINNER, "random", 100, 1, Day.MONDAY);
+        given(foodDao.updateFoodById(id, updateFood)).willReturn(0);
+
+        //When
+
+
+        //Then
+        assertThatThrownBy(() -> underTest.updateFood(id, updateFood))
+                .isInstanceOf(InvalidRequestException.class)
+                .hasMessageContaining("Food id is invalid");
     }
+
+
 
     @Test
     void shouldThrowWhenFoodIsNotUpdatedById(){
