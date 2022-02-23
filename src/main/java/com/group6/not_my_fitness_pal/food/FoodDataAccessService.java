@@ -248,7 +248,33 @@ public class FoodDataAccessService implements FoodDao {
 
     @Override
     public List<PersonDailyCalorieGoal> getDailyCalorieGoalsByWeekByDay(Integer week, Day day) {
-        return null;
+        String sql = """
+                SELECT food_entries.person_id, people.name, people.calorie_target, SUM(food_entries.calories) AS total_calorie_intake, food_entries.day 
+                FROM food_entries 
+                INNER JOIN people
+                ON food_entries.person_id = people.id
+                WHERE food_entries.day = ? AND food_entries.week = ?
+                GROUP BY (person_id, people.name, people.calorie_target, day);
+                """;
+
+        RowMapper<PersonDailyCalorieGoal> personDailyCalorieGoalRowMapper = (rs, rowNum) -> {
+            return new PersonDailyCalorieGoal(
+                    rs.getInt("person_id"),
+                    rs.getString("name"),
+                    rs.getInt("calorie_target"),
+                    week,
+                    Day.valueOf(rs.getString("day")),
+                    rs.getInt("total_calorie_intake")
+            );
+        };
+
+        List<PersonDailyCalorieGoal> personDailyCalorieGoalList = jdbcTemplate.query(sql, personDailyCalorieGoalRowMapper, day.name(), week);
+        if (personDailyCalorieGoalList.isEmpty()) {
+            return null;
+        } else {
+            return personDailyCalorieGoalList;
+        }
+
     }
 }
 
