@@ -154,7 +154,7 @@ public class FoodService {
     }
 
     private Food getFoodOrThrowNull(Integer id){
-        if (id == null || id < 0){
+        if (id == null || id <= 0){
             throw new InvalidRequestException("Food id is invalid");
         }
 
