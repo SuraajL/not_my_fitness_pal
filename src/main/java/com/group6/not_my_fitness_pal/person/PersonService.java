@@ -21,7 +21,11 @@ public class PersonService {
     }
 
     public List<Person> getAllPeople (){
-        return personDao.getAllPeople();
+        List<Person> peopleList = personDao.getAllPeople();
+        if (peopleList==null){
+            throw new IllegalStateException("Could not get list of people...");
+        }
+        return peopleList;
     }
 
     public Person getPersonById(Integer id){
@@ -66,8 +70,8 @@ public class PersonService {
     private Person getPersonOrThrowNull(Integer id){
 
         // May not need it - could enforce the caller - @Validate
-        if (id == null || id < 0){
-            throw new PersonNotFoundException("id is invalid");
+        if (id == null || id <= 0){
+            throw new PersonNotFoundException("person id is invalid");
         }
 
         // This is the scenario where argument capture would help - makes sure id persists throughout

@@ -132,6 +132,9 @@ public class FoodService {
 
 
     private void checkFoodInputProperties(Food food) {
+        if(food.getPerson_id() == null){
+            throw new InvalidRequestException("person Id cannot be null");
+        }
         if(food.getName() == null){
             throw new InvalidRequestException("name cannot be null");
         }
@@ -147,10 +150,11 @@ public class FoodService {
         if (food.getWeek() <= 0){
             throw new InvalidRequestException("invalid week");
         }
+
     }
 
     private Food getFoodOrThrowNull(Integer id){
-        if (id == null || id < 0){
+        if (id == null || id <= 0){
             throw new InvalidRequestException("Food id is invalid");
         }
 
