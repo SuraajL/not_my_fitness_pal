@@ -458,41 +458,51 @@ class FoodServiceTest {
     }
 
     @Test
-    void shouldNotUpdateFoodByIdWhenIdIsNull(){
+    void shouldNotUpdateFoodByIdWhenFoodIdIsNull(){
         //Given
         Integer id = null;
-        Food foodInDb = new Food(1, 1, "chips", MealType.DINNER, "random", 100, 1, Day.MONDAY);
-        given(foodDao.getFoodById(id)).willReturn(foodInDb);
         Food updateFood = new Food(1, 1, "pizza", MealType.DINNER, "random", 100, 1, Day.MONDAY);
-        given(foodDao.updateFoodById(id, updateFood)).willReturn(0);
 
         //When
-
-
         //Then
         assertThatThrownBy(() -> underTest.updateFood(id, updateFood))
                 .isInstanceOf(InvalidRequestException.class)
                 .hasMessageContaining("Food id is invalid");
+        verify(foodDao, never()).getFoodById(anyInt());
+        verify(foodDao, never()).updateFoodById(anyInt(), any());
     }
 
 
     @Test
-    void shouldNotUpdateFoodByIdWhenIdIsNegative(){
+    void shouldNotUpdateFoodByIdWhenFoodIdIsNegative(){
         //Given
         Integer id = -1;
-        Food foodInDb = new Food(1, 1, "chips", MealType.DINNER, "random", 100, 1, Day.MONDAY);
-        given(foodDao.getFoodById(id)).willReturn(foodInDb);
         Food updateFood = new Food(1, 1, "pizza", MealType.DINNER, "random", 100, 1, Day.MONDAY);
-        given(foodDao.updateFoodById(id, updateFood)).willReturn(0);
 
         //When
-
-
         //Then
         assertThatThrownBy(() -> underTest.updateFood(id, updateFood))
                 .isInstanceOf(InvalidRequestException.class)
                 .hasMessageContaining("Food id is invalid");
+        verify(foodDao, never()).getFoodById(anyInt());
+        verify(foodDao, never()).updateFoodById(anyInt(), any());
     }
+
+    @Test
+    void shouldNotUpdateFoodByIdWhenFoodIdIsZero(){
+        //Given
+        Integer id = 0;
+        Food updateFood = new Food(1, 1, "pizza", MealType.DINNER, "random", 100, 1, Day.MONDAY);
+
+        //When
+        //Then
+        assertThatThrownBy(() -> underTest.updateFood(id, updateFood))
+                .isInstanceOf(InvalidRequestException.class)
+                .hasMessageContaining("Food id is invalid");
+        verify(foodDao, never()).getFoodById(anyInt());
+        verify(foodDao, never()).updateFoodById(anyInt(), any());
+    }
+
 
     @Test
     void shouldNotUpdateFoodWhenFoodInDbDoesNotExist(){
@@ -513,28 +523,27 @@ class FoodServiceTest {
     @Test
     void shouldThrowWhenFoodIsNotUpdatedById(){
         //Given
-        Integer id = 1;
+        Integer FoodId = 1;
         Food foodInDb = new Food(1, 1, "chips", MealType.DINNER, "random", 100, 1, Day.MONDAY);
-        given(foodDao.getFoodById(id)).willReturn(foodInDb);
+        given(foodDao.getFoodById(FoodId)).willReturn(foodInDb);
         Food updateFood = new Food(1, 1, "pizza", MealType.DINNER, "random", 100, 1, Day.MONDAY);
-        given(foodDao.updateFoodById(id, updateFood)).willReturn(0);
+        given(foodDao.updateFoodById(FoodId, updateFood)).willReturn(0);
 
         //When
 
         //Then
-        assertThatThrownBy(() -> underTest.updateFood(id, updateFood))
+        assertThatThrownBy(() -> underTest.updateFood(FoodId, updateFood))
                 .isInstanceOf(IllegalStateException.class)
                 .hasMessageContaining("Food could not be updated");
     }
 
-//=========
+
 @Test
-void shouldNotUpdateWhenPersonIdIsNull() {
+void shouldNotUpdateWhenUpdateFoodPersonIdIsNull() {
     Integer foodEntryId = 1;
     Food foodInDb = new Food(1, 1, "chips", MealType.DINNER, "random", 100, 1, Day.MONDAY);
     given(foodDao.getFoodById(foodEntryId)).willReturn(foodInDb);
     Food updateFood = new Food(1, null, "pizza", MealType.DINNER, "random", 100, 1, Day.MONDAY);
-    given(foodDao.updateFoodById(foodEntryId, updateFood)).willReturn(1);
 
     //When
     assertThatThrownBy(() -> underTest.updateFood(foodEntryId,updateFood))
@@ -543,20 +552,18 @@ void shouldNotUpdateWhenPersonIdIsNull() {
 
     //Then
     // Verify that none of these methods are called
-    verify(personDao, never()).getPersonById(anyInt());
     verify(foodDao, never()).updateFoodById(anyInt(), any());
 }
 
 
     @Test
-    void shouldNotUpdateWhenNameIsNull() {
+    void shouldNotUpdateFoodWhenUpdateFoodNameIsNull() {
         //Given
         // NOTE: name is null inside Food property
         Integer foodEntryId = 1;
         Food foodInDb = new Food(1, 1, "chips", MealType.DINNER, "random", 100, 1, Day.MONDAY);
         given(foodDao.getFoodById(foodEntryId)).willReturn(foodInDb);
         Food updateFood = new Food(1, 1, null, MealType.DINNER, "random", 100, 1, Day.MONDAY);
-        given(foodDao.updateFoodById(foodEntryId, updateFood)).willReturn(1);
 
         //When
         assertThatThrownBy(() -> underTest.updateFood(foodEntryId,updateFood))
@@ -569,14 +576,13 @@ void shouldNotUpdateWhenPersonIdIsNull() {
     }
 
     @Test
-    void shouldNotUpdateWhenCaloriesIsNull() {
+    void shouldNotUpdateFoodWhenUpdateFoodCaloriesIsNull() {
         //Given
         // NOTE: name is null inside Food property
         Integer foodEntryId = 1;
         Food foodInDb = new Food(1, 1, "chips", MealType.DINNER, "random", 100, 1, Day.MONDAY);
         given(foodDao.getFoodById(foodEntryId)).willReturn(foodInDb);
         Food updateFood = new Food(1, 1, "pizza", MealType.DINNER, "random", null, 1, Day.MONDAY);
-        given(foodDao.updateFoodById(foodEntryId, updateFood)).willReturn(1);
 
         //When
         assertThatThrownBy(() -> underTest.updateFood(foodEntryId,updateFood))
@@ -589,14 +595,13 @@ void shouldNotUpdateWhenPersonIdIsNull() {
     }
 
     @Test
-    void shouldNotUpdateWhenCaloriesIsNegative() {
+    void shouldNotUpdateFoodWhenUpdateFoodCaloriesIsNegative() {
         //Given
         // NOTE: calories is null inside Food property
         Integer foodEntryId = 1;
         Food foodInDb = new Food(1, 1, "chips", MealType.DINNER, "random", 100, 1, Day.MONDAY);
         given(foodDao.getFoodById(foodEntryId)).willReturn(foodInDb);
         Food updateFood = new Food(1, 1, "pizza", MealType.DINNER, "random", -100, 1, Day.MONDAY);
-        given(foodDao.updateFoodById(foodEntryId, updateFood)).willReturn(1);
 
         //When
         assertThatThrownBy(() -> underTest.updateFood(foodEntryId,updateFood))
@@ -610,14 +615,13 @@ void shouldNotUpdateWhenPersonIdIsNull() {
 
 
     @Test
-    void shouldNotUpdateWhenWeekIsNull() {
+    void shouldNotUpdateFoodWhenUpdateFoodWeekIsNull() {
         //Given
         // NOTE: calories is null inside Food property
         Integer foodEntryId = 1;
         Food foodInDb = new Food(1, 1, "chips", MealType.DINNER, "random", 100, 1, Day.MONDAY);
         given(foodDao.getFoodById(foodEntryId)).willReturn(foodInDb);
         Food updateFood = new Food(1, 1, "pizza", MealType.DINNER, "random", 200, null, Day.MONDAY);
-        given(foodDao.updateFoodById(foodEntryId, updateFood)).willReturn(1);
 
         //When
         assertThatThrownBy(() -> underTest.updateFood(foodEntryId,updateFood))
@@ -630,14 +634,13 @@ void shouldNotUpdateWhenPersonIdIsNull() {
     }
 
     @Test
-    void shouldNotUpdateWhenWeekIsNegative() {
+    void shouldNotUpdateFoodWhenUpdateFoodWeekIsNegative() {
         //Given
         // NOTE: calories is null inside Food property
         Integer foodEntryId = 1;
         Food foodInDb = new Food(1, 1, "chips", MealType.DINNER, "random", 100, 1, Day.MONDAY);
         given(foodDao.getFoodById(foodEntryId)).willReturn(foodInDb);
         Food updateFood = new Food(1, 1, "pizza", MealType.DINNER, "random", 200, -1, Day.MONDAY);
-        given(foodDao.updateFoodById(foodEntryId, updateFood)).willReturn(1);
 
         //When
         assertThatThrownBy(() -> underTest.updateFood(foodEntryId,updateFood))
@@ -650,14 +653,13 @@ void shouldNotUpdateWhenPersonIdIsNull() {
     }
 
     @Test
-    void shouldNotUpdateWhenWeekIsZero() {
+    void shouldNotUpdateFoodWhenUpdateFoodWeekIsZero() {
         //Given
         // NOTE: calories is null inside Food property
         Integer foodEntryId = 1;
         Food foodInDb = new Food(1, 1, "chips", MealType.DINNER, "random", 100, 1, Day.MONDAY);
         given(foodDao.getFoodById(foodEntryId)).willReturn(foodInDb);
         Food updateFood = new Food(1, 1, "pizza", MealType.DINNER, "random", 200, 0, Day.MONDAY);
-        given(foodDao.updateFoodById(foodEntryId, updateFood)).willReturn(1);
 
         //When
         assertThatThrownBy(() -> underTest.updateFood(foodEntryId,updateFood))
