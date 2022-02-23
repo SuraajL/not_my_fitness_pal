@@ -23,10 +23,13 @@ class PersonServiceTest {
         // Can have a person here if you're using it all the time
     }
 
+    // ================================= TESTS FOR getAllPeople =====================================
+
     @Test
     void canGetAllPeople() {
     }
 
+    // ================================= TESTS FOR getPersonById =====================================
     @Test
     void canGetPersonById() {
         //Given
@@ -81,6 +84,10 @@ class PersonServiceTest {
 
     }
 
+    // ================================= TESTS FOR addPerson =====================================
 
+    // ================================= TESTS FOR deletePersonById =====================================
+
+    // ================================= TESTS FOR updatePersonById =====================================
 
 }
