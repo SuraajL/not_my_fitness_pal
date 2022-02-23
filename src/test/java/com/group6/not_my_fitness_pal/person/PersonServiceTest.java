@@ -1,5 +1,8 @@
 package com.group6.not_my_fitness_pal.person;
 
+import com.group6.not_my_fitness_pal.food.Day;
+import com.group6.not_my_fitness_pal.food.Food;
+import com.group6.not_my_fitness_pal.food.MealType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
@@ -89,5 +92,42 @@ class PersonServiceTest {
     // ================================= TESTS FOR deletePersonById =====================================
 
     // ================================= TESTS FOR updatePersonById =====================================
+
+    @Test
+    void shouldUpdatePersonById(){
+        //Given
+        Integer id = 1;
+        Person personInDb = new Person(id, "marcy", 23, 157.0, 47.0, 2000);
+        given(personDao.getPersonById(id)).willReturn(personInDb);
+        Person updatePerson = new Person(id, "marcy", 24, 197.0, 97.0, 3000);
+        given(personDao.updatePersonById(id, updatePerson)).willReturn(1);
+
+        //When
+        Integer actual = underTest.updatePersonById(id, updatePerson);
+
+        //Then
+        Integer expected = 1;
+        assertThat(actual).isEqualTo(expected);
+    }
+
+    @Test
+    void shouldThrowWhenFoodIsNotUpdatedById(){
+        //Given
+        Integer id = 1;
+        Person personInDb = new Person(id, "marcy", 23, 157.0, 47.0, 2000);
+        given(personDao.getPersonById(id)).willReturn(personInDb);
+        Person updatePerson = new Person(id, "marcy", 24, 197.0, 97.0, 3000);
+        given(personDao.updatePersonById(id, updatePerson)).willReturn(0);
+
+        //When
+        Integer actual = underTest.updatePersonById(id, updatePerson);
+
+        //When
+
+        //Then
+        assertThatThrownBy(() -> underTest.updatePersonById(id, updatePerson))
+                .isInstanceOf(IllegalStateException.class)
+                .hasMessageContaining("Could not update person...");
+    }
 
 }
