@@ -71,7 +71,7 @@ public class PersonService {
 
         // May not need it - could enforce the caller - @Validate
         if (id == null || id < 0){
-            throw new PersonNotFoundException("id is invalid");
+            throw new PersonNotFoundException("person id is invalid");
         }
 
         // This is the scenario where argument capture would help - makes sure id persists throughout
@@ -85,6 +85,12 @@ public class PersonService {
     }
 
     private void checkPeopleInputProperties(Person person) {
+        if(person.getId() == null) {
+            throw new InvalidRequestException("person id cannot be null");
+        }
+        if(person.getId() <= 0) {
+            throw new InvalidRequestException("person id must be a positive integer");
+        }
         if(person.getName() == null) {
             throw new InvalidRequestException("name cannot be null");
         }
