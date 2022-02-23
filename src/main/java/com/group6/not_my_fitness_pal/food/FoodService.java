@@ -133,7 +133,7 @@ public class FoodService {
 
     private void checkFoodInputProperties(Food food) {
         if(food.getPerson_id() == null){
-            throw new InvalidRequestException("person_id cannot be null");
+            throw new InvalidRequestException("person Id cannot be null");
         }
         if(food.getName() == null){
             throw new InvalidRequestException("name cannot be null");
