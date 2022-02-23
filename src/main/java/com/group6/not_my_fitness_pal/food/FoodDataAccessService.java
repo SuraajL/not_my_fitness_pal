@@ -1,6 +1,7 @@
 package com.group6.not_my_fitness_pal.food;
 
 import com.group6.not_my_fitness_pal.person.Person;
+import com.group6.not_my_fitness_pal.person.PersonDailyCalorieGoal;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -243,6 +244,11 @@ public class FoodDataAccessService implements FoodDao {
         } else {
             return foodList;
         }
+    }
+
+    @Override
+    public List<PersonDailyCalorieGoal> getDailyCalorieGoalsByWeekByDay(Integer week, Day day) {
+        return null;
     }
 }
 

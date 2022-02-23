@@ -1,5 +1,7 @@
 package com.group6.not_my_fitness_pal.food;
 
+import com.group6.not_my_fitness_pal.person.PersonDailyCalorieGoal;
+
 import java.util.List;
 
 
@@ -13,6 +15,7 @@ public interface FoodDao {
     List<Food> getFoodEntriesByPersonIdByWeek(Integer person_id, Integer week); //Leave this for later
     List<Food> getFoodEntriesByPersonIdByWeekByDay(Integer person_id, Integer week, Day day);
     List<Food> getFoodEntriesByMealType(MealType mealType);
+    List<PersonDailyCalorieGoal> getDailyCalorieGoalsByWeekByDay(Integer week, Day day);
 
 
 }
