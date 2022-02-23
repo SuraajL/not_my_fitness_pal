@@ -449,7 +449,21 @@ class FoodServiceTest {
                 .hasMessageContaining("Food id is invalid");
     }
 
+    @Test
+    void shouldNotUpdateFoodWhenFoodInDbDoesNotExist(){
+        //given
+        Integer id = 100;
+        Food updateFood = new Food(1, 1, "chips", MealType.DINNER, "random", 100, 1, Day.MONDAY);
+        given(foodDao.getFoodById(id)).willReturn(null);
 
+
+        //when then
+        assertThatThrownBy(() -> underTest.updateFood(id, updateFood))
+                .isInstanceOf(FoodNotFoundException.class)
+                .hasMessageContaining("Food with id " + id + " doesn't exist");
+
+        verify(foodDao, never()).updateFoodById(anyInt(), any());
+    }
 
     @Test
     void shouldThrowWhenFoodIsNotUpdatedById(){
