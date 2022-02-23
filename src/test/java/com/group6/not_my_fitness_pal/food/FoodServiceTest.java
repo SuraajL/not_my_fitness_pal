@@ -48,7 +48,7 @@ class FoodServiceTest {
         // we pass in person Id using food.getPerson_id (getter for Food Class - as personId is a property of it)
         given(personDao.getPersonById(food.getPerson_id())).willReturn(personInDb);
         given(foodDao.addFood(food)).willReturn(1);
-        // we get one back - but don't know what we're getting back
+        // we get one back - but don't know what we're getting back - leads to next test
 
         //When
         Integer actual = underTest.addFoodEntry(food);
@@ -444,7 +444,7 @@ class FoodServiceTest {
     void shouldGetFoodEntriesByPersonId(){
         //Given
         Integer person_id = 1;
-        Person person = new Person(1, "mark", 23, 157.0, 47.0, 2000);
+        Person person = new Person(person_id, "mark", 23, 157.0, 47.0, 2000);
         Food food1 = new Food(1, person_id, "cereal", MealType.BREAKFAST, "random", 100, 0, Day.MONDAY);
         Food food2 = new Food(2, person_id, "pancakes", MealType.BREAKFAST, "random", 100, 0, Day.MONDAY);
         List<Food> expectedFoodList = new ArrayList<>();
@@ -465,7 +465,7 @@ class FoodServiceTest {
     void shouldThrowIfGetFoodEntriesByPersonIdReturnsNull(){
         //Given
         Integer person_id = 1;
-        Person person = new Person(1, "mark", 23, 157.0, 47.0, 2000);
+        Person person = new Person(person_id, "mark", 23, 157.0, 47.0, 2000);
 
         given(personDao.getPersonById(person_id)).willReturn(person);
         given(foodDao.getFoodEntriesByPersonId(person_id)).willReturn(null);
@@ -481,7 +481,7 @@ class FoodServiceTest {
     void shouldGetFoodEntriesByPersonIdByWeek(){
         //Given
         Integer person_id = 1;
-        Person person = new Person(1, "mark", 23, 157.0, 47.0, 2000);
+        Person person = new Person(person_id, "mark", 23, 157.0, 47.0, 2000);
         Integer week = 1;
         Food food1 = new Food(1, person_id, "cereal", MealType.BREAKFAST, "random", 100, week, Day.MONDAY);
         Food food2 = new Food(2, person_id, "pancakes", MealType.BREAKFAST, "random", 100, week, Day.MONDAY);
@@ -503,7 +503,7 @@ class FoodServiceTest {
     void shouldNotGetFoodEntriesByPersonIdByWeekIfWeekIsNull(){
         //Given
         Integer person_id = 1;
-        Person person = new Person(1, "mark", 23, 157.0, 47.0, 2000);
+        Person person = new Person(person_id, "mark", 23, 157.0, 47.0, 2000);
         Integer week = null;
         given(personDao.getPersonById(person_id)).willReturn(person);
 
@@ -519,7 +519,7 @@ class FoodServiceTest {
     void shouldNotGetFoodEntriesByPersonIdByWeekIfWeekIsNegative(){
         //Given
         Integer person_id = 1;
-        Person person = new Person(1, "mark", 23, 157.0, 47.0, 2000);
+        Person person = new Person(person_id, "mark", 23, 157.0, 47.0, 2000);
         Integer week = -1;
         given(personDao.getPersonById(person_id)).willReturn(person);
 
@@ -535,7 +535,7 @@ class FoodServiceTest {
     void shouldNotGetFoodEntriesByPersonIdByWeekIfWeekIsZero(){
         //Given
         Integer person_id = 1;
-        Person person = new Person(1, "mark", 23, 157.0, 47.0, 2000);
+        Person person = new Person(person_id, "mark", 23, 157.0, 47.0, 2000);
         Integer week = 0;
         given(personDao.getPersonById(person_id)).willReturn(person);
 
@@ -551,7 +551,7 @@ class FoodServiceTest {
     void shouldThrowIfGetFoodEntriesByPersonIdByWeekReturnsNull(){
         //Given
         Integer person_id = 1;
-        Person person = new Person(1, "mark", 23, 157.0, 47.0, 2000);
+        Person person = new Person(person_id, "mark", 23, 157.0, 47.0, 2000);
         Integer week = 1;
 
         given(personDao.getPersonById(person_id)).willReturn(person);
@@ -569,7 +569,7 @@ class FoodServiceTest {
     void shouldGetFoodEntriesByPersonIdByWeekByDay(){
         //Given
         Integer person_id = 1;
-        Person person = new Person(1, "mark", 23, 157.0, 47.0, 2000);
+        Person person = new Person(person_id, "mark", 23, 157.0, 47.0, 2000);
         Integer week = 1;
         Day day = Day.MONDAY;
         Food food1 = new Food(1, person_id, "cereal", MealType.BREAKFAST, "random", 100, week, day);
@@ -593,7 +593,7 @@ class FoodServiceTest {
     void shouldThrowIfGetFoodEntriesByPersonIdByWeekByDayWhenWeekIsNull(){
         //Given
         Integer person_id = 1;
-        Person person = new Person(1, "mark", 23, 157.0, 47.0, 2000);
+        Person person = new Person(person_id, "mark", 23, 157.0, 47.0, 2000);
         Integer week = null;
         Day day = Day.MONDAY;
         given(personDao.getPersonById(person_id)).willReturn(person);
@@ -611,7 +611,7 @@ class FoodServiceTest {
     void shouldThrowIfGetFoodEntriesByPersonIdByWeekByDayWhenWeekIsNegative(){
         //Given
         Integer person_id = 1;
-        Person person = new Person(1, "mark", 23, 157.0, 47.0, 2000);
+        Person person = new Person(person_id, "mark", 23, 157.0, 47.0, 2000);
         Integer week = -1;
         Day day = Day.MONDAY;
         given(personDao.getPersonById(person_id)).willReturn(person);
@@ -628,7 +628,7 @@ class FoodServiceTest {
     void shouldThrowIfGetFoodEntriesByPersonIdByWeekByDayWhenWeekIsZero(){
         //Given
         Integer person_id = 1;
-        Person person = new Person(1, "mark", 23, 157.0, 47.0, 2000);
+        Person person = new Person(person_id, "mark", 23, 157.0, 47.0, 2000);
         Integer week = 0;
         Day day = Day.MONDAY;
         given(personDao.getPersonById(person_id)).willReturn(person);
@@ -645,7 +645,7 @@ class FoodServiceTest {
     void shouldThrowIfGetFoodEntriesByPersonIdByWeekByDayReturnsNull(){
         //Given
         Integer person_id = 1;
-        Person person = new Person(1, "mark", 23, 157.0, 47.0, 2000);
+        Person person = new Person(person_id, "mark", 23, 157.0, 47.0, 2000);
         Integer week = 1;
         Day day = Day.MONDAY;
 

@@ -67,7 +67,7 @@ class PersonServiceTest {
     void canGetPersonById() {
         //Given
         Integer id = 1;
-        Person expected = new Person(1, "marcy", 23, 157.0, 47.0, 2000);
+        Person expected = new Person(id, "marcy", 23, 157.0, 47.0, 2000);
         given(personDao.getPersonById(id)).willReturn(expected);
         //When
         Person actual = underTest.getPersonById(id);
