@@ -6,6 +6,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
+import org.springframework.data.relational.core.sql.In;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -116,6 +117,42 @@ class PersonServiceTest {
     // ================================= TESTS FOR addPerson =====================================
 
     // ================================= TESTS FOR deletePersonById =====================================
+
+
+    @Test
+    void canDeletePersonById(){
+        //Given
+        Integer id = 1;
+        given(personDao.getPersonById(id)).willReturn(new Person(1, "Mark", 2, 154.1, 55.1, 2000));
+        given(personDao.deletePersonById(id)).willReturn(1);
+
+        //When
+        Integer actual = underTest.deletePersonById(id);
+
+        //Then
+        Integer expected =1;
+        assertThat(actual).isEqualTo(expected);
+    }
+
+    @Test
+    void shouldThrowWhenPersonNotDeleted(){
+        //given
+        Integer id = 1;
+        given(personDao.getPersonById(id)).willReturn(new Person(1, "Mark", 23, 154.1, 55.1, 2000));
+        given(personDao.deletePersonById(id)).willReturn(0);
+
+        //When
+        //Then
+        assertThatThrownBy(()-> underTest.deletePersonById(id))
+                .isInstanceOf(IllegalStateException.class)
+                .hasMessageContaining("Could not delete person...");
+
+
+    }
+    //nb does testing getpersonById mean I dont have to do should not delete when person is negative/null
+    //do we need to ensure the person object persists throughout? ie person we put in is the same object we get out
+
+
 
     // ================================= TESTS FOR updatePersonById =====================================
 
