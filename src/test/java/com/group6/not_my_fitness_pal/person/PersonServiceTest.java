@@ -130,7 +130,7 @@ class PersonServiceTest {
     // ================================= TESTS FOR addPerson =====================================
 
     @Test
-    void addPerson() {
+    void canAddPerson() {
         //Given
         Person person = new Person(1, "marcy", 23, 157.0, 47.0, 2000);
         given(personDao.addPerson(person)).willReturn(1);
