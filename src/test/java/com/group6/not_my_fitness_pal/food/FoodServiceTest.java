@@ -439,6 +439,155 @@ class FoodServiceTest {
                 .hasMessageContaining("Food could not be updated");
     }
 
+//=========
+@Test
+void shouldNotUpdateWhenPersonIdIsNull() {
+    Integer foodEntryId = 1;
+    Food foodInDb = new Food(1, 1, "chips", MealType.DINNER, "random", 100, 1, Day.MONDAY);
+    given(foodDao.getFoodById(foodEntryId)).willReturn(foodInDb);
+    Food updateFood = new Food(1, null, "pizza", MealType.DINNER, "random", 100, 1, Day.MONDAY);
+    given(foodDao.updateFoodById(foodEntryId, updateFood)).willReturn(1);
+
+    //When
+    assertThatThrownBy(() -> underTest.updateFood(foodEntryId,updateFood))
+            .isInstanceOf(InvalidRequestException.class)
+            .hasMessageContaining("person_id cannot be null");
+
+    //Then
+    // Verify that none of these methods are called
+    verify(personDao, never()).getPersonById(anyInt());
+    verify(foodDao, never()).addFood(any());
+}
+
+
+    @Test
+    void shouldNotAddWhenNameIsNull_() {
+        //Given
+        // NOTE: name is null inside Food property
+        Food food = new Food(1, 1, null, MealType.BREAKFAST, "random", 50, 1, Day.MONDAY);
+        // we pass in person Id using food.getPerson_id (getter for Food Class - as personId is a property of it)"
+        // DO WE NEED THESE SINCE WE DON'T ACTUALLY USE THEM?? SEE VERIFY AT BOTTOM
+        Person personInDb = new Person(1, "marcy", 23, 157.0, 47.0, 2000);
+        given(personDao.getPersonById(food.getPerson_id())).willReturn(personInDb);
+
+        //When
+        assertThatThrownBy(() -> underTest.addFoodEntry(food))
+                .isInstanceOf(InvalidRequestException.class)
+                .hasMessageContaining("name cannot be null");
+
+        //Then
+        // Verify that none of these methods are called
+        verify(foodDao, never()).addFood(any());
+    }
+
+    @Test
+    void shouldNotAddWhenCaloriesIsNull_() {
+        //Given
+        // NOTE: calories is null inside Food property
+        Food food = new Food(1, 1, "cereal", MealType.BREAKFAST, "random", null, 1, Day.MONDAY);
+        // we pass in person Id using food.getPerson_id (getter for Food Class - as personId is a property of it)"
+        // DO WE NEED THESE SINCE WE DON'T ACTUALLY USE THEM?? SEE VERIFY AT BOTTOM
+        Person personInDb = new Person(1, "marcy", 23, 157.0, 47.0, 2000);
+        given(personDao.getPersonById(food.getPerson_id())).willReturn(personInDb);
+
+        //When
+        assertThatThrownBy(() -> underTest.addFoodEntry(food))
+                .isInstanceOf(InvalidRequestException.class)
+                .hasMessageContaining("calories cannot be null");
+
+        //Then
+        // Verify that none of these methods are called
+        verify(foodDao, never()).addFood(any());
+    }
+
+    @Test
+    void shouldNotAddWhenCaloriesIsNegative_() {
+        //Given
+        // NOTE: calories is null inside Food property
+        Food food = new Food(1, 1, "cereal", MealType.BREAKFAST, "random", -1, 1, Day.MONDAY);
+        // we pass in person Id using food.getPerson_id (getter for Food Class - as personId is a property of it)"
+        // DO WE NEED THESE SINCE WE DON'T ACTUALLY USE THEM?? SEE VERIFY AT BOTTOM
+        Person personInDb = new Person(1, "marcy", 23, 157.0, 47.0, 2000);
+        given(personDao.getPersonById(food.getPerson_id())).willReturn(personInDb);
+
+        //When
+        assertThatThrownBy(() -> underTest.addFoodEntry(food))
+                .isInstanceOf(InvalidRequestException.class)
+                .hasMessageContaining("calories cannot be negative");
+
+        //Then
+        // Verify that none of these methods are called
+        verify(foodDao, never()).addFood(any());
+    }
+
+
+    @Test
+    void shouldNotAddWhenWeekIsNull_() {
+        //Given
+        // NOTE: calories is null inside Food property
+        Food food = new Food(1, 1, "cereal", MealType.BREAKFAST, "random", 100, null, Day.MONDAY);
+        // we pass in person Id using food.getPerson_id (getter for Food Class - as personId is a property of it)"
+        // DO WE NEED THESE SINCE WE DON'T ACTUALLY USE THEM?? SEE VERIFY AT BOTTOM
+        Person personInDb = new Person(1, "marcy", 23, 157.0, 47.0, 2000);
+        given(personDao.getPersonById(food.getPerson_id())).willReturn(personInDb);
+
+        //When
+        assertThatThrownBy(() -> underTest.addFoodEntry(food))
+                .isInstanceOf(InvalidRequestException.class)
+                .hasMessageContaining("week cannot be null");
+
+        //Then
+        // Verify that none of these methods are called
+        verify(foodDao, never()).addFood(any());
+    }
+
+    @Test
+    void shouldNotAddWhenWeekIsNegative_() {
+        //Given
+        // NOTE: calories is null inside Food property
+        Food food = new Food(1, 1, "cereal", MealType.BREAKFAST, "random", 100, -1, Day.MONDAY);
+        // we pass in person Id using food.getPerson_id (getter for Food Class - as personId is a property of it)"
+        // DO WE NEED THESE SINCE WE DON'T ACTUALLY USE THEM?? SEE VERIFY AT BOTTOM
+        Person personInDb = new Person(1, "marcy", 23, 157.0, 47.0, 2000);
+        given(personDao.getPersonById(food.getPerson_id())).willReturn(personInDb);
+
+        //When
+        assertThatThrownBy(() -> underTest.addFoodEntry(food))
+                .isInstanceOf(InvalidRequestException.class)
+                .hasMessageContaining("invalid week");
+
+        //Then
+        // Verify that none of these methods are called
+        verify(foodDao, never()).addFood(any());
+    }
+
+    @Test
+    void shouldNotAddWhenWeekIsZero_() {
+        //Given
+        // NOTE: calories is null inside Food property
+        Food food = new Food(1, 1, "cereal", MealType.BREAKFAST, "random", 100, 0, Day.MONDAY);
+        // we pass in person Id using food.getPerson_id (getter for Food Class - as personId is a property of it)"
+        // DO WE NEED THESE SINCE WE DON'T ACTUALLY USE THEM?? SEE VERIFY AT BOTTOM
+        Person personInDb = new Person(1, "marcy", 23, 157.0, 47.0, 2000);
+        given(personDao.getPersonById(food.getPerson_id())).willReturn(personInDb);
+
+        //When
+        assertThatThrownBy(() -> underTest.addFoodEntry(food))
+                .isInstanceOf(InvalidRequestException.class)
+                .hasMessageContaining("invalid week");
+
+        //Then
+        // Verify that none of these methods are called
+        verify(foodDao, never()).addFood(any());
+    }
+
+
+
+
+
+
+
+
     // ================================= TESTS FOR getFoodEntriesByPersonId=====================================
     @Test
     void shouldGetFoodEntriesByPersonId(){
