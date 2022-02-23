@@ -878,7 +878,7 @@ void shouldNotUpdateWhenUpdateFoodPersonIdIsNull() {
     }
 
     @Test
-    void shouldThrowIfGetFoodEntriesByPersonIdByWeekByDayReturnsNull(){
+    void shouldThrowIfGetFoodEntriesByPersonIdByWeekByDayReturnsNullFoodList(){
         //Given
         Integer person_id = 1;
         Person person = new Person(1, "mark", 23, 157.0, 47.0, 2000);
