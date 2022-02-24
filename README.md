@@ -31,7 +31,7 @@ Our database consits of two tables; people and food entries
 
 ```http
 Person:
-  { "id": 1, "name": "Bob, "age": 34, "height_in_cm": 177.0, 
+  { "id": 1, "name": "Bob", "age": 34, "height_in_cm": 177.0, 
   "weight_in_kg": 78.0, "calorie_target": 3000 }
 
 Food Entry:
