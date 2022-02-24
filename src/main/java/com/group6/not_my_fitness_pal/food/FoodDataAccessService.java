@@ -52,7 +52,7 @@ public class FoodDataAccessService implements FoodDao {
     @Override
     public int updateFoodById(Integer id, Food updateFood) {
         String sql = """
-                UPDATE people SET (person_id, name, meal_type, notes, calories, week, day) = (?, ?, ?, ?, ?)
+                UPDATE food_entries SET (person_id, name, meal_type, notes, calories, week, day) = (?, ?, ?, ?, ?)
                 WHERE id = ?
                 """;
 
