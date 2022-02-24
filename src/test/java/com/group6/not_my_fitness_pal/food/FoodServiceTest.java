@@ -41,7 +41,7 @@ class FoodServiceTest {
     }
     // ================================= TESTS FOR addFood =====================================
     @Test
-    void addFoodEntry() {
+    void canAddFoodEntry() {
         //Given
         Food food = new Food(1, 1, "toast", MealType.BREAKFAST, "random", 50, 1, Day.MONDAY);
         Person personInDb = new Person(1, "marcy", 23, 157.0, 47.0, 2000);
