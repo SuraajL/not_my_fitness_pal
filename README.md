@@ -34,7 +34,7 @@ Person:
   { "id": 1, "name": "Bob", "age": 34, "height_in_cm": 177.0, 
   "weight_in_kg": 78.0, "calorie_target": 3000 }
 
-Food Entry:
+Food_Entry:
   { "id": 20, "person_id": 5, "name": "avocado on toast", 
     "mealType": "BREAKFAST", "notes": "sliced avocado on brown bread", 
     "calories": 200, "week": 1, "day": "TUESDAY" }
