@@ -36,7 +36,7 @@ CREATE TABLE public.food_entries (
 );
 
 
-ALTER TABLE public.food_entries OWNER TO aaronnazareth;
+-- ALTER TABLE public.food_entries OWNER TO aaronnazareth;
 
 --
 -- Name: food_entries_id_seq; Type: SEQUENCE; Schema: public; Owner: aaronnazareth
@@ -51,7 +51,7 @@ CREATE SEQUENCE public.food_entries_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.food_entries_id_seq OWNER TO aaronnazareth;
+-- ALTER TABLE public.food_entries_id_seq OWNER TO aaronnazareth;
 
 --
 -- Name: food_entries_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: aaronnazareth
@@ -74,7 +74,7 @@ CREATE TABLE public.people (
 );
 
 
-ALTER TABLE public.people OWNER TO aaronnazareth;
+-- ALTER TABLE public.people OWNER TO aaronnazareth;
 
 --
 -- Name: people_id_seq; Type: SEQUENCE; Schema: public; Owner: aaronnazareth
@@ -89,7 +89,7 @@ CREATE SEQUENCE public.people_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.people_id_seq OWNER TO aaronnazareth;
+-- ALTER TABLE public.people_id_seq OWNER TO aaronnazareth;
 
 --
 -- Name: people_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: aaronnazareth
@@ -124,6 +124,7 @@ COPY public.food_entries (id, person_id, name, meal_type, notes, calories, week,
 5	3	tuna & sweetcorn sandwich	LUNCH	Kingsmill 50/50 bread with tuna, mayo and sweetcorn 	200	1	MONDAY
 6	3	greek yoghurt with grapes	LUNCH	greek honey yoghurt with black grapes	150	1	TUESDAY
 7	3	fish and chips	DINNER	Cod fish and fat chips	600	1	MONDAY
+8	3	spaghetti bolognese	DINNER	Minced meat, tomato sauce	650	1	TUESDAY
 9	4	cereal	BREAKFAST	bowl of cornflakes	350	1	MONDAY
 10	4	cereal	BREAKFAST	bowl of cornflakes	350	1	TUESDAY
 11	4	sandwich	LUNCH	cheese and cucumber sandwich with white bread	400	1	MONDAY
@@ -144,7 +145,6 @@ COPY public.food_entries (id, person_id, name, meal_type, notes, calories, week,
 26	2	weetabix	BREAKFAST	2-3 pieces with heated milk	200	1	TUESDAY
 27	2	bao buns and dumplings	LUNCH	bao buns and dumplings	300	1	TUESDAY
 28	2	spaghetti bolognese	DINNER	homemade	200	1	TUESDAY
-8	3	spaghetti bolognese	DINNER	Minced meat, tomato sauce	650	1	TUESDAY
 \.
 
 
