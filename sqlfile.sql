@@ -21,7 +21,7 @@ SET default_tablespace = '';
 SET default_table_access_method = heap;
 
 --
--- Name: food_entries; Type: TABLE; Schema: public; Owner: aaronnazareth // TODO Ask a trainer about this owner stuff
+-- Name: food_entries; Type: TABLE; Schema: public;
 --
 
 CREATE TABLE public.food_entries (
@@ -35,11 +35,8 @@ CREATE TABLE public.food_entries (
     day character varying(255)
 );
 
-
--- ALTER TABLE public.food_entries OWNER TO aaronnazareth;
-
 --
--- Name: food_entries_id_seq; Type: SEQUENCE; Schema: public; Owner: aaronnazareth
+-- Name: food_entries_id_seq; Type: SEQUENCE; Schema: public;
 --
 
 CREATE SEQUENCE public.food_entries_id_seq
@@ -51,17 +48,17 @@ CREATE SEQUENCE public.food_entries_id_seq
     CACHE 1;
 
 
--- ALTER TABLE public.food_entries_id_seq OWNER TO aaronnazareth;
+
 
 --
--- Name: food_entries_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: aaronnazareth
+-- Name: food_entries_id_seq; Type: SEQUENCE OWNED BY; Schema: public;
 --
 
 ALTER SEQUENCE public.food_entries_id_seq OWNED BY public.food_entries.id;
 
 
 --
--- Name: people; Type: TABLE; Schema: public; Owner: aaronnazareth
+-- Name: people; Type: TABLE; Schema: public;
 --
 
 CREATE TABLE public.people (
@@ -73,11 +70,8 @@ CREATE TABLE public.people (
     calorie_target integer
 );
 
-
--- ALTER TABLE public.people OWNER TO aaronnazareth;
-
 --
--- Name: people_id_seq; Type: SEQUENCE; Schema: public; Owner: aaronnazareth
+-- Name: people_id_seq; Type: SEQUENCE; Schema: public;
 --
 
 CREATE SEQUENCE public.people_id_seq
@@ -89,31 +83,31 @@ CREATE SEQUENCE public.people_id_seq
     CACHE 1;
 
 
--- ALTER TABLE public.people_id_seq OWNER TO aaronnazareth;
+
 
 --
--- Name: people_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: aaronnazareth
+-- Name: people_id_seq; Type: SEQUENCE OWNED BY; Schema: public;
 --
 
 ALTER SEQUENCE public.people_id_seq OWNED BY public.people.id;
 
 
 --
--- Name: food_entries id; Type: DEFAULT; Schema: public; Owner: aaronnazareth
+-- Name: food_entries id; Type: DEFAULT; Schema: public;
 --
 
 ALTER TABLE ONLY public.food_entries ALTER COLUMN id SET DEFAULT nextval('public.food_entries_id_seq'::regclass);
 
 
 --
--- Name: people id; Type: DEFAULT; Schema: public; Owner: aaronnazareth
+-- Name: people id; Type: DEFAULT; Schema: public;
 --
 
 ALTER TABLE ONLY public.people ALTER COLUMN id SET DEFAULT nextval('public.people_id_seq'::regclass);
 
 
 --
--- Data for Name: food_entries; Type: TABLE DATA; Schema: public; Owner: aaronnazareth
+-- Data for Name: food_entries; Type: TABLE DATA; Schema: public;
 --
 
 COPY public.food_entries (id, person_id, name, meal_type, notes, calories, week, day) FROM stdin;
@@ -149,7 +143,7 @@ COPY public.food_entries (id, person_id, name, meal_type, notes, calories, week,
 
 
 --
--- Data for Name: people; Type: TABLE DATA; Schema: public; Owner: aaronnazareth
+-- Data for Name: people; Type: TABLE DATA; Schema: public;
 --
 
 COPY public.people (id, name, age, height_in_cm, weight_in_kg, calorie_target) FROM stdin;
@@ -162,21 +156,21 @@ COPY public.people (id, name, age, height_in_cm, weight_in_kg, calorie_target) F
 
 
 --
--- Name: food_entries_id_seq; Type: SEQUENCE SET; Schema: public; Owner: aaronnazareth
+-- Name: food_entries_id_seq; Type: SEQUENCE SET; Schema: public;
 --
 
 SELECT pg_catalog.setval('public.food_entries_id_seq', 28, true);
 
 
 --
--- Name: people_id_seq; Type: SEQUENCE SET; Schema: public; Owner: aaronnazareth
+-- Name: people_id_seq; Type: SEQUENCE SET; Schema: public;
 --
 
 SELECT pg_catalog.setval('public.people_id_seq', 5, true);
 
 
 --
--- Name: food_entries food_entries_pkey; Type: CONSTRAINT; Schema: public; Owner: aaronnazareth
+-- Name: food_entries food_entries_pkey; Type: CONSTRAINT; Schema: public;
 --
 
 ALTER TABLE ONLY public.food_entries
@@ -184,7 +178,7 @@ ALTER TABLE ONLY public.food_entries
 
 
 --
--- Name: people people_pkey; Type: CONSTRAINT; Schema: public; Owner: aaronnazareth
+-- Name: people people_pkey; Type: CONSTRAINT; Schema: public;
 --
 
 ALTER TABLE ONLY public.people
@@ -192,7 +186,7 @@ ALTER TABLE ONLY public.people
 
 
 --
--- Name: food_entries food_entries_person_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: aaronnazareth
+-- Name: food_entries food_entries_person_id_fkey; Type: FK CONSTRAINT; Schema: public;
 --
 
 ALTER TABLE ONLY public.food_entries
