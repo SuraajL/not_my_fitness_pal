@@ -56,7 +56,7 @@ public class FoodController {
         return foodService.getFoodEntriesByPersonIdByWeekByDay(personId, week, day);
     }
 
-    @GetMapping(path = "food/person/mealtype/{mealtype}")
+    @GetMapping(path = "food/mealtype/{mealtype}")
     public List<Food> getFoodEntriesByMealType(@PathVariable("mealtype") String mealType){//should day be string
         return foodService.getFoodEntriesByMealType(MealType.valueOf(mealType)); //converts string input for mealType into an ENUM
     }
