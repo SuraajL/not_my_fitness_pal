@@ -52,7 +52,7 @@ localhost:8080/ ...
 | `.../food/person/{id}/week/{week}/day/{day} `                            | `GET`        | Get Food Entries By Person's Id and Week and Day |
 | `.../food/person/mealtype/{mealtype} `                                   | `GET`        | Get Food Entries By Meal Type                    |
 | `.../food `                                                              | `POST`       | Add Food Entry                                   |
-| `.../food /{id}`                                                         | `PUT`        | Update Food Entry By Food Id                     |
+| `.../food/{id}`                                                          | `PUT`        | Update Food Entry By Food Id                     |
 | `.../food/{id} `                                                         | `DELETE`     | Delete Food Entry                                |
 | `.../person/all `                                                        | `GET`        | Get All People                                   |
 | `.../person/{id} `                                                       | `GET`        | Get Person By Person's Id                        |
