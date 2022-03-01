@@ -45,17 +45,17 @@ localhost:8080/ ...
 
 | HTTP Request Path                                                        | Request Type | Description                                      |
 |:-------------------------------------------------------------------------|:-------------|:-------------------------------------------------|
-| `.../getAllFood `                                                        | `GET`        | Get All Food Entries                             |
+| `.../food/all `                                                          | `GET`        | Get All Food Entries                             |
 | `.../food/{id} `                                                         | `GET`        | Get Food Entries by Food Id                      |
 | `.../food/person/{id} `                                                  | `GET`        | Get Food Entries By Person's Id                  |
 | `.../food/person/{id}/week/{week} `                                      | `GET`        | Get Food Entries By Person's Id and Week         |
 | `.../food/person/{id}/week/{week}/day/{day} `                            | `GET`        | Get Food Entries By Person's Id and Week and Day |
-| `...food/person/mealtype/{mealtype} `                                    | `GET`        | Get Food Entries By Meal Type                    |
+| `.../food/person/mealtype/{mealtype} `                                   | `GET`        | Get Food Entries By Meal Type                    |
 | `.../food `                                                              | `POST`       | Add Food Entry                                   |
 | `.../food /{id}`                                                         | `PUT`        | Update Food Entry By Food Id                     |
 | `.../food/{id} `                                                         | `DELETE`     | Delete Food Entry                                |
-| `.../people `                                                            | `GET`        | Get All People                                   |
-| `.../people/{id} `                                                       | `GET`        | Get Person By Person's Id                        |
+| `.../person/all `                                                        | `GET`        | Get All People                                   |
+| `.../person/{id} `                                                       | `GET`        | Get Person By Person's Id                        |
 | `.../person `                                                            | `POST`       | Add Person                                       |
 | `.../person/{id} `                                                       | `DELETE`     | Delete Person By Person's Id                     |
 | `.../person/{id} `                                                       | `PUT`        | Update Person By Person's Id                     |
